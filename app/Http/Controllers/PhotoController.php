@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Photo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Image;
+use Storage;
 
 class PhotoController extends Controller
 {
@@ -59,9 +61,26 @@ class PhotoController extends Controller
 		$date = Carbon::createFromFormat('d/m/Y', request('date'));
 
 		foreach (request('photos') as $photo) {
-            $path = $photo->store('photos/' . request('city') . '/' . request('photographer'));
+			$pathPrefix = Storage::disk('local')->getAdapter()->getPathPrefix();
+			$pathBase = 'photos/' . request('city') . '/' . request('photographer');
+
+			$filePath = $photo->store($pathBase);
+
+			$parts = explode('/', $filePath);
+			$fileName = explode('.', end($parts))[0];
+			$fileExtension = explode('.', end($parts))[1];
+
+			$bigPhoto = Image::make($photo)->widen(1000);
+			$bigPhoto->save($pathPrefix . $pathBase . '/' . $fileName . '-big.' . $fileExtension);
+
+			$mediumPhoto = Image::make($photo)->widen(500);
+			$mediumPhoto->save($pathPrefix . $pathBase . '/' . $fileName . '-medium.' . $fileExtension);
+
+			$smallPhoto = Image::make($photo)->widen(200);
+			$smallPhoto->save($pathPrefix . $pathBase . '/' . $fileName . '-small.' . $fileExtension);
+
             Photo::create([
-				'path' => $path,
+				'path' => $filePath,
 				'date' => $date,
 				'city' => request('city'),
 				'photographer' => request('photographer'),
