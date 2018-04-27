@@ -81,6 +81,7 @@ class PhotoController extends Controller
 
             Photo::create([
 				'path' => $filePath,
+				'name' => $photo->getClientOriginalName(),
 				'date' => $date,
 				'city' => request('city'),
 				'photographer' => request('photographer'),
