@@ -1,8 +1,8 @@
+// 1. Import the initial variables
+@import "~bulma/sass/utilities/initial-variables";
+@import "~bulma/sass/utilities/functions";
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
 
-// Body
-$body-bg: #f5f8fa;
+// 2. Set your own initial variables
 
-// Typography
-$font-family-sans-serif: "Raleway", sans-serif;
-$font-size-base: 0.9rem;
-$line-height-base: 1.6;
+$family-primary: 'Raleway', sans-serif;
