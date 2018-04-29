@@ -19,6 +19,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 // Photo routes
 
+Route::get('/fotos', 'PhotoController@index')->name('photo_index');
+
 Route::get('/foto/criar', 'PhotoController@create')->name('photo_create');
 
 Route::post('/foto/criar', 'PhotoController@store')->name('photo_store');

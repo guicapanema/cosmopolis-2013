@@ -43,7 +43,10 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        //
+        $photos = Photo::all();
+
+		return view('photo.index', compact('photos'));
+
     }
 
     /**
@@ -75,18 +78,18 @@ class PhotoController extends Controller
 
 			$filePath = $photo->store($pathBase);
 
-			$parts = explode('/', $filePath);
-			$fileName = explode('.', end($parts))[0];
-			$fileExtension = explode('.', end($parts))[1];
-
-			$bigPhoto = Image::make($photo)->widen(1000);
-			$bigPhoto->save($pathPrefix . $pathBase . '/' . $fileName . '-big.' . $fileExtension);
-
-			$mediumPhoto = Image::make($photo)->widen(500);
-			$mediumPhoto->save($pathPrefix . $pathBase . '/' . $fileName . '-medium.' . $fileExtension);
-
-			$smallPhoto = Image::make($photo)->widen(200);
-			$smallPhoto->save($pathPrefix . $pathBase . '/' . $fileName . '-small.' . $fileExtension);
+			// $parts = explode('/', $filePath);
+			// $fileName = explode('.', end($parts))[0];
+			// $fileExtension = explode('.', end($parts))[1];
+			//
+			// $bigPhoto = Image::make($photo)->widen(1000);
+			// $bigPhoto->save($pathPrefix . $pathBase . '/' . $fileName . '-big.' . $fileExtension);
+			//
+			// $mediumPhoto = Image::make($photo)->widen(500);
+			// $mediumPhoto->save($pathPrefix . $pathBase . '/' . $fileName . '-medium.' . $fileExtension);
+			//
+			// $smallPhoto = Image::make($photo)->widen(200);
+			// $smallPhoto->save($pathPrefix . $pathBase . '/' . $fileName . '-small.' . $fileExtension);
 
             Photo::create([
 				'path' => $filePath,

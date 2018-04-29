@@ -18,19 +18,14 @@
 							<a type="button" class="button is-primary" href="{{ route('photo_create') }}">
 								Enviar imagens
 							</a>
+
+							<a type="button" class="button is-primary" href="{{ route('photo_index') }}">
+								Listar imagens
+							</a>
 		                </div>
 		            </div>
 		        </div>
 		    </div>
-		</div>
-	</div>
-	<div class="section">
-		<div class="container">
-			<div class="grid">
-				{{-- @foreach($photos as $photo) --}}
-				<div class="grid-item"></div>
-				{{-- @endforeach --}}
-			</div>
 		</div>
 	</div>
 @endsection

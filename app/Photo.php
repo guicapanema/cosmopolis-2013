@@ -22,4 +22,8 @@ class Photo extends Model
         'date'
     ];
 
+	public function posters() {
+		return $this->belongsToMany(Poster::class);
+	}
+
 }
