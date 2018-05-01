@@ -73,7 +73,9 @@ class PosterController extends Controller
 
 		$poster = Poster::find(request('id'));
 
-		$poster->photos()->attach($photo->id);
+		if (!$poster->photos->contains($photo->id)) {
+			$poster->photos()->attach($photo->id);
+		}
 
 		return $photo->posters()->with('tags')->find($poster->id);
     }
