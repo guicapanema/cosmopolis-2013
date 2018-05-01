@@ -2,6 +2,7 @@
 
 @section('content')
 	<div class="container">
+		{{ Breadcrumbs::render('photo_create') }}
 		<div class="section">
 			<div class="content has-text-centered">
 				<h3>Enviar Imagens</h3>

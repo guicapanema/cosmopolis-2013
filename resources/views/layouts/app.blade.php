@@ -62,7 +62,7 @@
 			</div>
 		</div>
 	</nav>
-	<div id="app">
+	<div>
 		@yield('content')
 	</div>
 </body>

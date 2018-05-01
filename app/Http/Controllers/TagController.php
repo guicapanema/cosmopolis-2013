@@ -7,6 +7,25 @@ use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
+	/**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+	public function rules()
+	{
+		$rules = [
+			'text' => 'required|unique:tags|string|max:255',
+		];
+
+		return $rules;
+	}
+
     /**
      * Display a listing of the resource.
      *
@@ -17,15 +36,15 @@ class TagController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+	/**
+	 * Return a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function list()
+	{
+		return Tag::all();
+	}
 
     /**
      * Store a newly created resource in storage.
@@ -35,18 +54,11 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+		$this->validate(request(), $this->rules());
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Tag  $tag
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Tag $tag)
-    {
-        //
+		$tag = Tag::create(request(['text']));
+
+		return $tag;
     }
 
     /**

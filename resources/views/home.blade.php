@@ -1,12 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-	<div class="section">
-		<div class="container">
+	<div class="container">
+		{{ Breadcrumbs::render('home') }}
+		<div class="section">
 		    <div class="columns">
 		        <div class="column is-8 is-offset-2">
 		            <div class="box content">
-		                <h3>Dashboard</h3>
+		                <h3>Painel</h3>
 
 		                <div class="card-body">
 		                    @if (session('status'))

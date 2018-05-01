@@ -2,6 +2,8 @@
 
 @section('content')
 	<div class="container">
+		{{ Breadcrumbs::render('photo_index') }}
+
 		<div class="section">
 			<div class="content has-text-centered">
 				<h3>Banco de imagens</h3>
@@ -23,7 +25,7 @@
 						<tbody>
 							@foreach ($photos as $photo)
 								<tr>
-									<td>{{ $photo->name }}</td>
+									<td><a href="{{ route('photo_edit', [ 'photo' => $photo ]) }}">{{ $photo->name }}</a></td>
 									<td>{{ $photo->date }}</td>
 									<td>{{ $photo->city }}</td>
 									<td>{{ $photo->photographer }}</td>

@@ -6,5 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
-    //
+	/**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+	
+	public function posters() {
+		return $this->belongsToMany(Poster::class);
+	}
 }

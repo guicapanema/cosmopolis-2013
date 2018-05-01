@@ -20,17 +20,20 @@ class PhotoController extends Controller
         $this->middleware('auth');
     }
 
-	public function rules($photoCount)
+	public function rules($photoCount = null)
 	{
 		$rules = [
 			'date' => 'required|date_format:d/m/Y|before:today',
 			'city' => 'required|string|max:255',
 			'photographer' => 'required|string|max:255',
 			'license' => 'required|string|max:255',
-			'photos' => 'required'
 		];
-		foreach(range(0, $photoCount) as $index) {
-			$rules['photos.' . $index] = 'image|mimes:jpeg,png|max:2000';
+
+		if($photoCount != null) {
+			$rules['photos'] = 'required';
+			foreach(range(0, $photoCount) as $index) {
+				$rules['photos.' . $index] = 'image|mimes:jpeg,png|max:2000';
+			}
 		}
 
 		return $rules;
@@ -47,6 +50,16 @@ class PhotoController extends Controller
 
 		return view('photo.index', compact('photos'));
 
+    }
+
+	/**
+     * Return a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list()
+    {
+        return Photo::all();
     }
 
     /**
@@ -76,7 +89,7 @@ class PhotoController extends Controller
 			$pathPrefix = Storage::disk('local')->getAdapter()->getPathPrefix();
 			$pathBase = 'photos/' . request('city') . '/' . request('photographer');
 
-			$filePath = $photo->store($pathBase);
+			$filePath = $photo->store($pathBase, 'public');
 
 			// $parts = explode('/', $filePath);
 			// $fileName = explode('.', end($parts))[0];
@@ -114,6 +127,17 @@ class PhotoController extends Controller
         //
     }
 
+	/**
+     * Retrieve the specified resource.
+     *
+     * @param  \App\Photo  $photo
+     * @return \Illuminate\Http\Response
+     */
+    public function retrieve(Photo $photo)
+    {
+        return $photo;
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -122,7 +146,7 @@ class PhotoController extends Controller
      */
     public function edit(Photo $photo)
     {
-        //
+		return view('photo.edit', compact('photo'));
     }
 
     /**
@@ -134,7 +158,11 @@ class PhotoController extends Controller
      */
     public function update(Request $request, Photo $photo)
     {
-        //
+		$this->validate(request(), $this->rules());
+
+		$photo->update(request(['name', 'date', 'city', 'photographer', 'license']));
+
+		return $photo;
     }
 
     /**

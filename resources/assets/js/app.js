@@ -7,9 +7,13 @@
 
 require('./bootstrap');
 
-window.Masonry = require('masonry-layout');
+// window.Masonry = require('masonry-layout');
 
-// window.Vue = require('vue');
+window.Vue = require('vue');
+import Buefy from 'buefy';
+import 'buefy/lib/buefy.css';
+
+Vue.use(Buefy, {defaultIconPack: 'fas'});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -17,8 +21,10 @@ window.Masonry = require('masonry-layout');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component('photo-edit', require('./components/PhotoEdit.vue'));
+Vue.component('poster-edit', require('./components/PosterEdit.vue'));
 // Vue.component('example-component', require('./components/ExampleComponent.vue'));
-//
-// const app = new Vue({
-//     el: '#app'
-// });
+
+const app = new Vue({
+    el: '#app'
+});

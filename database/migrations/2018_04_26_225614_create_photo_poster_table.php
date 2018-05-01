@@ -17,6 +17,8 @@ class CreatePhotoPosterTable extends Migration
             $table->increments('id');
 			$table->integer('photo_id')->unsigned();
 			$table->integer('poster_id')->unsigned();
+			$table->string('gender')->nullable();
+			$table->string('type')->nullable();
             $table->timestamps();
         });
     }

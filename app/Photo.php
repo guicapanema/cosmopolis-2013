@@ -23,7 +23,7 @@ class Photo extends Model
     ];
 
 	public function posters() {
-		return $this->belongsToMany(Poster::class);
+		return $this->belongsToMany(Poster::class)->withPivot('gender', 'type');
 	}
 
 }
