@@ -8,7 +8,7 @@
 require('./bootstrap');
 
 // window.Masonry = require('masonry-layout');
-
+window.moment = require('moment');
 window.Vue = require('vue');
 import Buefy from 'buefy';
 import 'buefy/lib/buefy.css';

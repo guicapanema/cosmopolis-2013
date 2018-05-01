@@ -29,13 +29,12 @@ class PhotoController extends Controller
 			'license' => 'required|string|max:255',
 		];
 
-		if($photoCount != null) {
+		if($photoCount !== null) {
 			$rules['photos'] = 'required';
 			foreach(range(0, $photoCount) as $index) {
-				$rules['photos.' . $index] = 'image|mimes:jpeg,png|max:2000';
+				$rules['photos.' . $index] = 'image|mimes:jpeg,png|max:10000';
 			}
 		}
-
 		return $rules;
 	}
 
@@ -84,6 +83,7 @@ class PhotoController extends Controller
 		$this->validate(request(), $this->rules($photoCount));
 
 		$date = Carbon::createFromFormat('d/m/Y', request('date'));
+		$photos = array();
 
 		foreach (request('photos') as $photo) {
 			$pathPrefix = Storage::disk('local')->getAdapter()->getPathPrefix();
@@ -104,7 +104,7 @@ class PhotoController extends Controller
 			// $smallPhoto = Image::make($photo)->widen(200);
 			// $smallPhoto->save($pathPrefix . $pathBase . '/' . $fileName . '-small.' . $fileExtension);
 
-            Photo::create([
+            $createdPhoto = Photo::create([
 				'path' => $filePath,
 				'name' => $photo->getClientOriginalName(),
 				'date' => $date,
@@ -112,8 +112,9 @@ class PhotoController extends Controller
 				'photographer' => request('photographer'),
 				'license' => request('license')
             ]);
+			array_push($photos, $createdPhoto);
         }
-		return view('home');
+		return view('photo.bulkEdit', compact('photos'));
     }
 
     /**
@@ -136,6 +137,16 @@ class PhotoController extends Controller
     public function retrieve(Photo $photo)
     {
         return $photo;
+    }
+
+	/**
+     * Retrieve the specified resource's file.
+     *
+     * @param  \App\Photo  $photo
+     * @return \Illuminate\Http\Response
+     */
+    public function retrieveFile(Request $request, Photo $photo)
+    {
     }
 
     /**

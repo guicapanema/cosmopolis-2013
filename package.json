@@ -19,5 +19,8 @@
         "lodash": "^4.17.10",
         "masonry-layout": "^4.2.1",
         "vue": "^2.5.7"
+    },
+    "dependencies": {
+        "moment": "^2.22.1"
     }
 }

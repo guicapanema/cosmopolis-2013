@@ -1,9 +1,5 @@
 <template>
 	<div class="section">
-		<div class="content has-text-centered">
-			<h3>Editar Imagem</h3>
-		</div>
-
 		<div class="columns is-vcentered">
 			<div class="column is-6">
 				<figure class="image">
@@ -61,7 +57,7 @@
 
 		<div>
 			<div class="content">
-				<h4>Pôsteres</h4>
+				<h4>Cartazes</h4>
 			</div>
 			<poster-edit
 				v-for="poster of posters"
@@ -72,7 +68,7 @@
 			</poster-edit>
 			<div>
 				<button class="button is-primary is-outlined" @click="onPosterAdd()">
-					+ pôster
+					+ cartaz
 				</button>
 			</div>
 		</div>
@@ -94,6 +90,7 @@
             axios.get('/fotos/' + this.photo_id)
 				.then(response => {
 					this.photo = response.data;
+					this.photo.date = moment(this.photo.date).format('DD[/]MM[/]YYYY');
 				});
 
 			axios.get('/fotos/' + this.photo_id + '/posteres?showTags=true')

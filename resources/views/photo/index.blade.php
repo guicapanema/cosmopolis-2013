@@ -26,7 +26,7 @@
 							@foreach ($photos as $photo)
 								<tr>
 									<td><a href="{{ route('photo_edit', [ 'photo' => $photo ]) }}">{{ $photo->name }}</a></td>
-									<td>{{ $photo->date }}</td>
+									<td>{{ $photo->date->format('d/m/Y') }}</td>
 									<td>{{ $photo->city }}</td>
 									<td>{{ $photo->photographer }}</td>
 									<td>{{ $photo->license }}</td>

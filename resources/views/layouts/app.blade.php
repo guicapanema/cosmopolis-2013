@@ -38,7 +38,7 @@
 							<span>{{ __('Login') }}</span>
 						</a>
 						<a class="navbar-item" href="{{ route('register') }}">
-							<span>{{ __('Register') }}</span>
+							<span>Registrar</span>
 						</a>
 					@else
 						<div class="navbar-item has-dropdown is-hoverable">

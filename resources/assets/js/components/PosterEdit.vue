@@ -153,10 +153,10 @@
 				if (!this.selectedPoster && this.posterText.length) {
 					axios.post('/posteres', { text: this.posterText })
 						.then(response => {
-							this.$toast.open({ message: 'Poster criado com sucesso!', position: 'is-bottom'});
+							this.$toast.open({ message: 'Cartaz criado com sucesso!', position: 'is-bottom'});
 							this.onPosterSelect(response.data);
 						}).catch(error => {
-							this.$toast.open({ message: 'Erro ao criar poster', type: 'is-danger', position: 'is-bottom'});
+							this.$toast.open({ message: 'Erro ao criar cartaz', type: 'is-danger', position: 'is-bottom'});
 							throw error;
 						});
 				}
@@ -165,10 +165,10 @@
 			onPosterRemove() {
 				axios.delete('/fotos/' + this.photo_id + '/posteres/' + this.selectedPoster.id)
 					.then(response => {
-						this.$toast.open({ message: 'Poster removido com sucesso', type: 'is-success', position: 'is-bottom'});
+						this.$toast.open({ message: 'Cartaz removido com sucesso', type: 'is-success', position: 'is-bottom'});
 						this.$emit('remove');
 					}).catch(error => {
-						this.$toast.open({ message: 'Erro ao remover poster', type: 'is-danger', position: 'is-bottom'});
+						this.$toast.open({ message: 'Erro ao remover cartaz', type: 'is-danger', position: 'is-bottom'});
 						throw error;
 					});
 			},
@@ -178,7 +178,7 @@
 					.then(response => {
 						this.selectedPoster = response.data;
 					}).catch(error => {
-						this.$toast.open({ message: 'Erro ao adicionar poster', type: 'is-danger', position: 'is-bottom'});
+						this.$toast.open({ message: 'Erro ao adicionar cartaz', type: 'is-danger', position: 'is-bottom'});
 						throw error;
 					});
 			},
@@ -188,7 +188,7 @@
 				axios.put('/fotos/' + this.photo_id + '/posteres/' + this.selectedPoster.id,
 				pivotData)
 					.then(response => {
-						this.$toast.open({ message: 'Poster atualizado com sucesso!', type: 'is-success', position: 'is-bottom'});
+						this.$toast.open({ message: 'Cartaz atualizado com sucesso!', type: 'is-success', position: 'is-bottom'});
 					});
 			},
 
@@ -215,7 +215,7 @@
 			posterUpdate() {
 				axios.put('/posteres/' + this.selectedPoster.id, this.selectedPoster)
 					.then(response => {
-						this.$toast.open({ message: 'Poster atualizado com sucesso!', type: 'is-success', position: 'is-bottom'});
+						this.$toast.open({ message: 'Cartaz atualizado com sucesso!', type: 'is-success', position: 'is-bottom'});
 					});
 			}
         }
