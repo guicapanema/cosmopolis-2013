@@ -51,7 +51,7 @@
 
 				<div class="field">
 					<p class="control">
-						<button class="button is-success">
+						<button @click="onPhotoSave()" class="button is-success">
 							Salvar
 						</button>
 					</p>
@@ -103,6 +103,15 @@
         },
 
 		methods: {
+			onPhotoSave() {
+				axios.put('/fotos/' + this.photo_id, this.photo)
+					.then(response => {
+						this.$toast.open({ message: 'Imagem salva com sucesso!', type: 'is-success', position: 'is-bottom'});
+					}).catch(error => {
+						this.$toast.open({ message: 'Erro ao salvar imagem', type: 'is-danger', position: 'is-bottom'});
+						throw error;
+					})
+			},
 			onPosterAdd() {
 				this.posters.push({text: '', gender: '', type: '', tags: []});
 			},

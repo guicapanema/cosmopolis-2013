@@ -34,6 +34,8 @@ Route::post('/fotos', 'PhotoController@store')->name('photo_store');
 
 Route::get('/fotos/{photo}', 'PhotoController@retrieve')->name('photo_retrieve');
 
+Route::put('/fotos/{photo}', 'PhotoController@update')->name('photo_update');
+
 Route::get('/fotos', 'PhotoController@list')->name('photo_list');
 
 

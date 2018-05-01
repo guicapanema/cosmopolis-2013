@@ -160,7 +160,15 @@ class PhotoController extends Controller
     {
 		$this->validate(request(), $this->rules());
 
-		$photo->update(request(['name', 'date', 'city', 'photographer', 'license']));
+		$date = Carbon::createFromFormat('d/m/Y', request('date'));
+
+		$photo->update([
+			'name' => request('name'),
+			'date' => $date,
+			'city' => request('city'),
+			'photographer' => request('photographer'),
+			'license' => request('license'),
+		]);
 
 		return $photo;
     }
