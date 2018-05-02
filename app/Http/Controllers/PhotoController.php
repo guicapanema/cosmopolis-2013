@@ -45,20 +45,32 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        $photos = Photo::all();
+        // $photos = Photo::all();
 
-		return view('photo.index', compact('photos'));
+		return view('photo.index');
 
     }
 
 	/**
      * Return a listing of the resource.
      *
+	 * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function list()
+    public function list(Request $request)
     {
-        return Photo::all();
+		if ($request->query('busca') === null) {
+			return Photo::withCount('posters')->get();
+		}
+
+		$queryString = '%' . $request->query('busca') . '%';
+
+        return Photo::withCount('posters')
+					->orWhere('name', 'ilike', $queryString)
+					->orWhere('city', 'ilike', $queryString)
+					->orWhere('photographer', 'ilike', $queryString)
+					->get();
+
     }
 
     /**
