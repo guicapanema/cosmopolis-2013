@@ -21,6 +21,7 @@ class CreatePhotosTable extends Migration
 			$table->string('city')->nullable();
 			$table->string('photographer')->nullable();
             $table->string('license')->nullable();
+			$table->softDeletes();
             $table->timestamps();
         });
     }

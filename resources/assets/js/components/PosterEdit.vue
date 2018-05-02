@@ -19,7 +19,7 @@
 			</div>
 			<div v-if="posterText.length && !selectedPoster">
 				<button @click="onPosterCreate()" class="button is-success">
-					Criar poster
+					Criar cartaz
 				</button>
 			</div>
 			<div v-if="selectedPoster" class="column content">

@@ -192,6 +192,7 @@ class PhotoController extends Controller
      */
     public function destroy(Photo $photo)
     {
-        //
+        $photo->delete();
+		return $photo;
     }
 }

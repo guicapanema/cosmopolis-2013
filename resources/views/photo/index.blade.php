@@ -3,8 +3,10 @@
 @section('content')
 	<div class="container">
 		{{ Breadcrumbs::render('photo_index') }}
-
-		<div class="section">
+		<div class="content has-text-centered">
+			<h3>Banco de imagens</h3>
+		</div>
+		{{-- <div class="section">
 			<div class="content has-text-centered">
 				<h3>Banco de imagens</h3>
 			</div>
@@ -36,6 +38,9 @@
 					</table>
 				</div>
 			</div>
+		</div> --}}
+		<div id="app">
+			<photo-table></photo-table>
 		</div>
 	</div>
 
