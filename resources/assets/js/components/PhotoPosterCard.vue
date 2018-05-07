@@ -60,8 +60,8 @@
 				<h5>Tipo</h5>
 				<b-field>
 					<b-select
-						v-model="selectedPoster.pivot.type"
-						@input="onPivotUpdate"
+						v-model="selectedPoster.type"
+						@input="posterUpdate"
 						placeholder="Selecione um tipo"
 						required>
 						<option value="faixa">
@@ -184,7 +184,7 @@
 			},
 
 			onPivotUpdate() {
-				let pivotData = { gender: this.selectedPoster.pivot.gender, type: this.selectedPoster.pivot.type };
+				let pivotData = { gender: this.selectedPoster.pivot.gender };
 				axios.put('/fotos/' + this.photo_id + '/cartazes/' + this.selectedPoster.id,
 				pivotData)
 					.then(response => {

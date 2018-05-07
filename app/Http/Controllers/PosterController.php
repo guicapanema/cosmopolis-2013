@@ -21,7 +21,8 @@ class PosterController extends Controller
 	public function rules()
 	{
 		$rules = [
-			'text' => 'required|unique:posters|string|max:255'
+			'text' => 'required|string|max:255',
+			'type' => 'nullable|string|max:255'
 		];
 
 		return $rules;
@@ -53,6 +54,7 @@ class PosterController extends Controller
 
 		return Poster::withCount('photos')
 					->where('text', 'ilike', $queryString)
+					->where('type', 'ilike', $queryString)
 					->get();
 	}
 
@@ -76,7 +78,7 @@ class PosterController extends Controller
     {
 		$this->validate(request(), $this->rules());
 
-		$poster = Poster::create(request(['text']));
+		$poster = Poster::create(request(['text', 'type']));
 
 		return $poster;
     }
@@ -162,10 +164,11 @@ class PosterController extends Controller
 			$poster->tags()->sync($tagIds);
 		}
 		if(request('text') !== null) {
-			$poster = $poster->update(request(['text']));
+			$poster->update(request(['text', 'type']));
 		}
 
-		return redirect()->route('poster_index');
+		return $poster;
+
     }
 
 	/**
@@ -176,7 +179,7 @@ class PosterController extends Controller
      */
     public function updatePhotoRelationship(Request $request, Photo $photo, Poster $poster)
     {
-		$poster->photos()->updateExistingPivot($photo->id, request(['gender', 'type']));
+		$poster->photos()->updateExistingPivot($photo->id, request(['gender']));
 
 		return $poster;
     }

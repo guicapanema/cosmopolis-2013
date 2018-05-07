@@ -16,6 +16,7 @@ class CreatePostersTable extends Migration
         Schema::create('posters', function (Blueprint $table) {
             $table->increments('id');
 			$table->string('text');
+			$table->string('type')->nullable();
             $table->timestamps();
         });
     }

@@ -23,10 +23,10 @@ class PhotoController extends Controller
 	public function rules($photoCount = null)
 	{
 		$rules = [
-			'date' => 'required|date_format:d/m/Y|before:today',
-			'city' => 'required|string|max:255',
-			'photographer' => 'required|string|max:255',
-			'license' => 'required|string|max:255',
+			'date' => 'nullable|date_format:d/m/Y|before:today',
+			'city' => 'nullable|string|max:255',
+			'photographer' => 'nullable|string|max:255',
+			'license' => 'nullable|string|max:255',
 		];
 
 		if($photoCount !== null) {
@@ -94,7 +94,10 @@ class PhotoController extends Controller
 		$photoCount = request('photos') ? count(request('photos')) : 0;
 		$this->validate(request(), $this->rules($photoCount));
 
-		$date = Carbon::createFromFormat('d/m/Y', request('date'));
+		$date = null;
+		if(request('date') !== null) {
+			$date = Carbon::createFromFormat('d/m/Y', request('date'));
+		}
 		$photos = array();
 
 		foreach (request('photos') as $photo) {
@@ -183,7 +186,10 @@ class PhotoController extends Controller
     {
 		$this->validate(request(), $this->rules());
 
-		$date = Carbon::createFromFormat('d/m/Y', request('date'));
+		$date = null;
+		if(request('date') !== null) {
+			$date = Carbon::createFromFormat('d/m/Y', request('date'));
+		}
 
 		$photo->update([
 			'name' => request('name'),

@@ -14,7 +14,7 @@ class Poster extends Model
     protected $guarded = [];
 
 	public function photos() {
-		return $this->belongsToMany(Photo::class)->withPivot('gender', 'type');
+		return $this->belongsToMany(Photo::class)->withPivot('gender');
 	}
 
 	public function tags() {

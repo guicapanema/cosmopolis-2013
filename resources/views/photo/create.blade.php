@@ -2,7 +2,7 @@
 
 @section('content')
 	{{ Breadcrumbs::render('photo_create') }}
-	
+
 	<div class="content has-text-centered">
 		<h3>Enviar Imagens</h3>
 	</div>
@@ -15,7 +15,7 @@
 				<div class="field">
 					<label class="label">Data</label>
 					<div class="control">
-						<input type="text" class="input{{ $errors->has('date') ? ' is-danger' : '' }}" name="date" value="{{ old('date') }}" placeholder="DD/MM/YYYY" required autofocus>
+						<input type="text" class="input{{ $errors->has('date') ? ' is-danger' : '' }}" name="date" value="{{ old('date') }}" placeholder="DD/MM/YYYY" autofocus>
 					</div>
 					@if ($errors->has('date'))
 						<p class="help is-danger">{{ $errors->first('date') }}</p>
@@ -25,7 +25,7 @@
 				<div class="field">
 					<label class="label">Cidade</label>
 					<div class="control">
-						<input type="text" class="input{{ $errors->has('city') ? ' is-danger' : '' }}" name="city" value="{{ old('city') }}" required autofocus>
+						<input type="text" class="input{{ $errors->has('city') ? ' is-danger' : '' }}" name="city" value="{{ old('city') }}">
 					</div>
 					@if ($errors->has('city'))
 						<p class="help is-danger">{{ $errors->first('city') }}</p>
@@ -35,7 +35,7 @@
 				<div class="field">
 					<label class="label">Fotógrafo</label>
 					<div class="control">
-						<input type="text" class="input{{ $errors->has('photographer') ? ' is-danger' : '' }}" name="photographer" value="{{ old('photographer') }}" required autofocus>
+						<input type="text" class="input{{ $errors->has('photographer') ? ' is-danger' : '' }}" name="photographer" value="{{ old('photographer') }}">
 					</div>
 					@if ($errors->has('photographer'))
 						<p class="help is-danger">{{ $errors->first('photographer') }}</p>
@@ -45,7 +45,7 @@
 				<div class="field">
 					<label class="label">Licença de Uso</label>
 					<div class="control">
-						<input type="text" class="input{{ $errors->has('license') ? ' is-danger' : '' }}" name="license" value="{{ old('license') }}" required autofocus>
+						<input type="text" class="input{{ $errors->has('license') ? ' is-danger' : '' }}" name="license" value="{{ old('license') }}">
 					</div>
 					@if ($errors->has('license'))
 						<p class="help is-danger">{{ $errors->first('license') }}</p>
