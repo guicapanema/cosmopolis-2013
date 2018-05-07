@@ -62,8 +62,36 @@
 			</div>
 		</div>
 	</nav>
-	<div>
-		@yield('content')
+	<div class="columns is-gapless">
+		@guest
+		@else
+			<div class="column is-one-fifth">
+				<aside class="menu has-margin-50">
+					<p class="menu-label">
+						Geral
+					</p>
+					<ul class="menu-list">
+						<li><a href="/home" class="{{ Request::is('home') ? "is-active" : "" }}">Painel</a></li>
+					</ul>
+					<p class="menu-label">
+						Imagens
+					</p>
+					<ul class="menu-list">
+						<li><a href="{{ route('photo_create') }}" class="{{ Request::is('fotos/criar') ? "is-active" : "" }}">Enviar imagens</a></li>
+						<li><a href="{{ route('photo_index') }}" class="{{ Request::is('fotos/indice') ? "is-active" : "" }}">Listar imagens</a></li>
+					</ul>
+					<p class="menu-label">
+						Cartazes
+					</p>
+					<ul class="menu-list">
+						<li><a href="{{ route('poster_index') }}" class="{{ Request::is('cartazes/indice') ? "is-active" : "" }}">Listar cartazes</a></li>
+					</ul>
+				</aside>
+			</div>
+		@endguest
+		<div class="column">
+			@yield('content')
+		</div>
 	</div>
 </body>
 </html>

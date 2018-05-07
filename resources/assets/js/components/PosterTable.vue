@@ -1,5 +1,5 @@
 <template>
-    <section class="section">
+    <div>
 		<div>
 			<b-field grouped>
 				<b-field>
@@ -45,7 +45,7 @@
         </b-table>
 
 		<b-loading :active.sync="loadingPosters"></b-loading>
-    </section>
+    </div>
 </template>
 
 <script>

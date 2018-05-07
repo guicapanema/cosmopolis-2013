@@ -1,14 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-	<div class="container">
-		{{ Breadcrumbs::render('poster_index') }}
-		<div class="content has-text-centered">
-			<h3>Banco de cartazes</h3>
-		</div>
-		<div id="app">
-			<poster-table></poster-table>
-		</div>
+	{{ Breadcrumbs::render('poster_index') }}
+	<div class="content has-text-centered">
+		<h3>Banco de cartazes</h3>
 	</div>
-
+	<div id="app" class="has-margin-50">
+		<poster-table></poster-table>
+	</div>
 @endsection

@@ -1,5 +1,5 @@
 <template>
-	<div class="section">
+	<div>
 		<div class="columns is-vcentered">
 			<div class="column is-8">
 				<figure class="image">
