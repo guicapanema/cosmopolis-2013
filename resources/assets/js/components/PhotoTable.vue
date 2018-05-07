@@ -65,28 +65,6 @@
         data() {
             return {
                 checkedRows: [],
-                columns: [
-                    {
-                        field: 'name',
-                        label: 'Nome',
-                    },
-                    {
-                        field: 'date',
-                        label: 'Data',
-                    },
-                    {
-                        field: 'city',
-                        label: 'Cidade',
-                    },
-                    {
-                        field: 'photographer',
-                        label: 'Fotógrafo',
-                    },
-                    {
-                        field: 'posters',
-                        label: 'Nº Cartazes',
-                    }
-                ],
 				loadingPhotos: true,
 				moment: moment,
 				photos: [],

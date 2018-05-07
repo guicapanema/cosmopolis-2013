@@ -37,6 +37,26 @@ class PosterController extends Controller
         //
     }
 
+	/**
+	 * Return a listing of the resource.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function list(Request $request)
+	{
+		if ($request->query('busca') === null) {
+			return Poster::all();
+		}
+
+		$queryString = '%' . $request->query('busca') . '%';
+
+		return Poster::withCount('photos')
+					->where('text', 'ilike', $queryString)
+					->get();
+
+	}
+
     /**
      * Show the form for creating a new resource.
      *

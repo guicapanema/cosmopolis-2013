@@ -93,7 +93,7 @@
 					this.photo.date = moment(this.photo.date).format('DD[/]MM[/]YYYY');
 				});
 
-			axios.get('/fotos/' + this.photo_id + '/posteres?showTags=true')
+			axios.get('/fotos/' + this.photo_id + '/cartazes?showTags=true')
 				.then(response => {
 					this.posters = response.data;
 				});

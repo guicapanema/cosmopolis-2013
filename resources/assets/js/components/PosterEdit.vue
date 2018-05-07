@@ -119,7 +119,7 @@
             getAsyncData: debounce(function () {
                 this.filteredPosters = []
                 this.isFetchingPoster = true
-                axios.get('/posteres/busca?query=' + this.posterText)
+                axios.get('/cartazes/busca?query=' + this.posterText)
                     .then(response => {
                         response.data.forEach((item) => this.filteredPosters.push(item))
                         this.isFetchingPoster = false
@@ -151,7 +151,7 @@
 
 			onPosterCreate() {
 				if (!this.selectedPoster && this.posterText.length) {
-					axios.post('/posteres', { text: this.posterText })
+					axios.post('/cartazes', { text: this.posterText })
 						.then(response => {
 							this.$toast.open({ message: 'Cartaz criado com sucesso!', position: 'is-bottom'});
 							this.onPosterSelect(response.data);
@@ -163,7 +163,7 @@
 			},
 
 			onPosterRemove() {
-				axios.delete('/fotos/' + this.photo_id + '/posteres/' + this.selectedPoster.id)
+				axios.delete('/fotos/' + this.photo_id + '/cartazes/' + this.selectedPoster.id)
 					.then(response => {
 						this.$toast.open({ message: 'Cartaz removido com sucesso', type: 'is-success', position: 'is-bottom'});
 						this.$emit('remove');
@@ -174,7 +174,7 @@
 			},
 
 			onPosterSelect(poster) {
-				axios.post('/fotos/' + this.photo_id + '/posteres' , poster)
+				axios.post('/fotos/' + this.photo_id + '/cartazes' , poster)
 					.then(response => {
 						this.selectedPoster = response.data;
 					}).catch(error => {
@@ -185,7 +185,7 @@
 
 			onPivotUpdate() {
 				let pivotData = { gender: this.selectedPoster.pivot.gender, type: this.selectedPoster.pivot.type };
-				axios.put('/fotos/' + this.photo_id + '/posteres/' + this.selectedPoster.id,
+				axios.put('/fotos/' + this.photo_id + '/cartazes/' + this.selectedPoster.id,
 				pivotData)
 					.then(response => {
 						this.$toast.open({ message: 'Cartaz atualizado com sucesso!', type: 'is-success', position: 'is-bottom'});
@@ -213,7 +213,7 @@
 			},
 
 			posterUpdate() {
-				axios.put('/posteres/' + this.selectedPoster.id, this.selectedPoster)
+				axios.put('/cartazes/' + this.selectedPoster.id, this.selectedPoster)
 					.then(response => {
 						this.$toast.open({ message: 'Cartaz atualizado com sucesso!', type: 'is-success', position: 'is-bottom'});
 					});

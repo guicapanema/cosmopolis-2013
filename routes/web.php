@@ -45,19 +45,19 @@ Route::get('/fotos', 'PhotoController@list')->name('photo_list');
 
 // API routes
 
-Route::post('/posteres', 'PosterController@store')->name('poster_store');
+Route::post('/cartazes', 'PosterController@store')->name('poster_store');
 
-Route::put('/posteres/{poster}', 'PosterController@update')->name('poster_update');
+Route::put('/cartazes/{poster}', 'PosterController@update')->name('poster_update');
 
-Route::get('/fotos/{photo}/posteres', 'PosterController@filterByPhoto')->name('poster_filter_by_photo');
+Route::get('/fotos/{photo}/cartazes', 'PosterController@filterByPhoto')->name('poster_filter_by_photo');
 
-Route::post('/fotos/{photo}/posteres', 'PosterController@attachToPhoto')->name('poster_attach_to_photo');
+Route::post('/fotos/{photo}/cartazes', 'PosterController@attachToPhoto')->name('poster_attach_to_photo');
 
-Route::put('/fotos/{photo}/posteres/{poster}', 'PosterController@updatePhotoRelationship')->name('poster_update_photo_relationship');
+Route::put('/fotos/{photo}/cartazes/{poster}', 'PosterController@updatePhotoRelationship')->name('poster_update_photo_relationship');
 
-Route::delete('/fotos/{photo}/posteres/{poster}', 'PosterController@detachFromPhoto')->name('poster_detach_from_photo');
+Route::delete('/fotos/{photo}/cartazes/{poster}', 'PosterController@detachFromPhoto')->name('poster_detach_from_photo');
 
-Route::get('/posteres/busca', 'PosterController@search')->name('poster_search');
+Route::get('/cartazes/busca', 'PosterController@search')->name('poster_search');
 
 
 /* TAG ROUTES */
