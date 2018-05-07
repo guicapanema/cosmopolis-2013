@@ -21,9 +21,10 @@ Vue.use(Buefy, {defaultIconPack: 'fas'});
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component('poster-table', require('./components/PosterTable.vue'));
 Vue.component('photo-table', require('./components/PhotoTable.vue'));
 Vue.component('photo-edit', require('./components/PhotoEdit.vue'));
-Vue.component('poster-edit', require('./components/PosterEdit.vue'));
+Vue.component('photo-poster-card', require('./components/PhotoPosterCard.vue'));
 // Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
 const app = new Vue({

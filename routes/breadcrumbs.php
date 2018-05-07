@@ -22,3 +22,15 @@ Breadcrumbs::register('photo_edit', function ($breadcrumbs, $photo) {
 	$breadcrumbs->parent('photo_index');
 	$breadcrumbs->push($photo->name, route('photo_edit', $photo));
 });
+
+// Painel > Banco de cartazes
+Breadcrumbs::register('poster_index', function ($breadcrumbs) {
+	$breadcrumbs->parent('home');
+    $breadcrumbs->push('Banco de cartazes', route('poster_index'));
+});
+
+// Painel > Banco de cartazes > Editar cartaz
+Breadcrumbs::register('poster_edit', function ($breadcrumbs, $poster) {
+	$breadcrumbs->parent('poster_index');
+    $breadcrumbs->push('Editar cartaz', route('poster_edit', $poster->id));
+});

@@ -59,13 +59,13 @@
 			<div class="content">
 				<h4>Cartazes</h4>
 			</div>
-			<poster-edit
+			<photo-poster-card
 				v-for="poster of posters"
 				:photo_id="photo_id"
 				:poster="poster"
 				:key="poster.id"
 				@remove="onPosterRemove(poster)">
-			</poster-edit>
+			</photo-poster-card>
 			<div>
 				<button class="button is-primary is-outlined" @click="onPosterAdd()">
 					+ cartaz

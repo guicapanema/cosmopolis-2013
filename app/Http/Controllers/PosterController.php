@@ -34,7 +34,7 @@ class PosterController extends Controller
      */
     public function index()
     {
-        //
+        return view('poster.index');
     }
 
 	/**
@@ -46,7 +46,7 @@ class PosterController extends Controller
 	public function list(Request $request)
 	{
 		if ($request->query('busca') === null) {
-			return Poster::all();
+			return Poster::withCount('photos')->get();
 		}
 
 		$queryString = '%' . $request->query('busca') . '%';
@@ -54,7 +54,6 @@ class PosterController extends Controller
 		return Poster::withCount('photos')
 					->where('text', 'ilike', $queryString)
 					->get();
-
 	}
 
     /**
@@ -146,7 +145,7 @@ class PosterController extends Controller
      */
     public function edit(Poster $poster)
     {
-        //
+        return view('poster.edit', compact('poster'));
     }
 
     /**
@@ -158,8 +157,15 @@ class PosterController extends Controller
      */
     public function update(Request $request, Poster $poster)
     {
-		$tagIds = array_column(request('tags'), 'id');
-		$poster->tags()->sync($tagIds);
+		if(request('tags') !== null) {
+			$tagIds = array_column(request('tags'), 'id');
+			$poster->tags()->sync($tagIds);
+		}
+		if(request('text') !== null) {
+			$poster = $poster->update(request(['text']));
+		}
+
+		return redirect()->route('poster_index');
     }
 
 	/**
@@ -183,7 +189,10 @@ class PosterController extends Controller
      */
     public function destroy(Poster $poster)
     {
-        //
+        $poster->photos()->detach();
+		$poster->delete();
+
+		return $poster;
     }
 
 	/**

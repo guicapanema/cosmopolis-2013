@@ -18,7 +18,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-/* PHOTO ROUTES */
+/**** PHOTO ROUTES ****/
 
 Route::get('/fotos/indice', 'PhotoController@index')->name('photo_index');
 
@@ -26,11 +26,11 @@ Route::get('/fotos/criar', 'PhotoController@create')->name('photo_create');
 
 Route::get('/fotos/{photo}/editar', 'PhotoController@edit')->name('photo_edit');
 
-
-
 // API routes
 
 Route::post('/fotos', 'PhotoController@store')->name('photo_store');
+
+Route::get('/fotos', 'PhotoController@list')->name('photo_list');
 
 Route::get('/fotos/{photo}', 'PhotoController@retrieve')->name('photo_retrieve');
 
@@ -38,16 +38,23 @@ Route::put('/fotos/{photo}', 'PhotoController@update')->name('photo_update');
 
 Route::delete('/fotos/{photo}', 'PhotoController@destroy')->name('photo_destroy');
 
-Route::get('/fotos', 'PhotoController@list')->name('photo_list');
 
+/**** POSTER ROUTES ****/
 
-/* POSTER ROUTES */
+Route::get('/cartazes/indice', 'PosterController@index')->name('poster_index');
+
+Route::get('/cartazes/{poster}/editar', 'PosterController@edit')->name('poster_edit');
+
 
 // API routes
 
 Route::post('/cartazes', 'PosterController@store')->name('poster_store');
 
+Route::get('/cartazes', 'PosterController@list')->name('poster_list');
+
 Route::put('/cartazes/{poster}', 'PosterController@update')->name('poster_update');
+
+Route::delete('/cartazes/{poster}', 'PosterController@destroy')->name('poster_destroy');
 
 Route::get('/fotos/{photo}/cartazes', 'PosterController@filterByPhoto')->name('poster_filter_by_photo');
 
@@ -60,7 +67,7 @@ Route::delete('/fotos/{photo}/cartazes/{poster}', 'PosterController@detachFromPh
 Route::get('/cartazes/busca', 'PosterController@search')->name('poster_search');
 
 
-/* TAG ROUTES */
+/**** TAG ROUTES ****/
 
 // API routes
 

@@ -23,6 +23,10 @@
 							<a type="button" class="button is-primary" href="{{ route('photo_index') }}">
 								Listar imagens
 							</a>
+
+							<a type="button" class="button is-primary" href="{{ route('poster_index') }}">
+								Listar cartazes
+							</a>
 		                </div>
 		            </div>
 		        </div>
