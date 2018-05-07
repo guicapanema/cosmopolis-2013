@@ -1,7 +1,7 @@
 <template>
 	<div class="section">
 		<div class="columns is-vcentered">
-			<div class="column is-6">
+			<div class="column is-8">
 				<figure class="image">
 					<img
 						v-if="this.photo && this.photo.path"
@@ -9,7 +9,7 @@
 					</img>
 				</figure>
 			</div>
-			<div class="column is-5 is-offset-1">
+			<div class="column is-4">
 				<div class="field">
 					<label class="label">Nome</label>
 					<div class="control">
