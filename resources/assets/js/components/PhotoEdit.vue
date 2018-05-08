@@ -5,7 +5,7 @@
 				<figure class="image">
 					<img
 						v-if="this.photo && this.photo.path"
-						:src="'/storage/' + this.photo.path">
+						:src="'/fotos/' + this.photo.id + '/arquivo?tamanho=grande'">
 					</img>
 				</figure>
 			</div>

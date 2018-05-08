@@ -42,7 +42,7 @@
 				<div class="column is-one-quarter">
 					<figure class="image">
 						<a href="/fotos/{{$photo->id}}/editar">
-							<img src="/storage/{{$photo->path}}"></img>
+							<img src="/fotos/{{$photo->id}}/arquivo?tamanho=medio"></img>
 						</a>
 					</figure>
 				</div>

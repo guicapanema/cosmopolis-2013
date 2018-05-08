@@ -101,8 +101,8 @@ class PhotoController extends Controller
 		$photos = array();
 
 		foreach (request('photos') as $photo) {
-			$pathPrefix = Storage::disk('local')->getAdapter()->getPathPrefix();
-			$pathBase = 'photos/' . request('city') . '/' . request('photographer');
+			// $pathPrefix = Storage::disk('local')->getAdapter()->getPathPrefix();
+			$pathBase = 'photos';
 
 			$filePath = $photo->store($pathBase, 'public');
 
@@ -162,6 +162,17 @@ class PhotoController extends Controller
      */
     public function retrieveFile(Request $request, Photo $photo)
     {
+		$file = Storage::disk('public')->get('/' . $photo->path);
+
+		if ($request->query('tamanho') == 'pequeno') {
+			return Image::make($file)->widen(250)->response();
+		} else if ($request->query('tamanho') == 'medio') {
+			return Image::make($file)->widen(500)->response();
+		} else if ($request->query('tamanho') == 'grande') {
+			return Image::make($file)->widen(1000)->response();
+		}
+
+		return $file;
     }
 
     /**
