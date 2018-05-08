@@ -17,7 +17,7 @@
 					<template slot-scope="props">
 						<div class="media">
 							<div class="media-left">
-								<img width="64" :src="props.option.photos ? '/fotos/' + props.option.photos[0].id + '/arquivo?tamanho=pequeno' : ''">
+								<img width="64" :src="(props.option.photos && props.option.photos.length) ? '/fotos/' + props.option.photos[0].id + '/arquivo?tamanho=pequeno' : ''">
 							</div>
 							<div class="media-content">
 								{{ props.option.text }}
