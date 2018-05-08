@@ -14,6 +14,20 @@
 					@select="onPosterSelect"
 					:disabled="selectedPoster"
 					required>
+					<template slot-scope="props">
+						<div class="media">
+							<div class="media-left">
+								<img width="64" :src="props.option.photos[0] ? '/storage/' + props.option.photos[0].path : ''">
+							</div>
+							<div class="media-content">
+								{{ props.option.text }}
+								<br>
+								<small>
+									Aparece em {{ props.option.photos_count }} fotos
+								</small>
+							</div>
+						</div>
+					</template>
 					</b-autocomplete>
 				</b-field>
 			</div>
@@ -119,7 +133,7 @@
             getAsyncData: debounce(function () {
                 this.filteredPosters = []
                 this.isFetchingPoster = true
-                axios.get('/cartazes/busca?query=' + this.posterText)
+                axios.get('/cartazes?busca=' + this.posterText + '&mostrarFotos=true')
                     .then(response => {
                         response.data.forEach((item) => this.filteredPosters.push(item))
                         this.isFetchingPoster = false

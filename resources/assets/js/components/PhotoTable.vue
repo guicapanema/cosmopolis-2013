@@ -39,7 +39,7 @@
                 </b-table-column>
 
                 <b-table-column field="date" label="Data" sortable>
-					{{ moment(props.row.date).format('DD[/]MM[/]YYYY') }}
+					{{ props.row.date ? moment(props.row.date).format('DD[/]MM[/]YYYY') : '' }}
                 </b-table-column>
 
                 <b-table-column field="city" label="Cidade" sortable>

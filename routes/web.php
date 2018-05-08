@@ -64,9 +64,6 @@ Route::put('/fotos/{photo}/cartazes/{poster}', 'PosterController@updatePhotoRela
 
 Route::delete('/fotos/{photo}/cartazes/{poster}', 'PosterController@detachFromPhoto')->name('poster_detach_from_photo');
 
-Route::get('/cartazes/busca', 'PosterController@search')->name('poster_search');
-
-
 /**** TAG ROUTES ****/
 
 // API routes

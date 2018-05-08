@@ -46,16 +46,19 @@ class PosterController extends Controller
 	 */
 	public function list(Request $request)
 	{
-		if ($request->query('busca') === null) {
-			return Poster::withCount('photos')->get();
+		$posters =  Poster::withCount('photos');
+
+		if($request->query('mostrarFotos') !== null) {
+			$posters = $posters->with('photos');
 		}
 
-		$queryString = '%' . $request->query('busca') . '%';
+		if ($request->query('busca') !== null) {
+			$queryString = '%' . $request->query('busca') . '%';
+			$posters = $posters->orWhere('text', 'ilike', $queryString)
+						->orWhere('type', 'ilike', $queryString);
+		}
 
-		return Poster::withCount('photos')
-					->where('text', 'ilike', $queryString)
-					->where('type', 'ilike', $queryString)
-					->get();
+		return $posters->get();
 	}
 
     /**
@@ -214,16 +217,4 @@ class PosterController extends Controller
 		return $poster;
     }
 
-	/**
-     * Search all resources.
-     *
-     * @param  \App\Poster  $poster
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
-    {
-		$queryString = '%' . $request->query('query') . '%';
-
-        return Poster::where('text', 'ilike', $queryString)->get();
-    }
 }

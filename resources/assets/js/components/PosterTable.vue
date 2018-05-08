@@ -38,6 +38,10 @@
 					</a>
                 </b-table-column>
 
+				<b-table-column field="photos_count" label="Tipo" sortable>
+					{{ props.row.type }}
+                </b-table-column>
+
                 <b-table-column field="photos_count" label="Nº Fotos" sortable numeric>
 					{{ props.row.photos_count }}
                 </b-table-column>
