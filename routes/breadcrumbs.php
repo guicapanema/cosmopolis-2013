@@ -1,19 +1,19 @@
 <?php
 
 // Painel
-Breadcrumbs::register('home', function ($breadcrumbs) {
-    $breadcrumbs->push('Painel', route('home'));
+Breadcrumbs::register('admin', function ($breadcrumbs) {
+    $breadcrumbs->push('Painel', route('admin'));
 });
 
 // Painel > Enviar imagens
 Breadcrumbs::register('photo_create', function ($breadcrumbs) {
-	$breadcrumbs->parent('home');
+	$breadcrumbs->parent('admin');
     $breadcrumbs->push('Enviar imagens', route('photo_create'));
 });
 
 // Painel > Banco de imagens
 Breadcrumbs::register('photo_index', function ($breadcrumbs) {
-	$breadcrumbs->parent('home');
+	$breadcrumbs->parent('admin');
     $breadcrumbs->push('Banco de imagens', route('photo_index'));
 });
 
@@ -25,7 +25,7 @@ Breadcrumbs::register('photo_edit', function ($breadcrumbs, $photo) {
 
 // Painel > Banco de cartazes
 Breadcrumbs::register('poster_index', function ($breadcrumbs) {
-	$breadcrumbs->parent('home');
+	$breadcrumbs->parent('admin');
     $breadcrumbs->push('Banco de cartazes', route('poster_index'));
 });
 

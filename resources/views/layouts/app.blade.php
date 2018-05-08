@@ -71,7 +71,7 @@
 						Geral
 					</p>
 					<ul class="menu-list">
-						<li><a href="/home" class="{{ Request::is('home') ? "is-active" : "" }}">Painel</a></li>
+						<li><a href="/admin" class="{{ Request::is('admin') ? "is-active" : "" }}">Painel</a></li>
 					</ul>
 					<p class="menu-label">
 						Imagens
