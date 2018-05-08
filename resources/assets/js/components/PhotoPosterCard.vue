@@ -17,7 +17,7 @@
 					<template slot-scope="props">
 						<div class="media">
 							<div class="media-left">
-								<img width="64" :src="props.option.photos[0] ? '/fotos/' + props.option.photos[0].id + '/arquivo?tamanho=pequeno' : ''">
+								<img width="64" :src="props.option.photos ? '/fotos/' + props.option.photos[0].id + '/arquivo?tamanho=pequeno' : ''">
 							</div>
 							<div class="media-content">
 								{{ props.option.text }}
@@ -133,7 +133,7 @@
             getAsyncData: debounce(function () {
                 this.filteredPosters = []
                 this.isFetchingPoster = true
-                axios.get('/cartazes?busca=' + this.posterText + '&mostrarFotos=true')
+                axios.get('/cartazes', { params : { busca: this.posterText, mostrarFotos: true } })
                     .then(response => {
                         response.data.forEach((item) => this.filteredPosters.push(item))
                         this.isFetchingPoster = false
