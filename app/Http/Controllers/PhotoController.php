@@ -32,7 +32,7 @@ class PhotoController extends Controller
 		if($photoCount !== null) {
 			$rules['photos'] = 'required';
 			foreach(range(0, $photoCount) as $index) {
-				$rules['photos.' . $index] = 'image|mimes:jpeg,png|max:10000';
+				$rules['photos.' . $index] = 'image|mimes:jpeg,png|max:100000';
 			}
 		}
 		return $rules;
