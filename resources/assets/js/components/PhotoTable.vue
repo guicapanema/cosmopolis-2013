@@ -15,7 +15,7 @@
 				<b-field expanded>
 				</b-field>
 				<p class="control">
-					<button class="button field is-danger" @click="onDeletePhotos()"
+					<button class="button field is-danger" @click="onPhotoDelete()"
 					:disabled="!checkedRows.length">
 					<b-icon icon="trash-alt"></b-icon>
 						<span>Apagar</span>
@@ -103,7 +103,7 @@
 						this.loadingPhotos = false;
 					});
 			},
-			onDeletePhotos() {
+			onPhotoDelete() {
                 this.$dialog.confirm({
                     title: 'Apagar fotos',
                     message: 'Você tem certeza que deseja <b>apagar</b> essas fotos?',

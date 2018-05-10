@@ -8,7 +8,7 @@
 		</div>
 
 		@foreach ($photos as $photo)
-			<photo-edit photo_id="{{$photo->id}}"></photo-edit>
+			<photo-edit photo_id="{{$photo->id}}" is_bulk_edit="true"></photo-edit>
 			<hr></hr>
 		@endforeach
 

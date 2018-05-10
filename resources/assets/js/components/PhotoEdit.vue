@@ -47,7 +47,10 @@
 
 				<div class="field">
 					<p class="control">
-						<button @click="onPhotoSave()" class="button is-success">
+						<button v-if="!is_bulk_edit" @click="onPhotoDelete()" class="button is-outlined is-danger">
+							Apagar
+						</button>
+						<button @click="onPhotoSave()" class="button is-success is-pulled-right">
 							Salvar
 						</button>
 					</p>
@@ -77,7 +80,7 @@
 
 <script>
     export default {
-		props: ['photo_id'],
+		props: ['is_bulk_edit', 'photo_id'],
 
 		data() {
 			return {
@@ -87,6 +90,7 @@
 		},
 
         mounted() {
+			console.debug(this.is_bulk_edit);
             axios.get('/fotos/' + this.photo_id)
 				.then(response => {
 					this.photo = response.data;
@@ -100,6 +104,27 @@
         },
 
 		methods: {
+			deletePhoto() {
+				axios.delete('/fotos/' + this.photo_id)
+					.then(response => {
+						window.location.replace('/fotos/indice');
+					}).catch(error => {
+						this.$toast.open({ message: 'Erro ao apagar imagem', type: 'is-danger', position: 'is-bottom'});
+						throw error;
+					})
+			},
+
+			onPhotoDelete() {
+                this.$dialog.confirm({
+                    title: 'Apagar foto',
+                    message: 'Você tem certeza que deseja <b>apagar</b> essa foto?',
+                    confirmText: 'Apagar foto',
+                    type: 'is-danger',
+                    hasIcon: true,
+                    onConfirm: () => this.deletePhoto()
+	            });
+			},
+
 			onPhotoSave() {
 				axios.put('/fotos/' + this.photo_id, this.photo)
 					.then(response => {
@@ -109,6 +134,7 @@
 						throw error;
 					})
 			},
+
 			onPosterAdd() {
 				this.posters.push({text: '', gender: '', type: '', tags: []});
 			},
