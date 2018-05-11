@@ -75,7 +75,7 @@
 				.then(response => {
 					this.checkedRows = [];
 					this.loadTags();
-					this.$toast.open({ message: 'Cartazes apagados com sucesso!', type: 'is-success', position: 'is-bottom'});
+					this.$toast.open({ message: 'Tags apagadas com sucesso!', type: 'is-success', position: 'is-bottom'});
 				}).catch(error => {
 					this.$toast.open({ message: 'Erro ao apagar tags', type: 'is-danger', position: 'is-bottom'});
 					throw error;
@@ -95,7 +95,7 @@
 			onDeletePosters() {
                 this.$dialog.confirm({
                     title: 'Apagar fotos',
-                    message: 'Você tem certeza que deseja <b>apagar</b> esses tags?',
+                    message: 'Você tem certeza que deseja <b>apagar</b> essas tags?',
                     confirmText: 'Apagar tags',
                     type: 'is-danger',
                     hasIcon: true,

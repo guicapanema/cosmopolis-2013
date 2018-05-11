@@ -25,6 +25,7 @@
 		</div>
 
         <b-table
+			:loading="loadingPhotos"
             :data="photos"
             :checked-rows.sync="checkedRows"
 			default-sort="name"
@@ -55,8 +56,6 @@
                 </b-table-column>
             </template>
         </b-table>
-
-		<b-loading :active.sync="loadingPhotos"></b-loading>
     </div>
 </template>
 
