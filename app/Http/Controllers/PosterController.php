@@ -127,7 +127,7 @@ class PosterController extends Controller
      */
     public function retrieve(Request $request, Poster $poster)
     {
-		return $poster->with('photos', 'tags')->first();
+		return Poster::with('photos', 'tags')->find($poster->id);
     }
 
 	/**
