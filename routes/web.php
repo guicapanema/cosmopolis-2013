@@ -54,6 +54,8 @@ Route::post('/cartazes', 'PosterController@store')->name('poster_store');
 
 Route::get('/cartazes', 'PosterController@list')->name('poster_list');
 
+Route::get('/cartazes/{poster}', 'PosterController@retrieve')->name('poster_retrieve');
+
 Route::put('/cartazes/{poster}', 'PosterController@update')->name('poster_update');
 
 Route::delete('/cartazes/{poster}', 'PosterController@destroy')->name('poster_destroy');

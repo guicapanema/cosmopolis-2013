@@ -90,7 +90,6 @@
 		},
 
         mounted() {
-			console.debug(this.is_bulk_edit);
             axios.get('/fotos/' + this.photo_id)
 				.then(response => {
 					this.photo = response.data;

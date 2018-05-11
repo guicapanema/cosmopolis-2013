@@ -121,9 +121,9 @@ class PosterController extends Controller
      * @param  \App\Poster  $poster
      * @return \Illuminate\Http\Response
      */
-    public function retrieve(Poster $poster)
+    public function retrieve(Request $request, Poster $poster)
     {
-        //
+		return $poster->with('photos', 'tags')->first();
     }
 
 	/**
