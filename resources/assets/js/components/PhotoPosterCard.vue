@@ -2,59 +2,66 @@
 	<div class="box">
 		<div class="columns">
 			<div class="column content is-two-thirds">
-				<h5>Texto</h5>
-				<b-field>
-					<b-autocomplete
-					v-model="posterText"
-					:data="filteredPosters"
-					placeholder="Digite o texto para começar a busca"
-					field="text"
-					:loading="isFetchingPoster"
-					@input="getAsyncData"
-					@select="onPosterSelect"
-					:disabled="selectedPoster"
-					required>
-					<template slot-scope="props">
-						<div class="media">
-							<div class="media-left">
-								<img width="64" :src="(props.option.photos && props.option.photos.length) ? '/fotos/' + props.option.photos[0].id + '/arquivo?tamanho=pequeno' : ''">
-							</div>
-							<div class="media-content">
-								{{ props.option.text }}
-								<br>
-								<small>
-									Aparece em {{ props.option.photos_count }} fotos
-								</small>
-							</div>
-						</div>
-					</template>
-					</b-autocomplete>
+				<b-field label="Texto" expanded>
+					<b-field expanded>
+						<b-autocomplete
+							v-model="posterText"
+							:data="filteredPosters"
+							placeholder="Digite o texto para começar a busca"
+							field="text"
+							:loading="isFetchingPoster"
+							@input="getAsyncData"
+							@select="onPosterSelect"
+							:disabled="selectedPoster" expanded>
+							<template slot-scope="props">
+								<div class="media">
+									<div class="media-left" @click.stop="onPosterPhotoClick(props.option.photos)">
+										<img width="64" :src="(props.option.photos && props.option.photos.length) ? '/fotos/' + props.option.photos[0].id + '/arquivo?tamanho=pequeno' : ''">
+									</div>
+									<div class="media-content">
+										{{ props.option.text }}
+										<br>
+										<small>
+											{{ props.option.type }} | aparece em {{ props.option.photos_count }} fotos
+										</small>
+									</div>
+								</div>
+							</template>
+						</b-autocomplete>
+						<p v-if="!selectedPoster" class="control">
+							<button @click="onPosterCreate()" class="button is-success" :disabled="!posterText.length">
+								Criar cartaz
+							</button>
+						</p>
+					</b-field>
 				</b-field>
 			</div>
-			<div v-if="posterText.length && !selectedPoster">
+			<!-- <div v-if="posterText.length && !selectedPoster">
 				<button @click="onPosterCreate()" class="button is-success">
 					Criar cartaz
 				</button>
-			</div>
+			</div> -->
 			<div v-if="selectedPoster" class="column content">
-				<h5>Gênero</h5>
-	            <b-radio
-					v-model="selectedPoster.pivot.gender"
-					@input="onPivotUpdate"
-	                native-value="male">
-	                Masculino
-	            </b-radio>
-	            <b-radio v-model="selectedPoster.pivot.gender"
-					@input="onPivotUpdate"
-	                native-value="female">
-	                Feminino
-	            </b-radio>
+				<b-field label="Gênero">
+					<div>
+			            <b-radio
+							v-model="selectedPoster.pivot.gender"
+							@input="onPivotUpdate"
+			                native-value="male">
+			                Masculino
+			            </b-radio>
+			            <b-radio v-model="selectedPoster.pivot.gender"
+							@input="onPivotUpdate"
+			                native-value="female">
+			                Feminino
+			            </b-radio>
+					</div>
+				</b-field>
 			</div>
 		</div>
 		<div v-if="selectedPoster" class="columns">
 			<div class="column is-two-thirds content">
-				<h5>Tags</h5>
-				<b-field>
+				<b-field label="Tags">
 					<b-taginput
 						v-model="selectedPoster.tags"
 						:data="filteredTags"
@@ -71,8 +78,7 @@
 				</b-field>
 			</div>
 			<div v-if="selectedPoster" class="column content">
-				<h5>Tipo</h5>
-				<b-field>
+				<b-field label="Tipo">
 					<b-select
 						v-model="selectedPoster.type"
 						@input="posterUpdate"
@@ -98,8 +104,13 @@
 			</div>
         </div>
 		<div class="content has-text-right">
-			<a @click="onPosterRemove()">Remover</a>
+			<button class="button is-danger is-outlined is-small" @click="onPosterRemove()">
+				Remover
+			</button>
 		</div>
+		<b-modal :active.sync="isPhotoModalActive">
+				<img :src="'/fotos/' + previewPhoto.id + '/arquivo?tamanho=grande'">
+        </b-modal>
 	</div>
 </template>
 
@@ -116,7 +127,9 @@
 				filteredPosters: [],
                 filteredTags: [],
 				isFetchingPoster: false,
+				isPhotoModalActive: false,
 				posterText: '',
+				previewPhoto: {},
 				selectedPoster: null,
 				tags: []
             }
@@ -173,6 +186,13 @@
 							this.$toast.open({ message: 'Erro ao criar cartaz', type: 'is-danger', position: 'is-bottom'});
 							throw error;
 						});
+				}
+			},
+
+			onPosterPhotoClick(photos) {
+				if(photos && photos.length) {
+					this.previewPhoto = photos[0];
+					this.isPhotoModalActive = true;
 				}
 			},
 

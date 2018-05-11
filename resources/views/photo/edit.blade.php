@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+	{{ Breadcrumbs::render('photo_edit', $photo) }}
 	<div id="app" class="has-margin-50">
-		{{ Breadcrumbs::render('photo_edit', $photo) }}
 
 		<div class="content has-text-centered">
 			<h3>Editar imagem</h3>
