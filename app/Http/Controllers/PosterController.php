@@ -58,6 +58,10 @@ class PosterController extends Controller
 						->orWhere('type', 'ilike', $queryString);
 		}
 
+		if ($request->query('limite') !== null) {
+			$posters = $posters->limit($request->query('limite'));
+		}
+
 		return $posters->get();
 	}
 
