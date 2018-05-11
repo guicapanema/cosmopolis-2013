@@ -37,9 +37,9 @@
 						<a class="navbar-item" href="{{ route('login') }}">
 							<span>{{ __('Login') }}</span>
 						</a>
-						<a class="navbar-item" href="{{ route('register') }}">
+						{{-- <a class="navbar-item" href="{{ route('register') }}">
 							<span>Registrar</span>
-						</a>
+						</a> --}}
 					@else
 						<div class="navbar-item has-dropdown is-hoverable">
 							<a class="navbar-link">
@@ -85,6 +85,12 @@
 					</p>
 					<ul class="menu-list">
 						<li><a href="{{ route('poster_index') }}" class="{{ Request::is('cartazes/indice') ? "is-active" : "" }}">Listar cartazes</a></li>
+					</ul>
+					<p class="menu-label">
+						Tags
+					</p>
+					<ul class="menu-list">
+						<li><a href="{{ route('tag_index') }}" class="{{ Request::is('tags/indice') ? "is-active" : "" }}">Listar tags</a></li>
 					</ul>
 				</aside>
 			</div>

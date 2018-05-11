@@ -7,9 +7,9 @@
 						placeholder="buscar..."
 		                type="search"
 		                icon="search"
-						@keyup.native.enter="loadPosters()">
+						@keyup.native.enter="loadTags()">
 		            </b-input>
-		            <p class="control" @click="loadPosters()">
+		            <p class="control" @click="loadTags()">
 		                <button class="button is-primary">Buscar</button>
 		            </p>
 		        </b-field>
@@ -26,8 +26,8 @@
 		</div>
 
         <b-table
-			:loading="loadingPosters"
-            :data="posters"
+			:loading="loadingTags"
+            :data="tags"
             :checked-rows.sync="checkedRows"
 			default-sort="name"
 			:default-sort-direction="'asc'"
@@ -35,17 +35,13 @@
             checkable>
 			<template slot-scope="props">
                 <b-table-column field="name" label="Texto" sortable>
-                    <a :href="'/cartazes/' + props.row.id + '/editar'">
+                    <a :href="'/tags/' + props.row.id + '/editar'">
 						{{ props.row.text }}
 					</a>
                 </b-table-column>
 
-				<b-table-column field="photos_count" label="Tipo" sortable>
-					{{ props.row.type }}
-                </b-table-column>
-
-                <b-table-column field="photos_count" label="Nº Fotos" sortable numeric>
-					{{ props.row.photos_count }}
+                <b-table-column field="posters_count" label="Nº Cartazes" sortable numeric>
+					{{ props.row.posters_count }}
                 </b-table-column>
             </template>
         </b-table>
@@ -58,52 +54,52 @@
         data() {
             return {
                 checkedRows: [],
-				loadingPosters: true,
+				loadingTags: true,
 				moment: moment,
-				posters: [],
+				tags: [],
 				searchText: null
             }
         },
 
 		mounted() {
-			this.loadPosters();
+			this.loadTags();
 		},
 
 		methods: {
-			deletePosters() {
+			deleteTags() {
 				let requests = [];
 				for (let row of this.checkedRows) {
-					requests.push(axios.delete('/cartazes/' + row.id));
+					requests.push(axios.delete('/tags/' + row.id));
 				}
 				axios.all(requests)
 				.then(response => {
 					this.checkedRows = [];
-					this.loadPosters();
+					this.loadTags();
 					this.$toast.open({ message: 'Cartazes apagados com sucesso!', type: 'is-success', position: 'is-bottom'});
 				}).catch(error => {
-					this.$toast.open({ message: 'Erro ao apagar cartazes', type: 'is-danger', position: 'is-bottom'});
+					this.$toast.open({ message: 'Erro ao apagar tags', type: 'is-danger', position: 'is-bottom'});
 					throw error;
 				})
 			},
-			loadPosters() {
-				this.loadingPosters = true;
-				axios.get('/cartazes', { params: { busca: this.searchText }})
+			loadTags() {
+				this.loadingTags = true;
+				axios.get('/tags', { params: { busca: this.searchText }})
 					.then(response => {
-						this.posters = response.data;
-						this.loadingPosters = false;
+						this.tags = response.data;
+						this.loadingTags = false;
 					}).catch(error => {
-						this.$toast.open({ message: 'Erro ao carregar cartazes', type: 'is-danger', position: 'is-bottom'});
-						this.loadingPosters = false;
+						this.$toast.open({ message: 'Erro ao carregar tags', type: 'is-danger', position: 'is-bottom'});
+						this.loadingTags = false;
 					});
 			},
 			onDeletePosters() {
                 this.$dialog.confirm({
                     title: 'Apagar fotos',
-                    message: 'Você tem certeza que deseja <b>apagar</b> esses cartazes?',
-                    confirmText: 'Apagar cartazes',
+                    message: 'Você tem certeza que deseja <b>apagar</b> esses tags?',
+                    confirmText: 'Apagar tags',
                     type: 'is-danger',
                     hasIcon: true,
-                    onConfirm: () => this.deletePosters()
+                    onConfirm: () => this.deleteTags()
                 })
             }
 		}

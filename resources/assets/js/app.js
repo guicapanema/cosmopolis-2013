@@ -23,6 +23,7 @@ Vue.use(Buefy, {defaultIconPack: 'fas'});
 
 Vue.component('poster-table', require('./components/PosterTable.vue'));
 Vue.component('photo-table', require('./components/PhotoTable.vue'));
+Vue.component('tag-table', require('./components/TagTable.vue'));
 Vue.component('poster-edit', require('./components/PosterEdit.vue'));
 Vue.component('photo-edit', require('./components/PhotoEdit.vue'));
 Vue.component('photo-poster-card', require('./components/PhotoPosterCard.vue'));

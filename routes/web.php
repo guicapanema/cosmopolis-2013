@@ -70,8 +70,18 @@ Route::delete('/fotos/{photo}/cartazes/{poster}', 'PosterController@detachFromPh
 
 /**** TAG ROUTES ****/
 
+Route::get('/tags/indice', 'TagController@index')->name('tag_index');
+
+Route::get('/tags/{tag}/editar', 'TagController@edit')->name('tag_edit');
+
 // API routes
+
+Route::post('/tags', 'TagController@store')->name('tag_store');
 
 Route::get('/tags', 'TagController@list')->name('tag_list');
 
-Route::post('/tags', 'TagController@store')->name('tag_store');
+Route::get('/tags/{tag}', 'TagController@retrieve')->name('tag_retrieve');
+
+Route::put('/tags/{tag}', 'TagController@update')->name('tag_update');
+
+Route::delete('/tags/{tag}', 'TagController@destroy')->name('tag_destroy');

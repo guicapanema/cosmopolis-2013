@@ -34,3 +34,15 @@ Breadcrumbs::register('poster_edit', function ($breadcrumbs, $poster) {
 	$breadcrumbs->parent('poster_index');
     $breadcrumbs->push('Editar cartaz', route('poster_edit', $poster->id));
 });
+
+// Painel > Banco de tags
+Breadcrumbs::register('tag_index', function ($breadcrumbs) {
+	$breadcrumbs->parent('admin');
+    $breadcrumbs->push('Banco de tags', route('tag_index'));
+});
+
+// Painel > Banco de cartazes > Editar cartaz
+Breadcrumbs::register('tag_edit', function ($breadcrumbs, $tag) {
+	$breadcrumbs->parent('tag_index');
+    $breadcrumbs->push('Editar tag', route('tag_edit', $tag->id));
+});

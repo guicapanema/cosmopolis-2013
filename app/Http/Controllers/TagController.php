@@ -33,7 +33,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        //
+		return view('tag.index');
     }
 
 	/**
@@ -41,9 +41,25 @@ class TagController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function list()
+	public function list(Request $request)
 	{
-		return Tag::all();
+		$tags =  Tag::withCount('posters');
+
+		if($request->query('mostrarCartazes') !== null) {
+			$tags = $tags->with('posters');
+		}
+
+		if ($request->query('busca') !== null) {
+			$queryString = '%' . $request->query('busca') . '%';
+			$tags = $tags->orWhere('text', 'ilike', $queryString);
+		}
+
+		if ($request->query('limite') !== null) {
+			$tags = $tags->limit($request->query('limite'));
+		}
+
+		return $tags->get();
+
 	}
 
     /**
@@ -69,7 +85,7 @@ class TagController extends Controller
      */
     public function edit(Tag $tag)
     {
-        //
+		return view('tag.edit', compact('tag'));
     }
 
     /**
@@ -81,7 +97,11 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
-        //
+		$this->validate(request(), $this->rules());
+
+		$tag = $tag->update(request(['text']));
+
+		return $this->index();
     }
 
     /**
@@ -92,6 +112,9 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        //
+		$tag->posters()->detach();
+		$tag->delete();
+
+		return $tag;
     }
 }
