@@ -198,16 +198,18 @@ class PhotoController extends Controller
 		$this->validate(request(), $this->rules());
 
 		$date = null;
+
 		if(request('date') !== null) {
 			$date = Carbon::createFromFormat('d/m/Y', request('date'));
 		}
 
 		$photo->update([
 			'name' => request('name'),
-			'date' => $date,
+			'date' => $date ? $date : $photo->date,
 			'city' => request('city'),
 			'photographer' => request('photographer'),
 			'license' => request('license'),
+			'is_verified' => request('is_verified') ? request('is_verified') : $photo->is_verified,
 		]);
 
 		return $photo;

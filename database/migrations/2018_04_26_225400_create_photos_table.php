@@ -20,7 +20,8 @@ class CreatePhotosTable extends Migration
 			$table->date('date')->nullable();
 			$table->string('city')->nullable();
 			$table->string('photographer')->nullable();
-            $table->string('license')->nullable();
+			$table->string('license')->nullable();
+            $table->boolean('is_verified')->default(false);
 			$table->softDeletes();
             $table->timestamps();
         });

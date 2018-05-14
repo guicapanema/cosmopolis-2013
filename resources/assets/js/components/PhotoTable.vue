@@ -6,7 +6,8 @@
 		            <b-input v-model="searchText"
 						placeholder="nome/cidade/fotógrafo"
 		                type="search"
-		                icon="search">
+		                icon="search"
+						@keyup.native.enter="loadPhotos()">
 		            </b-input>
 		            <p class="control" @click="loadPhotos()">
 		                <button class="button is-primary">Buscar</button>
@@ -40,7 +41,7 @@
                 </b-table-column>
 
                 <b-table-column field="date" label="Data" sortable>
-					{{ props.row.date ? moment(props.row.date).format('DD[/]MM[/]YYYY') : '' }}
+					{{ props.row.date }}
                 </b-table-column>
 
                 <b-table-column field="city" label="Cidade" sortable>
@@ -49,6 +50,11 @@
 
                 <b-table-column field="photographer" label="Fotógrafo" sortable>
 					{{ props.row.photographer }}
+                </b-table-column>
+
+				<b-table-column field="is_verified" label="Verificado?" centered sortable>
+					<b-switch :value="props.row.is_verified" @click.native="onPhotoVerify(props.row)">
+		            </b-switch>
                 </b-table-column>
 
                 <b-table-column field="posters_count" label="Nº Cartazes" sortable numeric>
@@ -96,6 +102,9 @@
 				axios.get('/fotos', { params: { busca: this.searchText }})
 					.then(response => {
 						this.photos = response.data;
+						for (let photo of this.photos) {
+							photo.date = photo.date ? moment(photo.date).format('DD[/]MM[/]YYYY') : '';
+						}
 						this.loadingPhotos = false;
 					}).catch(error => {
 						this.$toast.open({ message: 'Erro ao carregar imagens', type: 'is-danger', position: 'is-bottom'});
@@ -111,7 +120,17 @@
                     hasIcon: true,
                     onConfirm: () => this.deletePhotos()
                 })
-            }
+            },
+			onPhotoVerify(photo) {
+				photo.is_verified = !photo.is_verified;
+				axios.put('/fotos/' + photo.id, photo)
+					.then(response => {
+						this.$toast.open({ message: 'Imagem atualizada!', type: 'is-success', position: 'is-bottom'});
+					}).catch(error => {
+						photo.is_verified = !photo.is_verified;
+						this.$toast.open({ message: 'Erro ao atualizar imagem', type: 'is-danger', position: 'is-bottom'});
+					});
+			}
 		}
     }
 </script>
