@@ -8,6 +8,11 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 </head>
 <body>
-Em construção
+	<div style="width: 60%; margin: auto">
+		<img src="/images/home.jpg" style="width: 100%"></img>
+	</div>
+	<div style="text-align: center; margin-top: 2em; font-family: helvetica; text-transform: uppercase">
+		<h1>Em construção</h1>
+	</div>
 </body>
 </html>
