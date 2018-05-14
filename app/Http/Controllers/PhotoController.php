@@ -212,7 +212,7 @@ class PhotoController extends Controller
 			'city' => request('city'),
 			'photographer' => request('photographer'),
 			'license' => request('license'),
-			'is_verified' => request('is_verified') ? request('is_verified') : $photo->is_verified,
+			'is_verified' => request('is_verified') !== null ? request('is_verified') : $photo->is_verified,
 		]);
 
 		return $photo;

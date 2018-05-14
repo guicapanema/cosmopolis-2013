@@ -103,7 +103,7 @@
 		        </b-field>
 			</div>
         </div>
-		<div class="content">
+		<div v-if="selectedPoster" class="content">
 			<a :href="'/cartazes/' + selectedPoster.id + '/editar'">Ver cartaz</a>
 			<button class="button is-danger is-outlined is-small is-pulled-right" @click="onPosterRemove()">
 				Remover
