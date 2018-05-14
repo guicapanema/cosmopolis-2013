@@ -103,8 +103,9 @@
 		        </b-field>
 			</div>
         </div>
-		<div class="content has-text-right">
-			<button class="button is-danger is-outlined is-small" @click="onPosterRemove()">
+		<div class="content">
+			<a :href="'/cartazes/' + selectedPoster.id + '/editar'">Ver cartaz</a>
+			<button class="button is-danger is-outlined is-small is-pulled-right" @click="onPosterRemove()">
 				Remover
 			</button>
 		</div>
