@@ -3,7 +3,7 @@
 		<div>
 			<b-field grouped>
 				<b-field>
-		            <b-input v-model="searchText"
+		            <b-input v-model="params.busca"
 						placeholder="nome/cidade/fotógrafo"
 		                type="search"
 		                icon="search"
@@ -26,13 +26,22 @@
 		</div>
 
         <b-table
+			:data="photos"
 			:loading="loadingPhotos"
-            :data="photos"
-            :checked-rows.sync="checkedRows"
-			default-sort="name"
-			:default-sort-direction="'asc'"
-			:paginated="true"
-            checkable>
+
+			paginated
+			backend-pagination
+			:total="params.total"
+			:per-page="params.per_page"
+			@page-change="onPageChange"
+
+			backend-sorting
+            default-sort-direction="asc"
+            :default-sort="[params.sortBy, params.sortOrder]"
+			@sort="onSort"
+
+			:checked-rows.sync="checkedRows"
+			checkable>
 			<template slot-scope="props">
                 <b-table-column field="name" label="Nome" sortable>
                     <a :href="'/fotos/' + props.row.id + '/editar'">
@@ -52,7 +61,7 @@
 					{{ props.row.photographer }}
                 </b-table-column>
 
-				<b-table-column field="is_verified" label="Verificado?" centered sortable>
+				<b-table-column field="is_verified" label="Verificada?" centered sortable>
 					<b-switch :value="props.row.is_verified" @click.native="onPhotoVerify(props.row)">
 		            </b-switch>
                 </b-table-column>
@@ -73,7 +82,14 @@
 				loadingPhotos: true,
 				moment: moment,
 				photos: [],
-				searchText: null
+				params: {
+					busca: null,
+					page: 1,
+					total: 0,
+					per_page: 20,
+					sortBy: 'name',
+					sortOrder: 'asc'
+				}
             }
         },
 
@@ -97,11 +113,16 @@
 					throw error;
 				})
 			},
+
 			loadPhotos() {
 				this.loadingPhotos = true;
-				axios.get('/fotos', { params: { busca: this.searchText }})
+				axios.get('/fotos', { params: this.params})
 					.then(response => {
-						this.photos = response.data;
+						this.photos = response.data.data;
+						this.params.page = response.data.current_page;
+						this.params.total = response.data.total;
+						this.params.per_page = response.data.per_page;
+
 						for (let photo of this.photos) {
 							photo.date = photo.date ? moment(photo.date).format('DD[/]MM[/]YYYY') : '';
 						}
@@ -111,6 +132,12 @@
 						this.loadingPhotos = false;
 					});
 			},
+
+			onPageChange(page) {
+				this.params.page = page;
+				this.loadPhotos();
+			},
+
 			onPhotoDelete() {
                 this.$dialog.confirm({
                     title: 'Apagar fotos',
@@ -121,6 +148,7 @@
                     onConfirm: () => this.deletePhotos()
                 })
             },
+
 			onPhotoVerify(photo) {
 				photo.is_verified = !photo.is_verified;
 				axios.put('/fotos/' + photo.id, photo)
@@ -130,7 +158,13 @@
 						photo.is_verified = !photo.is_verified;
 						this.$toast.open({ message: 'Erro ao atualizar imagem', type: 'is-danger', position: 'is-bottom'});
 					});
-			}
+			},
+
+			onSort(field, order) {
+                this.params.sortBy = field;
+                this.params.sortOrder = order;
+                this.loadPhotos();
+            },
 		}
     }
 </script>

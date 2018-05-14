@@ -62,7 +62,13 @@ class PosterController extends Controller
 			$posters = $posters->limit($request->query('limite'));
 		}
 
-		return $posters->get();
+		if ($request->query('sortBy') !== null) {
+			$sortOrder = $request->query('sortOrder') ? $request->query('sortOrder') : 'asc';
+			$posters = $posters->orderBy($request->query('sortBy'), $sortOrder);
+		}
+
+		return $posters->paginate(20);
+
 	}
 
     /**

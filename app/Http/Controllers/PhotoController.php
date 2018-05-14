@@ -59,18 +59,21 @@ class PhotoController extends Controller
      */
     public function list(Request $request)
     {
-		if ($request->query('busca') === null) {
-			return Photo::withCount('posters')->get();
+		$photos =  Photo::withCount('posters');
+
+		if ($request->query('busca') !== null) {
+			$queryString = '%' . $request->query('busca') . '%';
+			$photos = $photos->orWhere('name', 'ilike', $queryString)
+							->orWhere('city', 'ilike', $queryString)
+							->orWhere('photographer', 'ilike', $queryString);
 		}
 
-		$queryString = '%' . $request->query('busca') . '%';
+		if ($request->query('sortBy') !== null) {
+			$sortOrder = $request->query('sortOrder') ? $request->query('sortOrder') : 'asc';
+			$photos = $photos->orderBy($request->query('sortBy'), $sortOrder);
+		}
 
-        return Photo::withCount('posters')
-					->orWhere('name', 'ilike', $queryString)
-					->orWhere('city', 'ilike', $queryString)
-					->orWhere('photographer', 'ilike', $queryString)
-					->get();
-
+		return $photos->paginate(20);
     }
 
     /**

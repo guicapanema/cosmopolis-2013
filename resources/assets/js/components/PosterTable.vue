@@ -3,7 +3,7 @@
 		<div>
 			<b-field grouped>
 				<b-field>
-		            <b-input v-model="searchText"
+		            <b-input v-model="params.busca"
 						placeholder="buscar..."
 		                type="search"
 		                icon="search"
@@ -26,15 +26,24 @@
 		</div>
 
         <b-table
+			:data="posters"
 			:loading="loadingPosters"
-            :data="posters"
-            :checked-rows.sync="checkedRows"
-			default-sort="name"
-			:default-sort-direction="'asc'"
-			:paginated="true"
+
+			paginated
+			backend-pagination
+			:total="params.total"
+			:per-page="params.per_page"
+			@page-change="onPageChange"
+
+			backend-sorting
+            default-sort-direction="asc"
+            :default-sort="[params.sortBy, params.sortOrder]"
+			@sort="onSort"
+
+			:checked-rows.sync="checkedRows"
             checkable>
 			<template slot-scope="props">
-                <b-table-column field="name" label="Texto" sortable>
+                <b-table-column field="text" label="Texto" sortable>
                     <a :href="'/cartazes/' + props.row.id + '/editar'">
 						{{ props.row.text }}
 					</a>
@@ -61,7 +70,14 @@
 				loadingPosters: true,
 				moment: moment,
 				posters: [],
-				searchText: null
+				params: {
+					busca: null,
+					page: 1,
+					total: 0,
+					per_page: 20,
+					sortBy: 'text',
+					sortOrder: 'asc'
+				}
             }
         },
 
@@ -85,17 +101,22 @@
 					throw error;
 				})
 			},
+
 			loadPosters() {
 				this.loadingPosters = true;
-				axios.get('/cartazes', { params: { busca: this.searchText }})
+				axios.get('/cartazes', { params: this.params})
 					.then(response => {
-						this.posters = response.data;
+						this.posters = response.data.data;
+						this.params.page = response.data.current_page;
+						this.params.total = response.data.total;
+						this.params.per_page = response.data.per_page;
 						this.loadingPosters = false;
 					}).catch(error => {
 						this.$toast.open({ message: 'Erro ao carregar cartazes', type: 'is-danger', position: 'is-bottom'});
 						this.loadingPosters = false;
 					});
 			},
+
 			onDeletePosters() {
                 this.$dialog.confirm({
                     title: 'Apagar fotos',
@@ -105,7 +126,18 @@
                     hasIcon: true,
                     onConfirm: () => this.deletePosters()
                 })
-            }
+            },
+
+			onPageChange(page) {
+				this.params.page = page;
+				this.loadPosters();
+			},
+
+			onSort(field, order) {
+                this.params.sortBy = field;
+                this.params.sortOrder = order;
+                this.loadPosters();
+            },
 		}
     }
 </script>

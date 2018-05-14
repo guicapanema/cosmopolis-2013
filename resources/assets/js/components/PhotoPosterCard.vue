@@ -148,7 +148,7 @@
                 this.isFetchingPoster = true
                 axios.get('/cartazes', { params : { busca: this.posterText, mostrarFotos: true, limite: 10 } })
                     .then(response => {
-                        response.data.forEach((item) => this.filteredPosters.push(item))
+                        response.data.data.forEach((item) => this.filteredPosters.push(item))
                         this.isFetchingPoster = false
                     })
                     .catch((error) => {
