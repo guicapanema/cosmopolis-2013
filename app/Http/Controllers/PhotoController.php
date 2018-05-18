@@ -17,7 +17,7 @@ class PhotoController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['list', 'retrieve', 'retrieveFile']]);
     }
 
 	public function rules($photoCount = null)
@@ -60,6 +60,11 @@ class PhotoController extends Controller
     public function list(Request $request)
     {
 		$photos =  Photo::withCount('posters');
+		$perPage = 20;
+
+		if ($request->query('per_page') !== null) {
+			$perPage = $request->query('per_page');
+		}
 
 		if ($request->query('busca') !== null) {
 			$queryString = '%' . $request->query('busca') . '%';
@@ -73,7 +78,7 @@ class PhotoController extends Controller
 			$photos = $photos->orderBy($request->query('sortBy'), $sortOrder);
 		}
 
-		return $photos->paginate(20);
+		return $photos->paginate($perPage);
     }
 
     /**
@@ -167,15 +172,28 @@ class PhotoController extends Controller
     {
 		$file = Storage::disk('public')->get('/' . $photo->path);
 
+		$small = 250;
+		$medium = 500;
+		$big = 1000;
+		$ratio = 2/3;
+
+		$image = Image::make($file);
+
 		if ($request->query('tamanho') == 'pequeno') {
-			return Image::make($file)->widen(250)->response();
+			$image->widen($small);
 		} else if ($request->query('tamanho') == 'medio') {
-			return Image::make($file)->widen(500)->response();
+			$image->widen($medium);
 		} else if ($request->query('tamanho') == 'grande') {
-			return Image::make($file)->widen(1000)->response();
+			$image->widen($big);
 		}
 
-		return $file;
+		if($request->query('recortar') !== null) {
+			$width = $image->width();
+			$image->crop($width, floor($width * $ratio));
+		}
+
+		return $image->response();
+
     }
 
     /**

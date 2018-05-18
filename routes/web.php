@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
+Route::view('/', 'construcao');
+
+Route::get('/inicio', 'HomeController@index');
 
 Auth::routes();
 
