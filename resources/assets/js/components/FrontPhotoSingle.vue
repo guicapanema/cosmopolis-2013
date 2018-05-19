@@ -1,57 +1,92 @@
 <template>
-    <div class="has-margin-100">
-        <div class="columns is-multiline">
-			<div v-for="photo of photos" class="column is-one-third">
-				<figure class="image is-3by2 is-marginless">
-					<img :src="'/fotos/' + photo.id + '/arquivo?tamanho=pequeno&recortar=true'"></img>
-				</figure>
+    <div>
+		<figure class="image">
+	        <img v-if="photo.id" :src="'/fotos/' + photo.id + '/arquivo?tamanho=grande'" width="100%"></img>
+		</figure>
+		<div class="section single-photo-data has-text-grey-lighter">
+			<div class="container">
+				<div class="columns">
+					<div class="column is-two-thirds">
+						<button class="button is-outlined is-inverted">CARTAZES</button>
+						<div v-for="poster of posters" class="content has-margin-top-200">
+							<h2 class="title is-marginless has-text-white is-uppercase">{{ poster.text }}</h2>
+							<div>
+								<span v-if="poster.pivot.gender">
+									<span class="has-text-grey">Gênero</span>
+									<span class="has-text-grey-lighter">{{ poster.pivot.gender === 'male' ? 'masculino' : 'feminino' }}</span>
+								</span>
+								<span v-if="poster.type">
+									<span class="has-text-grey">Tipo</span>
+									<span class="has-text-grey-lighter">{{ poster.type }}</span>
+								</span>
+							</div>
+							<div v-if="poster.tags.length">
+								<span class="has-text-grey">Tags</span>
+								<span v-for="tag of poster.tags" class="has-text-grey-lighter">
+									{{ tag.text }}
+									,&nbsp;
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="column is-one-third photo-description">
+						<div v-if="photo.date" class="content">
+							<h2 class="title is-marginless has-text-white is-uppercase">Data</h2>
+							<hr class="title-underline"></hr>
+							<div>{{ photo.date }}</div>
+						</div>
+						<div v-if="photo.city" class="content">
+							<h2 class="title is-marginless has-text-white is-uppercase">Cidade</h2>
+							<hr class="title-underline"></hr>
+							<div>{{ photo.city }}</div>
+						</div>
+						<div v-if="photo.photographer" class="content">
+							<h2 class="title is-marginless has-text-white is-uppercase">Fotógrafo</h2>
+							<hr class="title-underline"></hr>
+							<div>{{ photo.photographer }}</div>
+						</div>
+						<div v-if="photo.license" class="content">
+							<h2 class="title is-marginless has-text-white is-uppercase">Licença de Uso</h2>
+							<hr class="title-underline"></hr>
+							<div>{{ photo.license }}</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		<infinite-loading v-if="this.photos.length < params.total"@infinite="loadPhotos"></infinite-loading>
     </div>
 </template>
 
 <script>
-	import InfiniteLoading from 'vue-infinite-loading';
-
 	export default {
 
 		data() {
             return {
-				photos: [],
-				params: {
-					busca: null,
-					page: 1,
-					total: 0,
-					per_page: 21,
-					sortBy: 'name',
-					sortOrder: 'asc'
-				}
+				photo: {},
+				posters: [],
+				loadingPhoto: false
             }
         },
 
         mounted() {
-            this.loadPhotos();
+            this.loadPhoto();
+
+			axios.get('/fotos/' + this.$route.params.foto + '/cartazes?showTags=true')
+				.then(response => {
+					this.posters = response.data;
+				});
         },
 
 		methods: {
-			loadPhotos($state) {
-				this.loadingPhotos = true;
-				axios.get('/fotos', { params: this.params})
+			loadPhoto() {
+				this.loadingPhoto = true;
+				axios.get('/fotos/' + this.$route.params.foto)
 					.then(response => {
-						this.params.page = response.data.current_page;
-						this.params.total = response.data.total;
-						this.params.per_page = response.data.per_page;
-
-						for (let photo of response.data.data) {
-							// photo.date = photo.date ? moment(photo.date).format('DD[/]MM[/]YYYY') : '';
-							this.photos.push(photo);
-						}
-						if ($state) $state.loaded();
-						this.params.page++;
+						this.photo = response.data
+						this.loadingPhoto = false;
 					}).catch(error => {
-						if ($state) $state.loaded();
 						console.error(error);
+						this.loadingPhoto = false;
 					});
 			}
 		}

@@ -3,7 +3,9 @@
         <div class="columns is-multiline">
 			<div v-for="photo of photos" class="column is-one-third">
 				<figure class="image is-3by2 is-marginless">
-					<img :src="'/fotos/' + photo.id + '/arquivo?tamanho=pequeno&recortar=true'"></img>
+					<router-link :to="'/foto/' + photo.id">
+						<img :src="'/fotos/' + photo.id + '/arquivo?tamanho=pequeno&recortar=true'"></img>
+					</router-link>
 				</figure>
 			</div>
 		</div>

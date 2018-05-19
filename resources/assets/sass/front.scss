@@ -2,5 +2,23 @@
 @import "~bulma/bulma";
 
 .has-margin-100 {
-	margin: 1em;
+	margin: 1rem;
+}
+
+.has-margin-top-200 {
+	margin-top: 2rem;
+}
+
+.single-photo-data {
+	background-color: rgb(77,77,77);
+}
+
+.photo-description {
+	border-left: 1px solid white;
+}
+
+
+hr.title-underline {
+	margin: 1rem 0;
+	width: 60%;
 }

@@ -8,7 +8,9 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+import VueRouter from 'vue-router';
 
+Vue.use(VueRouter);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -16,8 +18,28 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('front-photo-list', require('./components/FrontPhotoList.vue'));
+const frontPage = Vue.component('front-page', require('./components/FrontPage.vue'));
+const frontSidebar = Vue.component('front-sidebar', require('./components/FrontSidebar.vue'));
+const frontPhotoList = Vue.component('front-photo-list', require('./components/FrontPhotoList.vue'));
+const frontPhotoSingle = Vue.component('front-photo-single', require('./components/FrontPhotoSingle.vue'));
+
+const routes = [
+	{
+		path: '/',
+		component: frontPage
+  	},
+	{
+		path: '/foto/:foto',
+		component: frontPhotoSingle
+  	}
+]
+
+const router = new VueRouter({
+	mode: 'history',
+	base: '/inicio',
+	routes
+})
 
 const app = new Vue({
-    el: '#app'
-});
+	router
+}).$mount('#app')
