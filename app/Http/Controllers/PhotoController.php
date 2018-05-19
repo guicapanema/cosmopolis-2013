@@ -114,19 +114,6 @@ class PhotoController extends Controller
 
 			$filePath = $photo->store($pathBase, 'public');
 
-			// $parts = explode('/', $filePath);
-			// $fileName = explode('.', end($parts))[0];
-			// $fileExtension = explode('.', end($parts))[1];
-			//
-			// $bigPhoto = Image::make($photo)->widen(1000);
-			// $bigPhoto->save($pathPrefix . $pathBase . '/' . $fileName . '-big.' . $fileExtension);
-			//
-			// $mediumPhoto = Image::make($photo)->widen(500);
-			// $mediumPhoto->save($pathPrefix . $pathBase . '/' . $fileName . '-medium.' . $fileExtension);
-			//
-			// $smallPhoto = Image::make($photo)->widen(200);
-			// $smallPhoto->save($pathPrefix . $pathBase . '/' . $fileName . '-small.' . $fileExtension);
-
             $createdPhoto = Photo::create([
 				'path' => $filePath,
 				'name' => $photo->getClientOriginalName(),
@@ -172,26 +159,31 @@ class PhotoController extends Controller
     {
 		$file = Storage::disk('public')->get('/' . $photo->path);
 
-		$small = 250;
-		$medium = 500;
-		$big = 1000;
-		$ratio = 2/3;
 
-		$image = Image::make($file);
 
-		if ($request->query('tamanho') == 'pequeno') {
-			$image->widen($small);
-		} else if ($request->query('tamanho') == 'medio') {
-			$image->widen($medium);
-		} else if ($request->query('tamanho') == 'grande') {
-			$image->widen($big);
-		}
+		$image = Image::cache(function($image) use($request, $file) {
 
-		if($request->query('recortar') !== null) {
-			$width = $image->width();
-			$image->crop($width, floor($width * $ratio));
-		}
+			$image->make($file);
+			$width = 0;
 
+			if ($request->query('tamanho') == 'pequeno') {
+				$width = 250;
+			} else if ($request->query('tamanho') == 'medio') {
+				$width = 500;
+			} else if ($request->query('tamanho') == 'grande') {
+				$width = 1000;
+			}
+
+			$image->widen($width);
+
+			if($request->query('recortar') !== null) {
+				$ratio = 2/3;
+				$image->crop($width, floor($width * $ratio));
+			}
+
+		}, 1440, true);
+
+		header("Cache-Control: max-age=2592000");
 		return $image->response();
 
     }
