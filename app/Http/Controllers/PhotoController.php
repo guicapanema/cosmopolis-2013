@@ -183,8 +183,7 @@ class PhotoController extends Controller
 
 		}, 1440, true);
 
-		header("Cache-Control: max-age=2592000");
-		return $image->response();
+		return $image->response()->header('Cache-Control', 'max-age=86400, public');
 
     }
 
