@@ -19,31 +19,26 @@
 			</p>
 		</div>
 		<aside class="menu has-margin-100">
-			<!-- <p class="menu-label">
-				Geral
-			</p>
-			<ul class="menu-list">
-				<li><a href="/admin" class="{{ Request::is('admin') ? "is-active" : "" }}">Painel</a></li>
-			</ul>
 			<p class="menu-label">
-				Imagens
+				Cidade
 			</p>
 			<ul class="menu-list">
-				<li><a href="{{ route('photo_create') }}" class="{{ Request::is('fotos/criar') ? "is-active" : "" }}">Enviar imagens</a></li>
-				<li><a href="{{ route('photo_index') }}" class="{{ Request::is('fotos/indice') ? "is-active" : "" }}">Listar imagens</a></li>
+				<li v-for="city in cities" v-if="city['city']"><a>{{ city['city'] }}</a></li>
 			</ul>
+
 			<p class="menu-label">
-				Cartazes
+				Tema
 			</p>
 			<ul class="menu-list">
-				<li><a href="{{ route('poster_index') }}" class="{{ Request::is('cartazes/indice') ? "is-active" : "" }}">Listar cartazes</a></li>
+				<li v-for="tag in tags"><a>{{ tag.text }}</a></li>
 			</ul>
+
 			<p class="menu-label">
-				Tags
+				Tipo
 			</p>
 			<ul class="menu-list">
-				<li><a href="{{ route('tag_index') }}" class="{{ Request::is('tags/indice') ? "is-active" : "" }}">Listar tags</a></li>
-			</ul> -->
+				<li v-for="type in types" v-if="type['type']"><a>{{ type['type'] }}</a></li>
+			</ul>
 		</aside>
     </div>
 </template>
@@ -53,12 +48,33 @@
 
 		data() {
             return {
-				photo: {}
+				cities: [],
+				tags: [],
+				types: []
             }
         },
 
         mounted() {
-            // this.loadPhotos();
+            axios.get('/fotos', { params: { groupBy: 'city' } })
+				.then(response => {
+					this.cities = response.data.data;
+				}).catch(error => {
+					console.error(error);
+				});
+
+			axios.get('/tags')
+				.then(response => {
+					this.tags = response.data;
+				}).catch(error => {
+					console.error(error);
+				});
+
+			axios.get('/cartazes', { params: { groupBy: 'type' } })
+				.then(response => {
+					this.types = response.data.data;
+				}).catch(error => {
+					console.error(error);
+				});
         },
 
 		methods: {
@@ -72,7 +88,7 @@
 			//
 			// 			for (let photo of response.data.data) {
 			// 				// photo.date = photo.date ? moment(photo.date).format('DD[/]MM[/]YYYY') : '';
-			// 				this.photos.push(photo);
+			// 				this.cities.push(photo);
 			// 			}
 			// 			if ($state) $state.loaded();
 			// 			this.params.page++;

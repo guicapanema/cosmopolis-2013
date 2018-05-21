@@ -89,3 +89,7 @@ Route::get('/tags/{tag}', 'TagController@retrieve')->name('tag_retrieve');
 Route::put('/tags/{tag}', 'TagController@update')->name('tag_update');
 
 Route::delete('/tags/{tag}', 'TagController@destroy')->name('tag_destroy');
+
+/**** TAG ROUTES ****/
+
+Route::get('/fotografos', 'PhotoController@listPhotographers')->name('photographer_list');

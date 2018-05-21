@@ -17,7 +17,7 @@ class PhotoController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['list', 'retrieve', 'retrieveFile']]);
+        $this->middleware('auth', ['except' => ['list', 'listPhotographers', 'retrieve', 'retrieveFile']]);
     }
 
 	public function rules($photoCount = null)
@@ -78,8 +78,23 @@ class PhotoController extends Controller
 			$photos = $photos->orderBy($request->query('sortBy'), $sortOrder);
 		}
 
+		if ($request->query('groupBy') !== null) {
+			$photos = $photos->select($request->query('groupBy'))->groupBy($request->query('groupBy'));
+		}
+
 		return $photos->paginate($perPage);
     }
+
+	/**
+	 * Return a listing of the resource.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function listPhotographers(Request $request)
+	{
+		return Photo::select('photographer')->whereNotNull('photographer')->distinct('photographer')->get();
+	}
 
     /**
      * Show the form for creating a new resource.
@@ -146,7 +161,7 @@ class PhotoController extends Controller
      */
     public function retrieve(Photo $photo)
     {
-        return $photo;
+        return $photo::with('posters')->find($photo->id);
     }
 
 	/**

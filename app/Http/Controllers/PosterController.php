@@ -15,7 +15,7 @@ class PosterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['filterByPhoto']]);
+        $this->middleware('auth', ['except' => ['list', 'filterByPhoto']]);
     }
 
 	public function rules()
@@ -65,6 +65,10 @@ class PosterController extends Controller
 		if ($request->query('sortBy') !== null) {
 			$sortOrder = $request->query('sortOrder') ? $request->query('sortOrder') : 'asc';
 			$posters = $posters->orderBy($request->query('sortBy'), $sortOrder);
+		}
+
+		if ($request->query('groupBy') !== null) {
+			$posters = $posters->select($request->query('groupBy'))->groupBy($request->query('groupBy'));
 		}
 
 		return $posters->paginate(20);
