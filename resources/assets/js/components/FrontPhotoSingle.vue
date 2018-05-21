@@ -1,5 +1,6 @@
 <template>
     <div>
+		<button class="modal-close is-large" aria-label="close" @click="onPhotoClose()"></button>
 		<figure class="image">
 	        <img v-if="photo.id" :src="'/fotos/' + photo.id + '/arquivo?tamanho=grande'" width="100%"></img>
 		</figure>
@@ -22,9 +23,8 @@
 							</div>
 							<div v-if="poster.tags.length">
 								<span class="has-text-grey">Tags</span>
-								<span v-for="tag of poster.tags" class="has-text-grey-lighter">
-									{{ tag.text }}
-									,&nbsp;
+								<span v-for="(tag, index) of poster.tags" class="has-text-grey-lighter">
+									<span>{{ tag.text }}</span><span v-if="index < (poster.tags.length - 1)">, </span>
 								</span>
 							</div>
 						</div>
@@ -88,7 +88,16 @@
 						console.error(error);
 						this.loadingPhoto = false;
 					});
+			},
+			onPhotoClose() {
+				this.$router.go(-1);
 			}
 		}
     }
 </script>
+
+<style scoped>
+	.modal-close {
+		z-index: 21;
+	}
+</style>

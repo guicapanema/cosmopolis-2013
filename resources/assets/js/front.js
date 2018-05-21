@@ -26,11 +26,13 @@ const frontPhotoSingle = Vue.component('front-photo-single', require('./componen
 const routes = [
 	{
 		path: '/',
-		component: frontPage
-  	},
-	{
-		path: '/foto/:foto',
-		component: frontPhotoSingle
+		component: frontPage,
+		children: [
+			{
+				path: '/foto/:foto',
+				component: frontPhotoSingle
+		  	}
+		]
   	}
 ]
 
