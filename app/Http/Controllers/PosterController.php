@@ -54,7 +54,7 @@ class PosterController extends Controller
 
 		if ($request->query('busca') !== null) {
 			$queryString = '%' . $request->query('busca') . '%';
-			$posters = $posters->orWhere('text', 'ilike', $queryString)
+			$posters = $posters->orWhereRaw('unaccent(text) ILIKE unaccent(?)', $queryString)
 						->orWhere('type', 'ilike', $queryString);
 		}
 
