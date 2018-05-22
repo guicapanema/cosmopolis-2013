@@ -9,7 +9,7 @@
 				</figure>
 			</div>
 		</div>
-		<infinite-loading v-if="this.photos.length < params.total"@infinite="loadPhotos"></infinite-loading>
+		<infinite-loading v-if="this.photos.length < params.total" @infinite="loadPhotos"></infinite-loading>
     </div>
 </template>
 
@@ -17,6 +17,8 @@
 	import InfiniteLoading from 'vue-infinite-loading';
 
 	export default {
+
+		props: ['filters'],
 
 		data() {
             return {
@@ -39,14 +41,14 @@
 		methods: {
 			loadPhotos($state) {
 				this.loadingPhotos = true;
-				axios.get('/fotos', { params: this.params})
+				axios.get('/fotos', { params: this.params })
 					.then(response => {
 						this.params.page = response.data.current_page;
 						this.params.total = response.data.total;
 						this.params.per_page = response.data.per_page;
 
 						for (let photo of response.data.data) {
-							// photo.date = photo.date ? moment(photo.date).format('DD[/]MM[/]YYYY') : '';
+							photo.date = photo.date ? new Date(photo.date).toLocaleDateString() : '';
 							this.photos.push(photo);
 						}
 						if ($state) $state.loaded();

@@ -83,6 +83,7 @@
 				axios.get('/fotos/' + this.$route.params.foto)
 					.then(response => {
 						this.photo = response.data
+						this.photo.date = this.photo.date ? new Date(this.photo.date).toLocaleDateString() : '';
 						this.loadingPhoto = false;
 					}).catch(error => {
 						console.error(error);

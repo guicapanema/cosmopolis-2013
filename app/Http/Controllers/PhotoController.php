@@ -73,6 +73,11 @@ class PhotoController extends Controller
 							->orWhere('photographer', 'ilike', $queryString);
 		}
 
+		if ($request->query('cidade') !== null) {
+			$queryCity = $request->query('cidade');
+			$photos = $photos->where('city', 'ilike', $queryCity);
+		}
+
 		if ($request->query('sortBy') !== null) {
 			$sortOrder = $request->query('sortOrder') ? $request->query('sortOrder') : 'asc';
 			$photos = $photos->orderBy($request->query('sortBy'), $sortOrder);

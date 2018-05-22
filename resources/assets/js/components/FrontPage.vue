@@ -5,7 +5,7 @@
 				<front-sidebar></front-sidebar>
 			</div>
 			<div class="column">
-				<front-photo-list></front-photo-list>
+				<front-photo-list :filters="filters"></front-photo-list>
 			</div>
 		</div>
 		<front-photo-single
@@ -20,6 +20,7 @@
 
 		data() {
             return {
+				filters: {},
 				photo_id: null
             }
         },

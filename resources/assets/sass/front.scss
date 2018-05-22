@@ -1,5 +1,35 @@
+@font-face {
+    font-family: 'DIN';
+    src: url('/fonts/din_light-webfont.woff2') format('woff2'),
+         url('/fonts/din_light-webfont.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'DIN';
+    src: url('/fonts/din_medium-webfont.woff2') format('woff2'),
+         url('/fonts/din_medium-webfont.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'DIN';
+    src: url('/fonts/din_black-webfont.woff2') format('woff2'),
+         url('/fonts/din_black-webfont.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+
+}
+
 // Bulma
+@import "variables";
 @import "~bulma/bulma";
+
+
 
 .has-margin-100 {
 	margin: 1rem;
