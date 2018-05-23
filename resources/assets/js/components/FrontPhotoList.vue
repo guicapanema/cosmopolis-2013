@@ -25,7 +25,6 @@
 				photos: [],
 				params: {
 					busca: null,
-					cidade: null,
 					page: 1,
 					total: 0,
 					per_page: 21,
@@ -65,8 +64,8 @@
 				this.params = {
 					busca: null,
 					cidade: this.filters.cities,
-					tags: this.filters.tags,
-					tipos: this.filters.types,
+					tag: this.filters.tags,
+					tipo: this.filters.types,
 					page: 1,
 					total: 0,
 					per_page: 21,

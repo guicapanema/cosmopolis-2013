@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Photo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -66,17 +65,45 @@ class PhotoController extends Controller
 			$perPage = $request->query('per_page');
 		}
 
+		// Complex searches require more info
+		if (($request->query('busca') !== null) || ($request->query('tipo') !== null) || ($request->query('tag') !== null)) {
+			$photos = $photos->with('posters');
+		}
+
 		if ($request->query('busca') !== null) {
 			$queryString = '%' . $request->query('busca') . '%';
 			$photos = $photos->orWhere('name', 'ilike', $queryString)
-							->orWhere('city', 'ilike', $queryString)
-							->orWhere('photographer', 'ilike', $queryString);
+				->orWhere('city', 'ilike', $queryString)
+				->orWhere('photographer', 'ilike', $queryString)
+				->orWhereHas('posters', function($poster) use ($queryString) {
+					$poster->with('tags')->whereRaw('unaccent(text) ILIKE unaccent(?)', $queryString)
+						->orWhereHas('tags', function($tag) use ($queryString) {
+							$tag->whereRaw('unaccent(text) ILIKE unaccent(?)', $queryString);
+						});
+				});
+		}
+
+		if ($request->query('tipo') !== null) {
+			$queryType = $request->query('tipo');
+			$photos = $photos->orWhereHas('posters', function($poster) use ($queryType) {
+				$poster->whereIn('type', $queryType);
+			});
+		}
+
+		if ($request->query('tag') !== null) {
+			$queryTag = $request->query('tag');
+			$photos = $photos->orWhereHas('posters', function($poster) use ($queryTag) {
+				$poster->with('tags')->whereHas('tags', function($tag) use ($queryTag) {
+						$tag->whereIn('text', $queryTag);
+					});
+			});
 		}
 
 		if ($request->query('cidade') !== null) {
 			$queryCity = $request->query('cidade');
 			$photos = $photos->whereIn('city', $queryCity);
 		}
+
 
 		if ($request->query('sortBy') !== null) {
 			$sortOrder = $request->query('sortOrder') ? $request->query('sortOrder') : 'asc';
@@ -166,6 +193,7 @@ class PhotoController extends Controller
      */
     public function retrieve(Photo $photo)
     {
+		dd($photo->tags);
         return $photo::with('posters')->find($photo->id);
     }
 
