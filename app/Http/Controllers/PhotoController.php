@@ -75,7 +75,7 @@ class PhotoController extends Controller
 
 		if ($request->query('cidade') !== null) {
 			$queryCity = $request->query('cidade');
-			$photos = $photos->where('city', 'ilike', $queryCity);
+			$photos = $photos->whereIn('city', $queryCity);
 		}
 
 		if ($request->query('sortBy') !== null) {

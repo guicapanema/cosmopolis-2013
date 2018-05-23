@@ -23,21 +23,36 @@
 				Cidade
 			</p>
 			<ul class="menu-list">
-				<li v-for="city in cities" v-if="city['city']"><a>{{ city['city'] }}</a></li>
+				<li v-for="city in cities" v-if="city['city']">
+					<input type="checkbox"
+						:checked="hasCity(city['city'])"
+						@click="onSetCity(city['city'])">
+					{{ city['city'] }}
+				</li>
 			</ul>
 
 			<p class="menu-label">
 				Tema
 			</p>
 			<ul class="menu-list">
-				<li v-for="tag in tags"><a>{{ tag.text }}</a></li>
+				<li v-for="tag in tags">
+					<input type="checkbox"
+						:checked="hasTag(tag.text)"
+						@click="onSetTag(tag.text)">
+					{{ tag.text }}
+				</li>
 			</ul>
 
 			<p class="menu-label">
 				Tipo
 			</p>
 			<ul class="menu-list">
-				<li v-for="type in types" v-if="type['type']"><a>{{ type['type'] }}</a></li>
+				<li v-for="type in types" v-if="type['type']">
+					<input type="checkbox"
+						:checked="hasType(type['type'])"
+						@click="onSetType(type['type'])">
+					{{ type['type'] }}
+				</li>
 			</ul>
 		</aside>
     </div>
@@ -45,6 +60,8 @@
 
 <script>
 	export default {
+
+		props: ['filters'],
 
 		data() {
             return {
@@ -78,25 +95,88 @@
         },
 
 		methods: {
-			// loadPhotos($state) {
-			// 	this.loadingPhotos = true;
-			// 	axios.get('/fotos', { params: this.params})
-			// 		.then(response => {
-			// 			this.params.page = response.data.current_page;
-			// 			this.params.total = response.data.total;
-			// 			this.params.per_page = response.data.per_page;
-			//
-			// 			for (let photo of response.data.data) {
-			// 				// photo.date = photo.date ? moment(photo.date).format('DD[/]MM[/]YYYY') : '';
-			// 				this.cities.push(photo);
-			// 			}
-			// 			if ($state) $state.loaded();
-			// 			this.params.page++;
-			// 		}).catch(error => {
-			// 			if ($state) $state.loaded();
-			// 			console.error(error);
-			// 		});
-			// }
+			hasCity(city) {
+				return this.filters.cities.indexOf(city) >= 0;
+			},
+			hasTag(tag) {
+				return this.filters.tags.indexOf(tag) >= 0;
+
+			},
+			hasType(type) {
+				return this.filters.types.indexOf(type) >= 0;
+
+			},
+			onSetCity(city) {
+				let queryCities = this.$route.query['cidade'];
+				if(!queryCities) {
+					queryCities = city;
+				} else if(typeof queryCities === 'string') {
+					if (queryCities === city) {
+						queryCities = null;
+					} else {
+						queryCities = [queryCities, city];
+					}
+				} else {
+					queryCities = queryCities.slice();
+					let index = queryCities.indexOf(city);
+					if(index >= 0) {
+						queryCities.splice(index, 1);
+					} else {
+						queryCities.push(city);
+					}
+				}
+
+				this.$router.push({ path: '/', query: {...this.$route.query, cidade: queryCities} });
+
+			},
+
+			onSetTag(tag) {
+				let queryTags = this.$route.query['tag'];
+				if(!queryTags) {
+					queryTags = tag;
+				} else if(typeof queryTags === 'string') {
+					if (queryTags === tag) {
+						queryTags = null;
+					} else {
+						queryTags = [queryTags, tag];
+					}
+				} else {
+					queryTags = queryTags.slice();
+					let index = queryTags.indexOf(tag);
+					if(index >= 0) {
+						queryTags.splice(index, 1);
+					} else {
+						queryTags.push(tag);
+					}
+				}
+
+				this.$router.push({ path: '/', query: {...this.$route.query, tag: queryTags} });
+
+			},
+
+			onSetType(type) {
+				let queryTypes = this.$route.query['tipo'];
+				if(!queryTypes) {
+					queryTypes = type;
+				} else if(typeof queryTypes === 'string') {
+					if (queryTypes === type) {
+						queryTypes = null;
+					} else {
+						queryTypes = [queryTypes, type];
+					}
+				} else {
+					queryTypes = queryTypes.slice();
+					let index = queryTypes.indexOf(type);
+					if(index >= 0) {
+						queryTypes.splice(index, 1);
+					} else {
+						queryTypes.push(type);
+					}
+				}
+
+				this.$router.push({ path: '/', query: {...this.$route.query, tipo: queryTypes} });
+
+			},
 		}
     }
 </script>

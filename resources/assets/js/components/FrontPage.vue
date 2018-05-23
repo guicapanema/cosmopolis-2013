@@ -2,7 +2,7 @@
 	<div class="front-container">
 		<div class="columns is-gapless">
 			<div class="column is-one-quarter">
-				<front-sidebar></front-sidebar>
+				<front-sidebar :filters="filters"></front-sidebar>
 			</div>
 			<div class="column">
 				<front-photo-list :filters="filters"></front-photo-list>
@@ -20,7 +20,11 @@
 
 		data() {
             return {
-				filters: {},
+				filters: {
+					cities: [],
+					tags: [],
+					types: []
+				},
 				photo_id: null
             }
         },
@@ -35,6 +39,36 @@
 					this.photo_id = this.$route.params.foto;
 				} else {
 					this.photo_id = null;
+				}
+
+				this.filters = {
+					cities: [],
+					tags: [],
+					types: []
+				};
+
+				if(this.$route.query['cidade']) {
+					if(typeof this.$route.query['cidade'] === 'string') {
+						Vue.set(this.filters, 'cities', [this.$route.query['cidade']]);
+					} else {
+						Vue.set(this.filters, 'cities', this.$route.query['cidade']);
+					}
+				}
+
+				if(this.$route.query['tag']) {
+					if(typeof this.$route.query['tag'] === 'string') {
+						Vue.set(this.filters, 'tags', [this.$route.query['tag']]);
+					} else {
+						Vue.set(this.filters, 'tags', this.$route.query['tag']);
+					}
+				}
+
+				if(this.$route.query['tipo']) {
+					if(typeof this.$route.query['tipo'] === 'string') {
+						Vue.set(this.filters, 'types', [this.$route.query['tipo']]);
+					} else {
+						Vue.set(this.filters, 'types', this.$route.query['tipo']);
+					}
 				}
 			}
 		},

@@ -25,6 +25,7 @@
 				photos: [],
 				params: {
 					busca: null,
+					cidade: null,
 					page: 1,
 					total: 0,
 					per_page: 21,
@@ -35,7 +36,7 @@
         },
 
         mounted() {
-            this.loadPhotos();
+			this.loadPhotos();
         },
 
 		methods: {
@@ -57,6 +58,31 @@
 						if ($state) $state.loaded();
 						console.error(error);
 					});
+			},
+
+			resetComponent() {
+				this.photos = [];
+				this.params = {
+					busca: null,
+					cidade: this.filters.cities,
+					tags: this.filters.tags,
+					tipos: this.filters.types,
+					page: 1,
+					total: 0,
+					per_page: 21,
+					sortBy: 'name',
+					sortOrder: 'asc'
+				};
+				this.loadPhotos();
+			}
+		},
+
+		watch: {
+			'filters': {
+				handler: function (val, oldVal) {
+					this.resetComponent();
+				},
+				deep: true
 			}
 		}
     }
