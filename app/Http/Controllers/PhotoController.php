@@ -85,14 +85,14 @@ class PhotoController extends Controller
 
 		if ($request->query('tipo') !== null) {
 			$queryType = $request->query('tipo');
-			$photos = $photos->orWhereHas('posters', function($poster) use ($queryType) {
+			$photos = $photos->whereHas('posters', function($poster) use ($queryType) {
 				$poster->whereIn('type', $queryType);
 			});
 		}
 
 		if ($request->query('tag') !== null) {
 			$queryTag = $request->query('tag');
-			$photos = $photos->orWhereHas('posters', function($poster) use ($queryTag) {
+			$photos = $photos->whereHas('posters', function($poster) use ($queryTag) {
 				$poster->with('tags')->whereHas('tags', function($tag) use ($queryTag) {
 						$tag->whereIn('text', $queryTag);
 					});
@@ -193,7 +193,6 @@ class PhotoController extends Controller
      */
     public function retrieve(Photo $photo)
     {
-		dd($photo->tags);
         return $photo::with('posters')->find($photo->id);
     }
 

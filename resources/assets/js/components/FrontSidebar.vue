@@ -10,12 +10,24 @@
 			<span class="button">Imagem</span>
 			<span class="button">Texto</span>
 		</div>
-		<div class="field has-margin-100">
-			<p class="control has-icons-left">
-				<input class="input" type="text" placeholder="Pesquisar">
+		<div :class="{
+					'field': true,
+					'has-margin-100': true,
+					'has-addons': search.length
+					}">
+			<p class="control has-icons-left is-expanded">
+				<input
+					v-model="search"
+					@keyup.enter="onSetSearch(search)"
+					class="input" type="text" placeholder="Pesquisar">
 				<span class="icon is-small is-left">
 					<i class="fas fa-search"></i>
 				</span>
+			</p>
+			<p v-if="search.length" class="control">
+				<a @click="onSetSearch('')" class="button is-light">
+					Limpar
+				</a>
 			</p>
 		</div>
 		<aside class="menu has-margin-100">
@@ -66,6 +78,7 @@
 		data() {
             return {
 				cities: [],
+				search: '',
 				tags: [],
 				types: []
             }
@@ -128,6 +141,13 @@
 
 				this.$router.push({ path: '/', query: {...this.$route.query, cidade: queryCities} });
 
+			},
+
+			onSetSearch(search) {
+				let querySearch = this.$route.query['busca'];
+				querySearch = search;
+				this.search = search;
+				this.$router.push({ path: '/', query: {...this.$route.query, busca: querySearch} });
 			},
 
 			onSetTag(tag) {

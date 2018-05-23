@@ -21,6 +21,7 @@
 		data() {
             return {
 				filters: {
+					search: null,
 					cities: [],
 					tags: [],
 					types: []
@@ -69,6 +70,10 @@
 					} else {
 						Vue.set(this.filters, 'types', this.$route.query['tipo']);
 					}
+				}
+
+				if(this.$route.query['busca']) {
+					Vue.set(this.filters, 'search', this.$route.query['busca']);
 				}
 			}
 		},

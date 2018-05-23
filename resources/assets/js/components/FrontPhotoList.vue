@@ -62,7 +62,7 @@
 			resetComponent() {
 				this.photos = [];
 				this.params = {
-					busca: null,
+					busca: this.filters.search,
 					cidade: this.filters.cities,
 					tag: this.filters.tags,
 					tipo: this.filters.types,
