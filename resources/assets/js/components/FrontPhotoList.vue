@@ -22,11 +22,12 @@
 
 		data() {
             return {
+				cancel: null,
+				loadingPhotos: false,
 				photos: [],
 				params: {
 					busca: null,
 					page: 1,
-					total: 0,
 					per_page: 21,
 					sortBy: 'name',
 					sortOrder: 'asc'
@@ -35,14 +36,20 @@
         },
 
         mounted() {
-			this.loadPhotos();
+			this.resetComponent();
         },
 
 		methods: {
 			loadPhotos($state) {
 				this.loadingPhotos = true;
-				axios.get('/fotos', { params: this.params })
-					.then(response => {
+				let cancel = null;
+
+				axios.get('/fotos', {
+						params: this.params,
+					 	cancelToken: new axios.CancelToken(function executor(c) {
+							cancel = c;
+						})
+					}).then(response => {
 						this.params.page = response.data.current_page;
 						this.params.total = response.data.total;
 						this.params.per_page = response.data.per_page;
@@ -51,15 +58,23 @@
 							photo.date = photo.date ? new Date(photo.date).toLocaleDateString() : '';
 							this.photos.push(photo);
 						}
+						
 						if ($state) $state.loaded();
+						this.loadingPhotos = false;
 						this.params.page++;
 					}).catch(error => {
 						if ($state) $state.loaded();
+						this.loadingPhotos = false;
 						console.error(error);
 					});
+
+				this.cancel = cancel;
 			},
 
 			resetComponent() {
+				if(this.loadingPhotos) {
+					this.cancel();
+				}
 				this.photos = [];
 				this.params = {
 					busca: this.filters.search,
@@ -67,7 +82,6 @@
 					tag: this.filters.tags,
 					tipo: this.filters.types,
 					page: 1,
-					total: 0,
 					per_page: 21,
 					sortBy: 'name',
 					sortOrder: 'asc'
