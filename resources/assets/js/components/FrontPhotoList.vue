@@ -41,9 +41,13 @@
 
 		methods: {
 			loadPhotos($state) {
-				this.loadingPhotos = true;
+
+				if(this.loadingPhotos) {
+					this.cancel();
+				}
 				let cancel = null;
 
+				this.loadingPhotos = true;
 				axios.get('/fotos', {
 						params: this.params,
 					 	cancelToken: new axios.CancelToken(function executor(c) {
@@ -58,7 +62,7 @@
 							photo.date = photo.date ? new Date(photo.date).toLocaleDateString() : '';
 							this.photos.push(photo);
 						}
-						
+
 						if ($state) $state.loaded();
 						this.loadingPhotos = false;
 						this.params.page++;
@@ -72,9 +76,6 @@
 			},
 
 			resetComponent() {
-				if(this.loadingPhotos) {
-					this.cancel();
-				}
 				this.photos = [];
 				this.params = {
 					busca: this.filters.search,

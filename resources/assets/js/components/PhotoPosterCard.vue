@@ -99,6 +99,9 @@
 						<option value="pichação">
 							Pichação
 						</option>
+						<option value="bandeira">
+							Bandeira
+						</option>
 						<option value="outros">
 							Outros
 						</option>
