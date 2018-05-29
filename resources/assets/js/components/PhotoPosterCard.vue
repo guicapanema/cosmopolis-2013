@@ -84,6 +84,9 @@
 						@input="posterUpdate"
 						placeholder="Selecione um tipo"
 						required>
+						<option value="bandeira">
+							Bandeira
+						</option>
 						<option value="camiseta">
 							Camiseta
 						</option>

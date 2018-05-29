@@ -15,17 +15,23 @@
 						v-model="poster.type"
 						placeholder="Selecione um tipo"
 						required>
-						<option value="faixa">
-							Faixa
+						<option value="bandeira">
+							Bandeira
+						</option>
+						<option value="camiseta">
+							Camiseta
 						</option>
 						<option value="cartaz">
 							Cartaz
 						</option>
+						<option value="faixa">
+							Faixa
+						</option>
+						<option value="impresso">
+							Impresso
+						</option>
 						<option value="pichação">
 							Pichação
-						</option>
-						<option value="camiseta">
-							Camiseta
 						</option>
 						<option value="outros">
 							Outros
