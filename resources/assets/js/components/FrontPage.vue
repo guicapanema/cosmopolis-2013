@@ -72,6 +72,14 @@
 					}
 				}
 
+				if(this.$route.query['genero']) {
+					Vue.set(this.filters, 'gender', this.$route.query['genero']);
+				}
+
+				if(this.$route.query['fotografo']) {
+					Vue.set(this.filters, 'photographer', this.$route.query['fotografo']);
+				}
+
 				if(this.$route.query['busca']) {
 					Vue.set(this.filters, 'search', this.$route.query['busca']);
 				}

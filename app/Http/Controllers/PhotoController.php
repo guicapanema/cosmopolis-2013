@@ -90,6 +90,13 @@ class PhotoController extends Controller
 			});
 		}
 
+		if ($request->query('genero') !== null) {
+			$queryGender = $request->query('genero');
+			$photos = $photos->whereHas('posters', function($poster) use ($queryGender) {
+				$poster->where('gender', $queryGender);
+			});
+		}
+
 		if ($request->query('tag') !== null) {
 			$queryTag = $request->query('tag');
 			$photos = $photos->whereHas('posters', function($poster) use ($queryTag) {
@@ -102,6 +109,11 @@ class PhotoController extends Controller
 		if ($request->query('cidade') !== null) {
 			$queryCity = $request->query('cidade');
 			$photos = $photos->whereIn('city', $queryCity);
+		}
+
+		if ($request->query('fotografo') !== null) {
+			$queryPhotographer = $request->query('fotografo');
+			$photos = $photos->where('photographer', '=' , $queryPhotographer);
 		}
 
 

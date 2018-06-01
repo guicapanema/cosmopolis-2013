@@ -14,17 +14,23 @@
 							<div>
 								<span v-if="poster.pivot.gender">
 									<span class="has-text-grey">Gênero</span>
-									<span class="has-text-grey-lighter">{{ poster.pivot.gender === 'male' ? 'masculino' : 'feminino' }}</span>
+									<router-link :to="'/?genero=' + poster.pivot.gender" class="has-text-grey-lighter">
+										{{ poster.pivot.gender === 'male' ? 'masculino' : 'feminino' }}
+									</router-link>
 								</span>
 								<span v-if="poster.type">
 									<span class="has-text-grey">Tipo</span>
-									<span class="has-text-grey-lighter">{{ poster.type }}</span>
+									<router-link :to="'/?tipo=' + poster.type" class="has-text-grey-lighter">
+										{{ poster.type }}
+									</router-link>
 								</span>
 							</div>
 							<div v-if="poster.tags.length">
 								<span class="has-text-grey">Tags</span>
 								<span v-for="(tag, index) of poster.tags" class="has-text-grey-lighter">
-									<span>{{ tag.text }}</span><span v-if="index < (poster.tags.length - 1)">, </span>
+									<router-link :to="'/?tag=' + tag.text" class="has-text-grey-lighter">
+										{{ tag.text }}
+									</router-link><span v-if="index < (poster.tags.length - 1)">, </span>
 								</span>
 							</div>
 						</div>
@@ -38,12 +44,20 @@
 						<div v-if="photo.city" class="content">
 							<h2 class="title is-marginless has-text-white is-uppercase">Cidade</h2>
 							<hr class="title-underline"></hr>
-							<div>{{ photo.city }}</div>
+							<div>
+								<router-link :to="'/?cidade=' + photo.city" class="has-text-grey-lighter">
+									{{ photo.city }}
+								</router-link>
+							</div>
 						</div>
 						<div v-if="photo.photographer" class="content">
 							<h2 class="title is-marginless has-text-white is-uppercase">Fotógrafo</h2>
 							<hr class="title-underline"></hr>
-							<div>{{ photo.photographer }}</div>
+							<div>
+								<router-link :to="'/?fotografo=' + photo.photographer" class="has-text-grey-lighter">
+									{{ photo.photographer }}
+								</router-link>
+							</div>
 						</div>
 						<div v-if="photo.license" class="content">
 							<h2 class="title is-marginless has-text-white is-uppercase">Licença de Uso</h2>

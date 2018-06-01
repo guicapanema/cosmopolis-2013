@@ -80,6 +80,8 @@
 				this.params = {
 					busca: this.filters.search,
 					cidade: this.filters.cities,
+					fotografo: this.filters.photographer,
+					genero: this.filters.gender,
 					tag: this.filters.tags,
 					tipo: this.filters.types,
 					page: 1,
