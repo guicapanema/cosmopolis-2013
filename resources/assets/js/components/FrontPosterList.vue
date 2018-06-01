@@ -3,7 +3,15 @@
         <div class="columns is-multiline">
 			<div v-for="poster of posters" class="column is-one-third">
 				<div class="poster-card content is-marginless">
-					<p>{{ poster.text }}</p>
+					<div class="poster-card-content">
+						<p>{{ poster.text }}</p>
+						<div v-if="poster.photos[0]" class="poster-info has-text-grey is-size-7">
+							<div>{{ poster.photos[0].photographer }}</div>
+							<div>{{ poster.photos[0].city }}</div>
+							<div>{{ poster.type }}</div>
+							<div>{{ poster.tags }}</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -25,6 +33,7 @@
 				posters: [],
 				params: {
 					busca: null,
+					mostrarFotos: true,
 					page: 1,
 					per_page: 21,
 					sortBy: 'name',
@@ -80,6 +89,7 @@
 					cidade: this.filters.cities,
 					fotografo: this.filters.photographer,
 					genero: this.filters.gender,
+					mostrarFotos: true,
 					tag: this.filters.tags,
 					tipo: this.filters.types,
 					page: 1,

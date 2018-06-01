@@ -66,7 +66,7 @@ class PhotoController extends Controller
 		}
 
 		// Complex searches require more info
-		if (($request->query('busca') !== null) || ($request->query('tipo') !== null) || ($request->query('tag') !== null)) {
+		if (($request->query('busca') !== null) || ($request->query('tipo') !== null) || ($request->query('tag') !== null) || ($request->query('mostrarCartazes') !== null)) {
 			$photos = $photos->with('posters');
 		}
 

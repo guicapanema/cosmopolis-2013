@@ -47,6 +47,13 @@
 // 	margin: auto;
 // }
 
+slider, div.slider {
+	position: absolute !important;
+	top: 0;
+	left: 0;
+	z-index: 2;
+}
+
 .single-photo-data {
 	background-color: rgb(77,77,77);
 }
@@ -63,5 +70,15 @@ hr.title-underline {
 
 div.poster-card {
 	background-color: $grey-lighter;
-	padding: 1em 0.5em;
+	padding-top: 66.6666%;
+	position: relative;
+}
+
+div.poster-card > div.poster-card-content {
+	position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+	height: 90%;
+	overflow: auto;
 }
