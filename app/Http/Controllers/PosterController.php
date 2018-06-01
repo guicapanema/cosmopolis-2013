@@ -47,6 +47,11 @@ class PosterController extends Controller
 	public function list(Request $request)
 	{
 		$posters =  Poster::withCount('photos');
+		$perPage = 20;
+
+		if ($request->query('per_page') !== null) {
+			$perPage = $request->query('per_page');
+		}
 
 		if($request->query('mostrarFotos') !== null) {
 			$posters = $posters->with('photos');
@@ -71,7 +76,7 @@ class PosterController extends Controller
 			$posters = $posters->select($request->query('groupBy'))->groupBy($request->query('groupBy'));
 		}
 
-		return $posters->paginate(20);
+		return $posters->paginate($perPage);
 
 	}
 

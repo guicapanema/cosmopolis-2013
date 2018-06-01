@@ -2,10 +2,14 @@
 	<div class="front-container">
 		<div class="columns is-gapless">
 			<div class="column is-one-quarter">
-				<front-sidebar :filters="filters"></front-sidebar>
+				<front-sidebar
+					:view="view"
+					:filters="filters">
+				</front-sidebar>
 			</div>
 			<div class="column">
-				<front-photo-list :filters="filters"></front-photo-list>
+				<front-poster-list v-if="view === 'posters'" :filters="filters"></front-poster-list>
+				<front-photo-list v-else :filters="filters"></front-photo-list>
 			</div>
 		</div>
 		<front-photo-single
@@ -26,7 +30,8 @@
 					tags: [],
 					types: []
 				},
-				photo_id: null
+				photo_id: null,
+				view: 'photos'
             }
         },
 
@@ -40,6 +45,12 @@
 					this.photo_id = this.$route.params.foto;
 				} else {
 					this.photo_id = null;
+				}
+
+				if(this.$route.path === '/cartazes') {
+					this.view = 'posters';
+				} else {
+					this.view = 'photos';
 				}
 
 				this.filters = {

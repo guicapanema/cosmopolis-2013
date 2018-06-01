@@ -1,14 +1,26 @@
 <template>
     <div>
 		<figure class="image">
-			<img src="/images/logo.png" width="100%"></img>
+			<a href="/inicio">
+				<img src="/images/logo.png" width="100%"></img>
+			</a>
 		</figure>
 		<div class="content has-text-centered">
-			PRINCIPAL | SOBRE | CRÉDITOS
+			<a href="/principal" class="has-text-grey-dark">PRINCIPAL</a> |
+			<a href="/sobre" class="has-text-grey-dark">SOBRE</a> |
+			<a href="/creditos" class="has-text-grey-dark">CRÉDITOS</a>
 		</div>
 		<div class="buttons has-addons is-centered">
-			<span class="button">Imagem</span>
-			<span class="button">Texto</span>
+			<router-link to="/" :class="{
+				'button': true,
+				'is-light': view === 'photos'}">
+				Imagem
+			</router-link>
+			<router-link to="/cartazes" :class="{
+				'button': true,
+				'is-light': view === 'posters'}">
+				Texto
+			</router-link>
 		</div>
 		<div :class="{
 					'field': true,
@@ -73,7 +85,7 @@
 <script>
 	export default {
 
-		props: ['filters'],
+		props: ['filters', 'view'],
 
 		data() {
             return {

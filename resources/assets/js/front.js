@@ -22,6 +22,7 @@ const frontPage = Vue.component('front-page', require('./components/FrontPage.vu
 const frontSidebar = Vue.component('front-sidebar', require('./components/FrontSidebar.vue'));
 const frontPhotoList = Vue.component('front-photo-list', require('./components/FrontPhotoList.vue'));
 const frontPhotoSingle = Vue.component('front-photo-single', require('./components/FrontPhotoSingle.vue'));
+const frontPosterList = Vue.component('front-poster-list', require('./components/FrontPosterList.vue'));
 
 const routes = [
 	{
@@ -31,6 +32,10 @@ const routes = [
 			{
 				path: '/foto/:foto',
 				component: frontPhotoSingle
+		  	},
+			{
+				path: '/cartazes',
+				component: frontPage
 		  	}
 		]
   	}
@@ -38,7 +43,7 @@ const routes = [
 
 const router = new VueRouter({
 	mode: 'history',
-	base: '/inicio',
+	base: '/principal',
 	routes
 })
 
