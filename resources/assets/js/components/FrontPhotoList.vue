@@ -5,7 +5,7 @@
 				<figure class="image is-3by2 is-marginless" @mouseover="photo.active = true" @mouseleave="photo.active = false">
 					<router-link :to="'/foto/' + photo.id">
 						<img :src="'/fotos/' + photo.id + '/arquivo?tamanho=pequeno&recortar=true'"></img>
-						<slider v-if="photo.active" animation="fade" :speed="100" :control-btn="false" height="100%" width="100%">
+						<slider v-if="photo.active && photo.posters.length" animation="fade" :speed="100" :control-btn="false" height="100%" width="100%">
 							<slider-item v-for="(poster, index) of photo.posters" :key="index">
 								<div style="padding: 1em 0.5em; width: 100%; height: 100%; backgroundColor: rgba(0,0,0,0.4)">
 									<p class="has-text-white">{{ poster.text }}</p>
