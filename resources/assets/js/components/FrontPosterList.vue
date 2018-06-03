@@ -2,20 +2,25 @@
     <div class="has-margin-100">
         <div class="columns is-multiline">
 			<div v-for="poster of posters" class="column is-one-third">
-				<div class="poster-card content is-marginless">
-					<div class="poster-card-content">
+				<div class="poster-card content is-marginless" @mouseover="poster.active = true" @mouseleave="poster.active = false">
+					<div v-if="!poster.active" class="poster-card-content">
 						<p>{{ poster.text }}</p>
 						<div v-if="poster.photos[0]" class="poster-info has-text-grey is-size-7">
 							<div>{{ poster.photos[0].photographer }}</div>
 							<div>{{ poster.photos[0].city }}</div>
 							<div>{{ poster.type }}</div>
-							<div>{{ poster.tags }}</div>
+							<div>
+								<span v-for="(tag, index) of poster.tags">
+									{{ tag.text }}<span v-if="index < poster.tags.length - 1">,</span>
+								</span>
+							</div>
 						</div>
 					</div>
+					<img v-if="poster.active" :src="'/fotos/' + poster.photos[0].id + '/arquivo?tamanho=pequeno&recortar=true'"></img>
 				</div>
 			</div>
 		</div>
-		<infinite-loading v-if="this.posters.length < params.total" @infinite="loadPhotos"></infinite-loading>
+		<infinite-loading v-if="this.posters.length < params.total" @infinite="loadPosters"></infinite-loading>
     </div>
 </template>
 
@@ -34,6 +39,7 @@
 				params: {
 					busca: null,
 					mostrarFotos: true,
+					mostrarTags: true,
 					page: 1,
 					per_page: 21,
 					sortBy: 'name',
@@ -47,7 +53,7 @@
         },
 
 		methods: {
-			loadPhotos($state) {
+			loadPosters($state) {
 
 				if(this.loadingPosters) {
 					this.cancel();
@@ -65,9 +71,9 @@
 						this.params.total = response.data.total;
 						this.params.per_page = response.data.per_page;
 
-						for (let photo of response.data.data) {
-							photo.date = photo.date ? new Date(photo.date).toLocaleDateString() : '';
-							this.posters.push(photo);
+						for (let poster of response.data.data) {
+							poster.active = false;
+							this.posters.push(poster);
 						}
 
 						if ($state) $state.loaded();
@@ -90,6 +96,7 @@
 					fotografo: this.filters.photographer,
 					genero: this.filters.gender,
 					mostrarFotos: true,
+					mostrarTags: true,
 					tag: this.filters.tags,
 					tipo: this.filters.types,
 					page: 1,
@@ -97,7 +104,7 @@
 					sortBy: 'text',
 					sortOrder: 'asc'
 				};
-				this.loadPhotos();
+				this.loadPosters();
 			}
 		},
 

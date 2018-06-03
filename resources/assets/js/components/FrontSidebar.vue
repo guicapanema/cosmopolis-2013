@@ -151,7 +151,7 @@
 					}
 				}
 
-				this.$router.push({ path: '/', query: {...this.$route.query, cidade: queryCities} });
+				this.$router.push({ path: this.$route.path, query: {...this.$route.query, cidade: queryCities} });
 
 			},
 
@@ -159,7 +159,7 @@
 				let querySearch = this.$route.query['busca'];
 				querySearch = search;
 				this.search = search;
-				this.$router.push({ path: '/', query: {...this.$route.query, busca: querySearch} });
+				this.$router.push({ path: this.$route.path, query: {...this.$route.query, busca: querySearch} });
 			},
 
 			onSetTag(tag) {
@@ -182,7 +182,7 @@
 					}
 				}
 
-				this.$router.push({ path: '/', query: {...this.$route.query, tag: queryTags} });
+				this.$router.push({ path: this.$route.path, query: {...this.$route.query, tag: queryTags} });
 
 			},
 
@@ -206,7 +206,7 @@
 					}
 				}
 
-				this.$router.push({ path: '/', query: {...this.$route.query, tipo: queryTypes} });
+				this.$router.push({ path: this.$route.path, query: {...this.$route.query, tipo: queryTypes} });
 
 			},
 		}

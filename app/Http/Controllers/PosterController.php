@@ -57,10 +57,33 @@ class PosterController extends Controller
 			$posters = $posters->with('photos');
 		}
 
+		if($request->query('mostrarTags') !== null) {
+			$posters = $posters->with('tags');
+		}
+
 		if ($request->query('busca') !== null) {
 			$queryString = '%' . $request->query('busca') . '%';
 			$posters = $posters->orWhereRaw('unaccent(text) ILIKE unaccent(?)', $queryString)
 						->orWhere('type', 'ilike', $queryString);
+		}
+
+		if ($request->query('cidade') !== null) {
+			$queryCity = $request->query('cidade');
+			$posters = $posters->whereHas('photos', function($photo) use ($queryCity) {
+				$photo->whereIn('city', $queryCity);
+			});
+		}
+
+		if ($request->query('tag') !== null) {
+			$queryTags = $request->query('tag');
+			$posters = $posters->whereHas('tags', function($tag) use ($queryTags) {
+				$tag->whereIn('text', $queryTags);
+			});
+		}
+
+		if ($request->query('tipo') !== null) {
+			$queryType = $request->query('tipo');
+			$posters = $posters->whereIn('type', $queryType);
 		}
 
 		if ($request->query('limite') !== null) {
