@@ -1,9 +1,9 @@
 <template>
     <div>
 		<figure class="image">
-			<a href="/inicio">
+			<router-link to="/">
 				<img src="/images/logo.png" width="100%"></img>
-			</a>
+			</router-link>
 		</figure>
 		<div class="content has-text-centered">
 			<a href="/principal" class="has-text-grey-dark">PRINCIPAL</a> |
