@@ -10,6 +10,22 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+	<meta name="description" content="">
+	<meta name="keywords" content="2013,manifestações,grafias,cartazes">
+	<meta name="author" content="Grafias de Junho">
+
+	<!-- <link rel="shortcut icon" type="image/x-icon" href="./img/favicon.ico"> -->
+	<link rel="home" href="https://www.grafiasdejunho.org/">
+
+	<meta property="og:site_name" content="{{ config('app.name', 'Laravel') }}">
+	<meta property="og:title" content="{{ config('app.name', 'Laravel') }}">
+	<meta property="og:description" content="">
+	<meta property="og:image" content="https://www.grafiasdejunho.org/images/logo.png">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://www.grafiasdejunho.org/">
+	<link rel="canonical" href="https://www.grafiasdejunho.org/">
+
+
     <!-- Scripts -->
     <script src="{{ asset('js/front.js') }}" defer></script>
 
