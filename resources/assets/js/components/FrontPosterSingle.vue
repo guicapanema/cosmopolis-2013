@@ -1,0 +1,111 @@
+<template>
+    <div class="has-margin-100">
+        <div class="columns is-multiline">
+			<div v-for="photo of photos" class="column is-one-third">
+				<figure class="image is-3by2 is-marginless is-cursor-pointer" @mouseover="photo.active = true" @mouseleave="photo.active = false">
+					<img :src="'/fotos/' + photo.id + '/arquivo?tamanho=pequeno&recortar=true'" @click="$router.push('/foto/' + photo.id)"></img>
+					<slider v-if="photo.active && photo.posters.length" animation="fade" :speed="100" :control-btn="false" height="100%" width="100%">
+						<slider-item v-for="(poster, index) of photo.posters" :key="index">
+							<div style="padding: 1em 0.5em; width: 100%; height: 100%; backgroundColor: rgba(0,0,0,0.4)"  @click="$router.push('/foto/' + photo.id)">
+								<p class="has-text-white">{{ poster.text }}</p>
+								<div class="poster-info has-text-grey-light is-size-7">
+									<div>{{ photo.photographer }}</div>
+									<div>{{ photo.city }}</div>
+									<div>{{ poster.type }}</div>
+									<div>{{ poster.tags }}</div>
+								</div>
+							</div>
+						</slider-item>
+					</slider>
+				</figure>
+			</div>
+		</div>
+    </div>
+</template>
+
+<script>
+	import InfiniteLoading from 'vue-infinite-loading';
+	import { Slider, SliderItem } from 'vue-easy-slider'
+
+	export default {
+
+		props: ['filters'],
+
+		components: {
+		    Slider,
+		    SliderItem
+		},
+
+		data() {
+            return {
+				cancel: null,
+				loadingPhotos: false,
+				photos: [],
+				params: {
+					busca: null,
+					mostrarCartazes: true,
+					page: 1,
+					per_page: 21,
+					sortBy: 'name',
+					sortOrder: 'asc'
+				}
+            }
+        },
+
+        mounted() {
+			this.resetComponent();
+        },
+
+		methods: {
+			loadPhotos($state) {
+
+				this.loadingPhotos = true;
+				axios.get('/cartazes/' this.poster.id, {
+						params: this.params
+					}).then(response => {
+
+						for (let photo of response.data.photos) {
+							photo.active = false;
+							this.photos.push(photo);
+						}
+
+						if ($state) $state.loaded();
+						this.loadingPhotos = false;
+						this.params.page++;
+					}).catch(error => {
+						if ($state) $state.loaded();
+						this.loadingPhotos = false;
+						console.error(error);
+					});
+
+			},
+
+			resetComponent() {
+				this.photos = [];
+				this.params = {
+					busca: this.filters.search,
+					cidade: this.filters.cities,
+					fotografo: this.filters.photographer,
+					genero: this.filters.gender,
+					mostrarCartazes: true,
+					tag: this.filters.tags,
+					tipo: this.filters.types,
+					page: 1,
+					per_page: 21,
+					sortBy: 'name',
+					sortOrder: 'asc'
+				};
+				this.loadPhotos();
+			}
+		},
+
+		watch: {
+			'filters': {
+				handler: function (val, oldVal) {
+					this.resetComponent();
+				},
+				deep: true
+			}
+		}
+    }
+</script>

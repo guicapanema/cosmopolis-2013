@@ -30,6 +30,9 @@
 @import "~bulma/bulma";
 
 
+.is-marginless-top {
+	margin-top: 0 !important;
+}
 
 .has-margin-100 {
 	margin: 1rem;
@@ -73,6 +76,13 @@ slider, div.slider {
 hr.title-underline {
 	margin: 1rem 0;
 	width: 60%;
+}
+
+hr.menu-separator {
+	background-color: $dark;
+	height: 1px;
+	margin: 0.5rem auto;
+	width: 15%;
 }
 
 div.poster-card {

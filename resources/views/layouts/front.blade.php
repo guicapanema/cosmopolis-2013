@@ -23,8 +23,37 @@
 
 </head>
 <body>
-	<div id="app">
+	@if(!Route::currentRouteNamed('home'))
+		<div class="columns is-gapless is-marginless">
+			<div class="column is-one-quarter">
+				<figure class="image">
+					<a href="/principal">
+						<img src="/images/logo.png" width="100%"></img>
+					</a>
+				</figure>
+			</div>
+		</div>
+		<div class="columns is-gapless">
+		<div class="column is-one-quarter">
+			<div class="content has-text-centered is-marginless">
+				<a href="/principal" class="has-text-grey-dark">PRINCIPAL</a>
+			</div>
+			<hr class="menu-separator">
+			<div class="content has-text-centered is-marginless">
+				<a href="/sobre" class="has-text-grey-dark">SOBRE</a>
+			</div>
+			<hr class="menu-separator">
+			<div class="content has-text-centered is-marginless">
+				<a href="/creditos" class="has-text-grey-dark">CRÉDITOS</a>
+			</div>
+			<hr class="menu-separator">
+	    </div>
+	@endif
+	<div id="app" {{ Route::currentRouteNamed('home') ? 'class="column"' : ''}}>
 		@yield('content')
 	</div>
+	@if(!Route::currentRouteNamed('home'))
+		</div>
+	@endif
 </body>
 </html>

@@ -11,11 +11,17 @@
 |
 */
 
-Route::view('/', 'construcao');
+Route::redirect('/', '/principal', 301);
 
-Route::get('/principal', 'HomeController@index');
+Route::get('/principal/{vue_capture?}', 'HomeController@index')->where('vue_capture', '[\/\w\.-]*')->name('home');
 
-Route::get('/principal/{vue_capture?}', 'HomeController@index')->where('vue_capture', '[\/\w\.-]*');
+Route::get('/sobre', function() {
+	return view('about');
+})->name('about');
+
+Route::get('/creditos', function() {
+	return view('credits');
+})->name('credits');
 
 Auth::routes();
 
