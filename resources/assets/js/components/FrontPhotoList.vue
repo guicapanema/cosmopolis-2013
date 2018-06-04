@@ -21,6 +21,11 @@
 					<!-- </router-link> -->
 				</figure>
 			</div>
+			<div v-if="(photos.length === 0) && !loadingPhotos" class="column">
+				<div class="content has-text-centered has-margin-top-200">
+					Não há fotos que atendam aos filtros selecionados
+				</div>
+			</div>
 		</div>
 		<infinite-loading v-if="this.photos.length < params.total" @infinite="loadPhotos"></infinite-loading>
     </div>

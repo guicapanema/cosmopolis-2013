@@ -98,11 +98,14 @@ class PhotoController extends Controller
 		}
 
 		if ($request->query('tag') !== null) {
-			$queryTag = $request->query('tag');
-			$photos = $photos->whereHas('posters', function($poster) use ($queryTag) {
-				$poster->with('tags')->whereHas('tags', function($tag) use ($queryTag) {
-						$tag->whereIn('text', $queryTag);
-					});
+			$queryTags = $request->query('tag');
+			$photos = $photos->whereHas('posters', function($poster) use ($queryTags) {
+				$poster->with('tags')->whereHas('tags', function($tag) use ($queryTags) {
+					$tag->whereRaw('unaccent(text) ILIKE unaccent(?)', $queryTags[0]);
+					foreach ($queryTags as $queryTag) {
+						$tag->orWhereRaw('unaccent(text) ILIKE unaccent(?)', $queryTag);
+					}
+				});
 			});
 		}
 

@@ -77,7 +77,10 @@ class PosterController extends Controller
 		if ($request->query('tag') !== null) {
 			$queryTags = $request->query('tag');
 			$posters = $posters->whereHas('tags', function($tag) use ($queryTags) {
-				$tag->whereIn('text', $queryTags);
+				$tag->whereRaw('unaccent(text) ILIKE unaccent(?)', $queryTags[0]);
+				foreach ($queryTags as $queryTag) {
+					$tag->orWhereRaw('unaccent(text) ILIKE unaccent(?)', $queryTag);
+				}
 			});
 		}
 

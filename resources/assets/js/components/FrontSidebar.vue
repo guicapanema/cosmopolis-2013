@@ -42,7 +42,7 @@
 				</a>
 			</p>
 		</div>
-		<aside class="menu has-margin-100">
+		<aside class="menu has-margin-100 is-hidden-mobile">
 			<p class="menu-label">
 				Cidade
 			</p>
@@ -59,11 +59,35 @@
 				Tema
 			</p>
 			<ul class="menu-list">
-				<li v-for="tag in tags">
+				<li v-for="theme in themes">
 					<input type="checkbox"
-						:checked="hasTag(tag.text)"
-						@click="onSetTag(tag.text)">
-					{{ tag.text }}
+						:checked="hasTag(theme.tags)"
+						@click="onSetTheme(theme.tags)">
+					<span class="is-capitalized">{{ theme.name }}</span>
+				</li>
+			</ul>
+
+			<p class="menu-label">
+				Sentimento
+			</p>
+			<ul class="menu-list">
+				<li v-for="feeling in feelings">
+					<input type="checkbox"
+						:checked="hasTag(feeling.tags)"
+						@click="onSetTheme(feeling.tags)">
+					<span class="is-capitalized">{{ feeling.name }}</span>
+				</li>
+			</ul>
+
+			<p class="menu-label">
+				Referência
+			</p>
+			<ul class="menu-list">
+				<li v-for="reference in references">
+					<input type="checkbox"
+						:checked="hasTag(reference.tags)"
+						@click="onSetTheme(reference.tags)">
+					<span class="is-capitalized">{{ reference.name }}</span>
 				</li>
 			</ul>
 
@@ -75,7 +99,7 @@
 					<input type="checkbox"
 						:checked="hasType(type['type'])"
 						@click="onSetType(type['type'])">
-					{{ type['type'] }}
+					<span class="is-capitalized">{{ type['type'] }}</span>
 				</li>
 			</ul>
 		</aside>
@@ -91,7 +115,66 @@
             return {
 				cities: [],
 				search: '',
-				tags: [],
+				themes: [{
+					name: 'democracia',
+					tags: ['democracia', 'antipartido', 'antifacismo', 'liberdade cívica', 'reforma política', 'antipolítica', 'partidarismo', 'antisistema', 'eleição', 'ditadura', 'impeachment']
+				}, {
+					name: 'cidadania',
+					tags: ['cidadania', 'redes sociais', 'engajamento', 'convocatória']
+				}, {
+					name: 'violência',
+					tags: ['violência', 'repressão policial', 'segurança pública', 'vinagre']
+				}, {
+					name: 'mobilidade',
+					tags: ['mobilidade', 'aumento da tarifa', 'tarifa zero', 'metrô']
+				}, {
+					name: 'saúde',
+					tags: ['saúde', 'hospitais', 'ato médico', 'sus']
+				}, {
+					name: 'educação',
+					tags: ['educacao']
+				}, {
+					name: 'copa',
+					tags: ['copa', 'fifa', 'estádio', 'território']
+				}, {
+					name: 'corrupção',
+					tags: ['corrupção', 'pec 37', 'políticos corruptos', 'punitivismo']
+				}, {
+					name: 'nação',
+					tags: ['nação', 'patriotismo', 'antipatriotismo', 'hino nacional']
+				}, {
+					name: 'mídia',
+					tags: ['mídia', 'globo', 'SBT', 'veja']
+				}, {
+					name: 'direitos humanos',
+					tags: ['direitos humanos', 'feminismo', 'lgbtiq', 'cura gay', 'estado laico', 'aborto', 'desmilitarização', 'indígena', 'racismo', 'trabalho escravo']
+				}, {
+					name: 'outras pautas',
+					tags: ['cultura', 'pop de rua', 'moradia', 'juventude', 'meio ambiente', 'inflação', 'reforma tributária', 'previdência', 'salário mínimo', 'crise econômica', 'vandalismo', 'terceirização', 'turquia', 'legalização']
+				}],
+
+				feelings: [{
+					name: 'otimismo',
+					tags: ['otimismo']
+				}, {
+					name: 'indignação',
+					tags: ['indignação']
+				}, {
+					name: 'ódio',
+					tags: ['ódio']
+				}],
+
+				references: [{
+					name: 'música',
+					tags: ['música', 'legião urbana', 'cazuza', 'chico buarque', 'bob dylan', 'o rappa', 'racionais', 'engenheiros do hawaii']
+				}, {
+					name: 'outras línguas',
+					tags: ['inglês', 'francês', 'espanhol']
+				}, {
+					name: 'personalidades',
+					tags: ['dilma', 'alckmin', 'jabor', 'feliciano', 'renan', 'márcio lacerda', 'anastasia', 'aécio', 'malafaia', 'malcom x', 'haddad', 'neymar']
+				}],
+
 				types: []
             }
         },
@@ -104,12 +187,12 @@
 					console.error(error);
 				});
 
-			axios.get('/tags')
-				.then(response => {
-					this.tags = response.data;
-				}).catch(error => {
-					console.error(error);
-				});
+			// axios.get('/tags')
+			// 	.then(response => {
+			// 		this.tags = response.data;
+			// 	}).catch(error => {
+			// 		console.error(error);
+			// 	});
 
 			axios.get('/cartazes', { params: { groupBy: 'type' } })
 				.then(response => {
@@ -124,8 +207,11 @@
 				return this.filters.cities.indexOf(city) >= 0;
 			},
 			hasTag(tag) {
-				return this.filters.tags.indexOf(tag) >= 0;
-
+				if(typeof tag === 'string') {
+					return this.filters.tags.indexOf(tag) >= 0;
+				} else {
+					return tag.every((innerTag) => this.filters.tags.includes(innerTag));
+				}
 			},
 			hasType(type) {
 				return this.filters.types.indexOf(type) >= 0;
@@ -183,7 +269,34 @@
 				}
 
 				this.$router.push({ path: this.$route.path, query: {...this.$route.query, tag: queryTags} });
+			},
 
+			onSetTheme(tags) {
+				let queryTags = this.$route.query['tag'];
+				if(!queryTags) {
+					queryTags = tags;
+				} else if(typeof queryTags === 'string') {
+					if (tags.includes(queryTags)) {
+						queryTags = null;
+					} else {
+						tags.push(queryTags);
+						queryTags = tags.slice();
+					}
+				} else {
+					queryTags = queryTags.slice();
+					if (tags.some(innerTag => queryTags.includes(innerTag))) { // Remove all tags in theme from query
+						for (let tag of tags) {
+							let index = queryTags.findIndex(innerTag => innerTag === tag);
+							if (index >= 0) {
+								queryTags.splice(index, 1);
+							}
+						}
+					} else {
+						queryTags.push(...tags);
+					}
+				}
+
+				this.$router.push({ path: this.$route.path, query: {...this.$route.query, tag: queryTags} });
 			},
 
 			onSetType(type) {

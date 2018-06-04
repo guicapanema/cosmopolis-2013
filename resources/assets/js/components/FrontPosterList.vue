@@ -19,6 +19,12 @@
 					<img v-if="poster.active" :src="'/fotos/' + poster.photos[0].id + '/arquivo?tamanho=pequeno&recortar=true'"></img>
 				</div>
 			</div>
+
+			<div v-if="(posters.length === 0) && !loadingPosters" class="column">
+				<div class="content has-text-centered has-margin-top-200">
+					Não há cartazes que atendam aos filtros selecionados
+				</div>
+			</div>
 		</div>
 		<infinite-loading v-if="this.posters.length < params.total" @infinite="loadPosters"></infinite-loading>
     </div>

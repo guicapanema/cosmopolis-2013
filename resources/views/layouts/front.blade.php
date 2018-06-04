@@ -10,7 +10,7 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-	<meta name="description" content="">
+	<meta name="description" content="Um chamado pela memória coletiva acerca das passeatas de 2013.">
 	<meta name="keywords" content="2013,manifestações,grafias,cartazes">
 	<meta name="author" content="Grafias de Junho">
 
@@ -19,7 +19,7 @@
 
 	<meta property="og:site_name" content="{{ config('app.name', 'Laravel') }}">
 	<meta property="og:title" content="{{ config('app.name', 'Laravel') }}">
-	<meta property="og:description" content="">
+	<meta property="og:description" content="Um chamado pela memória coletiva acerca das passeatas de 2013.">
 	<meta property="og:image" content="https://www.grafiasdejunho.org/images/logo.png">
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="https://www.grafiasdejunho.org/">
