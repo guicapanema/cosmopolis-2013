@@ -26,57 +26,92 @@
 			</div>
 		</div>
 	</nav>
-	<div class="has-margin-50">
-		<div class="columns">
-			<div class="column">
-				<div class="card">
-					<header class="card-header">
-						<p class="card-header-title">
-							Cartazes sem fotos
-						</p>
-					</header>
-					<div>
-						<table class="table is-striped is-fullwidth">
-							<tbody>
-								@foreach(App\Poster::doesntHave('photos')->get() as $poster)
-									<tr>
-										<td>
-											<a href="cartazes/{{ $poster->id }}/editar">
-												{{ $poster->text }}
-											</a>
-										</td>
-									</tr>
-								@endforeach
-							</tbody>
-						</table>
+	@if (Request::query('mostrarInconsistencias') === null)
+		<div class="has-text-centered">
+			<a class="button is-primary" href="?mostrarInconsistencias=1">
+				Mostrar Inconsistências
+			</a>
+		</div>
+
+	@else
+		<div class="has-margin-50">
+			<div class="columns">
+				<div class="column">
+					<div class="card">
+						<header class="card-header">
+							<p class="card-header-title">
+								Fotos com cartazes repetidos
+							</p>
+						</header>
+						<div>
+							<table class="table is-striped is-fullwidth">
+								<tbody>
+									@foreach($photos as $photo)
+										@if(App\Photo::find($photo->id)->posters->groupBy('text')->count() !== App\Photo::find($photo->id)->posters->count())
+										<tr>
+											<td>
+												<a href="fotos/{{ $photo->id }}/editar">
+													{{ $photo->name }}
+												</a>
+											</td>
+										</tr>
+										@endif
+									@endforeach
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="column">
-				<div class="card">
-					<header class="card-header">
-						<p class="card-header-title">
-							Tags sem cartazes
-						</p>
-					</header>
-					<div>
-						<table class="table is-striped is-fullwidth">
-							<tbody>
-								@foreach(App\Tag::doesntHave('posters')->get() as $tag)
-									<tr>
-										<td>
-											<a href="tags/{{ $tag->id }}/editar">
-												{{ $tag->text }}
-											</a>
-										</td>
-									</tr>
-								@endforeach
-							</tbody>
-						</table>
+				<div class="column">
+					<div class="card">
+						<header class="card-header">
+							<p class="card-header-title">
+								Cartazes sem fotos
+							</p>
+						</header>
+						<div>
+							<table class="table is-striped is-fullwidth">
+								<tbody>
+									@foreach(App\Poster::doesntHave('photos')->get() as $poster)
+										<tr>
+											<td>
+												<a href="cartazes/{{ $poster->id }}/editar">
+													{{ $poster->text }}
+												</a>
+											</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="column">
+					<div class="card">
+						<header class="card-header">
+							<p class="card-header-title">
+								Tags sem cartazes
+							</p>
+						</header>
+						<div>
+							<table class="table is-striped is-fullwidth">
+								<tbody>
+									@foreach(App\Tag::doesntHave('posters')->get() as $tag)
+										<tr>
+											<td>
+												<a href="tags/{{ $tag->id }}/editar">
+													{{ $tag->text }}
+												</a>
+											</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	@endif
 
 @endsection
