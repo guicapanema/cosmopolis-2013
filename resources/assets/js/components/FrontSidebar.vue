@@ -219,6 +219,8 @@
 		},
 
         mounted() {
+			this.search = this.filters.search;
+			
             axios.get('/fotos', { params: { groupBy: 'city', sortBy: 'city' } })
 				.then(response => {
 					this.cities = response.data.data;
@@ -232,13 +234,6 @@
 				}).catch(error => {
 					console.error(error);
 				});
-
-			// axios.get('/tags')
-			// 	.then(response => {
-			// 		this.tags = response.data;
-			// 	}).catch(error => {
-			// 		console.error(error);
-			// 	});
 
 			axios.get('/cartazes', { params: { groupBy: 'type', sortBy: 'type' } })
 				.then(response => {

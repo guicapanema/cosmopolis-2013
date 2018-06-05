@@ -18,7 +18,7 @@
 					</div>
 					<slider v-if="poster.active && poster.photos.length" animation="fade" :speed="100" :control-btn="false" height="100%" width="100%">
 						<slider-item v-for="(photo, index) of poster.photos" :key="index">
-							<img v-if="poster.active" :src="'/fotos/' + poster.photos[0].id + '/arquivo?tamanho=pequeno&recortar=true'" @click="$router.push('/foto/' + photo.id)" class="is-cursor-pointer"></img>
+							<img v-if="poster.active" :src="'/fotos/' + photo.id + '/arquivo?tamanho=pequeno&recortar=true'" @click="$router.push('/foto/' + photo.id)" class="is-cursor-pointer"></img>
 						</slider-item>
 					</slider>
 				</div>
