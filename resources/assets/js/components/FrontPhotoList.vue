@@ -51,6 +51,7 @@
 				params: {
 					busca: null,
 					mostrarCartazes: true,
+					esconderVazias: true,
 					page: 1,
 					per_page: 21,
 					sortBy: 'name',
@@ -105,9 +106,11 @@
 				this.params = {
 					busca: this.filters.search,
 					cidade: this.filters.cities,
+					data: this.filters.dates,
 					fotografo: this.filters.photographer,
 					genero: this.filters.gender,
 					mostrarCartazes: true,
+					esconderVazias: true,
 					tag: this.filters.tags,
 					tipo: this.filters.types,
 					page: 1,

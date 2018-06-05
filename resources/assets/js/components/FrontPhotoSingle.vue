@@ -39,7 +39,9 @@
 						<div v-if="photo.date" class="content">
 							<h2 class="title is-marginless has-text-white is-uppercase">Data</h2>
 							<hr class="title-underline"></hr>
-							<div class="has-text-weight-light">{{ photo.date }}</div>
+							<router-link :to="'/?data=' + photo.date" class="has-text-grey-lighter has-text-weight-light">
+								{{ new Date(photo.date).toLocaleDateString() }}
+							</router-link>
 						</div>
 						<div v-if="photo.city" class="content">
 							<h2 class="title is-marginless has-text-white is-uppercase">Cidade</h2>
@@ -97,7 +99,6 @@
 				axios.get('/fotos/' + this.$route.params.foto)
 					.then(response => {
 						this.photo = response.data
-						this.photo.date = this.photo.date ? new Date(this.photo.date).toLocaleDateString() : '';
 						this.loadingPhoto = false;
 					}).catch(error => {
 						console.error(error);

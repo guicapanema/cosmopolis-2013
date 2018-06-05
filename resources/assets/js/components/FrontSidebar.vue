@@ -45,6 +45,36 @@
 			</p> -->
 		</div>
 		<aside class="menu has-margin-100 is-hidden-mobile">
+			<template v-if="hasFilters">
+				<p class="menu-label">
+					Filtros ativos
+				</p>
+				<div class="tags">
+					<template
+						v-for="(filter, key) in filters"
+						v-if="filter && (filter.length > 0)">
+						<span
+							v-if="key === 'search'"
+							class="tag is-cursor-pointer"
+							@click="onRemoveFilter(filter, key)">
+							{{ filter }}
+						</span>
+						<span
+							v-else
+							v-for="element in filter"
+							class="tag is-cursor-pointer"
+							@click="onRemoveFilter(element, key)">
+							<span v-if="key === 'dates'">
+								{{ new Date(element).toLocaleDateString() }}
+							</span>
+							<span v-else>
+								{{ element }}
+							</span>
+						</span>
+					</template>
+				</div>
+			</template>
+
 			<p class="menu-label">
 				Cidade
 			</p>
@@ -80,6 +110,18 @@
 					<span class="is-capitalized">{{ type['type'] }}</span>
 				</li>
 			</ul>
+
+			<p class="menu-label">
+				Data
+			</p>
+			<ul class="menu-list">
+				<li v-for="date in dates" v-if="date['date']">
+					<input type="checkbox"
+						:checked="hasDate(date['date'])"
+						@click="onSetDate(date['date'])">
+					<span>{{ new Date(date['date']).toLocaleDateString() }}</span>
+				</li>
+			</ul>
 		</aside>
 		<div class="has-text-centered">
 			<a href="https://www.facebook.com/grafiasdejunho/" target="_blank" class="has-text-grey">
@@ -99,6 +141,7 @@
 		data() {
             return {
 				cities: [],
+				dates: [],
 				search: '',
 				themes: [{
 					name: 'democracia',
@@ -164,10 +207,28 @@
             }
         },
 
+		computed: {
+			hasFilters() {
+				if(this.filters) {
+					for (let filter in this.filters) {
+						if (this.filters[filter] && (this.filters[filter].length > 0)) return true;
+					}
+				}
+				return false;
+			}
+		},
+
         mounted() {
             axios.get('/fotos', { params: { groupBy: 'city' } })
 				.then(response => {
 					this.cities = response.data.data;
+				}).catch(error => {
+					console.error(error);
+				});
+
+			axios.get('/fotos', { params: { groupBy: 'date' } })
+				.then(response => {
+					this.dates = response.data.data;
 				}).catch(error => {
 					console.error(error);
 				});
@@ -191,6 +252,9 @@
 			hasCity(city) {
 				return this.filters.cities.indexOf(city) >= 0;
 			},
+			hasDate(date) {
+				return this.filters.dates.indexOf(date) >= 0;
+			},
 			hasTag(tag) {
 				if(typeof tag === 'string') {
 					return this.filters.tags.indexOf(tag) >= 0;
@@ -200,8 +264,22 @@
 			},
 			hasType(type) {
 				return this.filters.types.indexOf(type) >= 0;
-
 			},
+
+			onRemoveFilter(filter, key) {
+				if(key === 'search') {
+					this.onSetSearch(null);
+				} else if(key === 'cities') {
+					this.onSetCity(filter);
+				} else if(key === 'dates') {
+					this.onSetDate(filter);
+				} else if(key === 'tags') {
+					this.onSetTag(filter);
+				} else if(key === 'type') {
+					this.onSetType(filter);
+				}
+			},
+
 			onSetCity(city) {
 				let queryCities = this.$route.query['cidade'];
 				if(!queryCities) {
@@ -223,6 +301,30 @@
 				}
 
 				this.$router.push({ path: this.$route.path, query: {...this.$route.query, cidade: queryCities} });
+
+			},
+
+			onSetDate(date) {
+				let queryDates = this.$route.query['data'];
+				if(!queryDates) {
+					queryDates = date;
+				} else if(typeof queryDates === 'string') {
+					if (queryDates === date) {
+						queryDates = null;
+					} else {
+						queryDates = [queryDates, date];
+					}
+				} else {
+					queryDates = queryDates.slice();
+					let index = queryDates.indexOf(date);
+					if(index >= 0) {
+						queryDates.splice(index, 1);
+					} else {
+						queryDates.push(date);
+					}
+				}
+
+				this.$router.push({ path: this.$route.path, query: {...this.$route.query, data: queryDates} });
 
 			},
 

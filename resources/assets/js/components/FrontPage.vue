@@ -27,6 +27,7 @@
 				filters: {
 					search: null,
 					cities: [],
+					dates:[],
 					tags: [],
 					types: []
 				},
@@ -54,7 +55,9 @@
 				}
 
 				this.filters = {
+					search: null,
 					cities: [],
+					dates:[],
 					tags: [],
 					types: []
 				};
@@ -64,6 +67,14 @@
 						Vue.set(this.filters, 'cities', [this.$route.query['cidade']]);
 					} else {
 						Vue.set(this.filters, 'cities', this.$route.query['cidade']);
+					}
+				}
+
+				if(this.$route.query['data']) {
+					if(typeof this.$route.query['data'] === 'string') {
+						Vue.set(this.filters, 'dates', [this.$route.query['data']]);
+					} else {
+						Vue.set(this.filters, 'dates', this.$route.query['data']);
 					}
 				}
 

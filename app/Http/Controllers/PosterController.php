@@ -61,6 +61,10 @@ class PosterController extends Controller
 			$posters = $posters->with('tags');
 		}
 
+		if($request->query('esconderVazios') !== null) {
+			$posters = $posters->has('photos');
+		}
+
 		if ($request->query('busca') !== null) {
 			$queryString = '%' . $request->query('busca') . '%';
 			$posters = $posters->orWhereRaw('unaccent(text) ILIKE unaccent(?)', $queryString)

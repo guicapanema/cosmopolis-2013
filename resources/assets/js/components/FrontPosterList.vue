@@ -54,6 +54,7 @@
 				posters: [],
 				params: {
 					busca: null,
+					esconderVazios: true,
 					mostrarFotos: true,
 					mostrarTags: true,
 					page: 1,
@@ -109,6 +110,7 @@
 				this.params = {
 					busca: this.filters.search,
 					cidade: this.filters.cities,
+					esconderVazios: true,
 					fotografo: this.filters.photographer,
 					genero: this.filters.gender,
 					mostrarFotos: true,

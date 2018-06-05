@@ -29,6 +29,16 @@
     <!-- Scripts -->
     <script src="{{ asset('js/front.js') }}" defer></script>
 
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-120302693-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-120302693-1');
+	</script>
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
 	<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"></script>

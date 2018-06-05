@@ -70,6 +70,10 @@ class PhotoController extends Controller
 			$photos = $photos->with('posters');
 		}
 
+		if ($request->query('esconderVazias') !== null) {
+			$photos = $photos->has('posters');
+		}
+
 		if ($request->query('busca') !== null) {
 			$queryString = '%' . $request->query('busca') . '%';
 			$photos = $photos->orWhere('name', 'ilike', $queryString)
@@ -112,6 +116,11 @@ class PhotoController extends Controller
 		if ($request->query('cidade') !== null) {
 			$queryCity = $request->query('cidade');
 			$photos = $photos->whereIn('city', $queryCity);
+		}
+
+		if ($request->query('data') !== null) {
+			$queryDate = $request->query('data');
+			$photos = $photos->whereIn('date', $queryDate);
 		}
 
 		if ($request->query('fotografo') !== null) {
