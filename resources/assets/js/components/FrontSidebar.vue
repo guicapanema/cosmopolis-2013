@@ -219,14 +219,14 @@
 		},
 
         mounted() {
-            axios.get('/fotos', { params: { groupBy: 'city' } })
+            axios.get('/fotos', { params: { groupBy: 'city', sortBy: 'city' } })
 				.then(response => {
 					this.cities = response.data.data;
 				}).catch(error => {
 					console.error(error);
 				});
 
-			axios.get('/fotos', { params: { groupBy: 'date' } })
+			axios.get('/fotos', { params: { groupBy: 'date', sortBy: 'date' } })
 				.then(response => {
 					this.dates = response.data.data;
 				}).catch(error => {
@@ -240,7 +240,7 @@
 			// 		console.error(error);
 			// 	});
 
-			axios.get('/cartazes', { params: { groupBy: 'type' } })
+			axios.get('/cartazes', { params: { groupBy: 'type', sortBy: 'type' } })
 				.then(response => {
 					this.types = response.data.data;
 				}).catch(error => {
