@@ -67,8 +67,11 @@ class PosterController extends Controller
 
 		if ($request->query('busca') !== null) {
 			$queryString = '%' . $request->query('busca') . '%';
-			$posters = $posters->orWhereRaw('unaccent(text) ILIKE unaccent(?)', $queryString)
-						->orWhere('type', 'ilike', $queryString);
+
+			$posters = $posters->where(function($query) use ($queryString) {
+				$query->whereRaw('unaccent(text) ILIKE unaccent(?)', $queryString)
+					->orWhere('type', 'ilike', $queryString);
+			});
 		}
 
 		if ($request->query('cidade') !== null) {
