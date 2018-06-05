@@ -42,7 +42,7 @@
 	@if(!Route::currentRouteNamed('home'))
 		<div class="columns is-gapless is-marginless">
 			<div class="column is-one-quarter">
-				<figure class="image">
+				<figure class="image logo">
 					<a href="/principal">
 						<img src="/images/logo.png" width="100%"></img>
 					</a>
@@ -50,7 +50,7 @@
 			</div>
 		</div>
 		<div class="columns is-gapless">
-		<div class="column is-one-quarter">
+		<div class="column is-one-quarter is-size-7">
 			<div class="content has-text-centered is-marginless">
 				<a href="/principal" class="has-text-grey-dark">PRINCIPAL</a>
 			</div>
@@ -63,6 +63,13 @@
 				<a href="/creditos" class="has-text-grey-dark">CRÉDITOS</a>
 			</div>
 			<hr class="menu-separator">
+			<div class="has-text-centered">
+				<a href="https://www.facebook.com/grafiasdejunho/" target="_blank" class="has-text-grey">
+					<span class="icon">
+						<i class="fab fa-facebook"></i>
+					</span>
+				</a>
+			</div>
 	    </div>
 	@endif
 	<div id="app" {{ Route::currentRouteNamed('home') ? 'class="column"' : ''}}>

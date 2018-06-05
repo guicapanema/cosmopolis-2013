@@ -1,32 +1,16 @@
 <template>
     <div>
-		<figure class="image">
+		<figure class="image logo">
 			<router-link to="/">
 				<img src="/images/logo.png" width="100%"></img>
 			</router-link>
 		</figure>
-		<div class="content has-text-centered">
-			<a href="/principal" class="has-text-grey-dark">PRINCIPAL</a> |
-			<a href="/sobre" class="has-text-grey-dark">SOBRE</a> |
+		<div class="content has-text-centered is-size-7">
+			<a href="/principal" class="has-text-grey-dark">PRINCIPAL</a>&nbsp | &nbsp
+			<a href="/sobre" class="has-text-grey-dark">SOBRE</a>&nbsp | &nbsp
 			<a href="/creditos" class="has-text-grey-dark">CRÉDITOS</a>
 		</div>
-		<div class="buttons has-addons is-centered">
-			<router-link to="/" :class="{
-				'button': true,
-				'is-light': view === 'photos'}">
-				Imagem
-			</router-link>
-			<router-link to="/cartazes" :class="{
-				'button': true,
-				'is-light': view === 'posters'}">
-				Texto
-			</router-link>
-		</div>
-		<div :class="{
-					'field': true,
-					'has-margin-100': true,
-					'has-addons': search.length
-					}">
+		<div class="field has-margin-100 has-addons">
 			<p class="control has-icons-left is-expanded">
 				<input
 					v-model="search"
@@ -36,11 +20,29 @@
 					<i class="fas fa-search"></i>
 				</span>
 			</p>
-			<p v-if="search.length" class="control">
+			<p class="control">
+				<router-link to="/" :class="{
+					'button': true,
+					'is-light': view === 'photos'}">
+					<span class="icon">
+						<i class="fas fa-camera-retro"></i>
+					</span>
+				</router-link>
+			</p>
+			<p class="control">
+				<router-link to="/cartazes" :class="{
+					'button': true,
+					'is-light': view === 'posters'}">
+					<span class="icon">
+						<i class="fas fa-font"></i>
+					</span>
+				</router-link>
+			</p>
+			<!-- <p v-if="search.length" class="control">
 				<a @click="onSetSearch('')" class="button is-light">
 					Limpar
 				</a>
-			</p>
+			</p> -->
 		</div>
 		<aside class="menu has-margin-100 is-hidden-mobile">
 			<p class="menu-label">
@@ -68,30 +70,6 @@
 			</ul>
 
 			<p class="menu-label">
-				Sentimento
-			</p>
-			<ul class="menu-list">
-				<li v-for="feeling in feelings">
-					<input type="checkbox"
-						:checked="hasTag(feeling.tags)"
-						@click="onSetTheme(feeling.tags)">
-					<span class="is-capitalized">{{ feeling.name }}</span>
-				</li>
-			</ul>
-
-			<p class="menu-label">
-				Referência
-			</p>
-			<ul class="menu-list">
-				<li v-for="reference in references">
-					<input type="checkbox"
-						:checked="hasTag(reference.tags)"
-						@click="onSetTheme(reference.tags)">
-					<span class="is-capitalized">{{ reference.name }}</span>
-				</li>
-			</ul>
-
-			<p class="menu-label">
 				Tipo
 			</p>
 			<ul class="menu-list">
@@ -103,6 +81,13 @@
 				</li>
 			</ul>
 		</aside>
+		<div class="has-text-centered">
+			<a href="https://www.facebook.com/grafiasdejunho/" target="_blank" class="has-text-grey">
+				<span class="icon">
+					<i class="fab fa-facebook"></i>
+				</span>
+			</a>
+		</div>
     </div>
 </template>
 
@@ -325,3 +310,12 @@
 		}
     }
 </script>
+
+<style scoped>
+	p.menu-label {
+		margin-bottom: 0.2em;
+	}
+	li {
+		margin-bottom: 0.2em;
+	}
+</style>

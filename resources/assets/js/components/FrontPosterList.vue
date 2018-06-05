@@ -4,8 +4,8 @@
 			<div v-for="poster of posters" class="column is-one-third">
 				<div class="poster-card content is-marginless" @mouseover="poster.active = true" @mouseleave="poster.active = false">
 					<div v-if="!poster.active" class="poster-card-content">
-						<p>{{ poster.text }}</p>
-						<div v-if="poster.photos[0]" class="poster-info has-text-grey is-size-7">
+						<p class="is-size-5 is-marginless">{{ poster.text }}</p>
+						<div v-if="poster.photos[0]" class="poster-info has-text-grey is-size-6">
 							<div>{{ poster.photos[0].photographer }}</div>
 							<div>{{ poster.photos[0].city }}</div>
 							<div>{{ poster.type }}</div>
@@ -16,7 +16,11 @@
 							</div>
 						</div>
 					</div>
-					<img v-if="poster.active" :src="'/fotos/' + poster.photos[0].id + '/arquivo?tamanho=pequeno&recortar=true'"></img>
+					<slider v-if="poster.active && poster.photos.length" animation="fade" :speed="100" :control-btn="false" height="100%" width="100%">
+						<slider-item v-for="(photo, index) of poster.photos" :key="index">
+							<img v-if="poster.active" :src="'/fotos/' + poster.photos[0].id + '/arquivo?tamanho=pequeno&recortar=true'" @click="$router.push('/foto/' + photo.id)" class="is-cursor-pointer"></img>
+						</slider-item>
+					</slider>
 				</div>
 			</div>
 
@@ -32,10 +36,16 @@
 
 <script>
 	import InfiniteLoading from 'vue-infinite-loading';
+	import { Slider, SliderItem } from 'vue-easy-slider'
 
 	export default {
 
 		props: ['filters'],
+
+		components: {
+			Slider,
+			SliderItem
+		},
 
 		data() {
             return {

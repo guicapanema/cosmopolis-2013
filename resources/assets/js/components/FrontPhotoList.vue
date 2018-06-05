@@ -7,13 +7,12 @@
 						<img :src="'/fotos/' + photo.id + '/arquivo?tamanho=pequeno&recortar=true'" @click="$router.push('/foto/' + photo.id)"></img>
 						<slider v-if="photo.active && photo.posters.length" animation="fade" :speed="100" :control-btn="false" height="100%" width="100%">
 							<slider-item v-for="(poster, index) of photo.posters" :key="index">
-								<div style="padding: 1em 0.5em; width: 100%; height: 100%; backgroundColor: rgba(0,0,0,0.4)"  @click="$router.push('/foto/' + photo.id)">
-									<p class="has-text-white">{{ poster.text }}</p>
-									<div class="poster-info has-text-grey-light is-size-7">
-										<div>{{ photo.photographer }}</div>
+								<div class="slider-overlay"  @click="$router.push('/foto/' + photo.id)">
+									<p class="has-text-white is-size-5">{{ poster.text }}</p>
+									<div class="poster-info has-text-grey-light is-size-6">
+										<div>{{ photo.date }}</div>
 										<div>{{ photo.city }}</div>
-										<div>{{ poster.type }}</div>
-										<div>{{ poster.tags }}</div>
+										<div>Foto: {{ photo.photographer }}</div>
 									</div>
 								</div>
 							</slider-item>
@@ -40,9 +39,9 @@
 		props: ['filters'],
 
 		components: {
-    Slider,
-    SliderItem
-},
+		    Slider,
+		    SliderItem
+		},
 
 		data() {
             return {

@@ -6,26 +6,26 @@
 	<div class="content has-text-centered">
 		<h3>Painel</h3>
 	</div>
-	<nav class="level">
-		<div class="level-item has-text-centered">
+	<div class="columns">
+		<div class="column is-one-third has-text-centered">
 			<div>
 				<p class="heading">Fotos</p>
 				<p class="title">{{ $photos->count() }}</p>
 			</div>
 		</div>
-		<div class="level-item has-text-centered">
+		<div class="column is-one-third has-text-centered">
 			<div>
 				<p class="heading">Cartazes</p>
 				<p class="title">{{ $posters->count() }}</p>
 			</div>
 		</div>
-		<div class="level-item has-text-centered">
+		<div class="column is-one-third has-text-centered">
 			<div>
 				<p class="heading">Tags</p>
 				<p class="title">{{ $tags->count() }}</p>
 			</div>
 		</div>
-	</nav>
+	</div>
 	@if (Request::query('mostrarInconsistencias') === null)
 		<div class="has-text-centered">
 			<a class="button is-primary" href="?mostrarInconsistencias=1">
@@ -36,7 +36,7 @@
 	@else
 		<div class="has-margin-50">
 			<div class="columns">
-				<div class="column">
+				<div class="column is-one-third">
 					<div class="card">
 						<header class="card-header">
 							<p class="card-header-title">
@@ -50,7 +50,7 @@
 										@if(App\Photo::find($photo->id)->posters->groupBy('text')->count() !== App\Photo::find($photo->id)->posters->count())
 										<tr>
 											<td>
-												<a href="fotos/{{ $photo->id }}/editar">
+												<a href="fotos/{{ $photo->id }}/editar" style="word-wrap:break-word;">
 													{{ $photo->name }}
 												</a>
 											</td>
@@ -62,7 +62,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="column">
+				<div class="column is-one-third">
 					<div class="card">
 						<header class="card-header">
 							<p class="card-header-title">
@@ -86,7 +86,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="column">
+				<div class="column is-one-third">
 					<div class="card">
 						<header class="card-header">
 							<p class="card-header-title">
