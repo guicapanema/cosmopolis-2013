@@ -143,40 +143,52 @@
 				cities: [],
 				dates: [],
 				search: '',
-				themes: [{
-					name: 'democracia',
-					tags: ['democracia', 'antipartido', 'antifacismo', 'liberdade cívica', 'reforma política', 'antipolítica', 'partidarismo', 'antisistema', 'eleição', 'ditadura', 'impeachment']
-				}, {
+				themes: [
+				{
 					name: 'cidadania',
 					tags: ['cidadania', 'redes sociais', 'engajamento', 'convocatória']
-				}, {
-					name: 'violência',
-					tags: ['violência', 'repressão policial', 'segurança pública', 'vinagre']
-				}, {
-					name: 'mobilidade',
-					tags: ['mobilidade', 'aumento da tarifa', 'tarifa zero', 'metrô']
-				}, {
-					name: 'saúde',
-					tags: ['saúde', 'hospitais', 'ato médico', 'sus']
-				}, {
-					name: 'educação',
-					tags: ['educacao']
-				}, {
+				},
+				{
 					name: 'copa',
 					tags: ['copa', 'fifa', 'estádio', 'território']
-				}, {
+				},
+				{
 					name: 'corrupção',
 					tags: ['corrupção', 'pec 37', 'políticos corruptos', 'punitivismo']
-				}, {
-					name: 'nação',
-					tags: ['nação', 'patriotismo', 'antipatriotismo', 'hino nacional']
-				}, {
-					name: 'mídia',
-					tags: ['mídia', 'globo', 'SBT', 'veja']
-				}, {
+				},
+				{
+					name: 'democracia',
+					tags: ['democracia', 'antipartido', 'antifacismo', 'liberdade cívica', 'reforma política', 'antipolítica', 'partidarismo', 'antisistema', 'eleição', 'ditadura', 'impeachment']
+				},
+				{
 					name: 'direitos humanos',
 					tags: ['direitos humanos', 'feminismo', 'lgbtiq', 'cura gay', 'estado laico', 'aborto', 'desmilitarização', 'indígena', 'racismo', 'trabalho escravo']
-				}, {
+				},
+				{
+					name: 'educação',
+					tags: ['educacao']
+				},
+				{
+					name: 'mídia',
+					tags: ['mídia', 'globo', 'SBT', 'veja']
+				},
+				{
+					name: 'mobilidade',
+					tags: ['mobilidade', 'aumento da tarifa', 'tarifa zero', 'metrô']
+				},
+				{
+					name: 'nação',
+					tags: ['nação', 'patriotismo', 'antipatriotismo', 'hino nacional']
+				},
+				{
+					name: 'saúde',
+					tags: ['saúde', 'hospitais', 'ato médico', 'sus']
+				},
+				{
+					name: 'violência',
+					tags: ['violência', 'repressão policial', 'segurança pública', 'vinagre']
+				},
+				{
 					name: 'outras pautas',
 					tags: ['cultura', 'pop de rua', 'moradia', 'juventude', 'meio ambiente', 'inflação', 'reforma tributária', 'previdência', 'salário mínimo', 'crise econômica', 'vandalismo', 'terceirização', 'turquia', 'legalização']
 				}],
@@ -220,7 +232,7 @@
 
         mounted() {
 			this.search = this.filters.search;
-			
+
             axios.get('/fotos', { params: { groupBy: 'city', sortBy: 'city' } })
 				.then(response => {
 					this.cities = response.data.data;
