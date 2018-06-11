@@ -21,7 +21,9 @@
 				</span>
 			</p>
 			<p class="control">
-				<router-link to="/" :class="{
+				<router-link
+					:to="{ path: '/', query: $route.query }"
+					:class="{
 					'button': true,
 					'is-light': view === 'photos'}">
 					<span class="icon">
@@ -30,7 +32,9 @@
 				</router-link>
 			</p>
 			<p class="control">
-				<router-link to="/cartazes" :class="{
+				<router-link
+					:to="{ path: '/cartazes', query: $route.query }" 
+					:class="{
 					'button': true,
 					'is-light': view === 'posters'}">
 					<span class="icon">
@@ -55,21 +59,21 @@
 						v-if="filter && (filter.length > 0)">
 						<span
 							v-if="key === 'search'"
-							class="tag is-cursor-pointer"
-							@click="onRemoveFilter(filter, key)">
+							class="tag">
 							{{ filter }}
+							<a class="delete is-small" @click="onRemoveFilter(filter, key)"></a>
 						</span>
 						<span
 							v-else
 							v-for="element in filter"
-							class="tag is-cursor-pointer"
-							@click="onRemoveFilter(element, key)">
+							class="tag">
 							<span v-if="key === 'dates'">
 								{{ new Date(element).toLocaleDateString() }}
 							</span>
 							<span v-else>
 								{{ element }}
 							</span>
+							<a class="delete is-small" @click="onRemoveFilter(element, key)"></a>
 						</span>
 					</template>
 				</div>
