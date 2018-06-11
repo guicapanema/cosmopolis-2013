@@ -70,7 +70,7 @@
 			</div>
 			<hr class="menu-separator">
 			<div class="content has-text-centered is-marginless">
-				<a href="/creditos" class="has-text-grey-dark">CRÉDITOS</a>
+				<a href="/colabore" class="has-text-grey-dark">COLABORE</a>
 			</div>
 			<hr class="menu-separator">
 			<div class="has-text-centered">

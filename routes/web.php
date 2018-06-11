@@ -19,9 +19,9 @@ Route::get('/sobre', function() {
 	return view('about');
 })->name('about');
 
-Route::get('/creditos', function() {
-	return view('credits');
-})->name('credits');
+Route::get('/colabore', function() {
+	return view('collaborate');
+})->name('collaborate');
 
 Auth::routes();
 

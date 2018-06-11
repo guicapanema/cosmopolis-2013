@@ -8,7 +8,7 @@
 		<div class="content has-text-centered is-size-7">
 			<a href="/principal" class="has-text-grey-dark">PRINCIPAL</a>&nbsp | &nbsp
 			<a href="/sobre" class="has-text-grey-dark">SOBRE</a>&nbsp | &nbsp
-			<a href="/creditos" class="has-text-grey-dark">CRÉDITOS</a>
+			<a href="/colabore" class="has-text-grey-dark">COLABORE</a>
 		</div>
 		<div class="field has-margin-100 has-addons">
 			<p class="control has-icons-left is-expanded">
