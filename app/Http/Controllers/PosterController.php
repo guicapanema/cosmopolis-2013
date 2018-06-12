@@ -81,6 +81,13 @@ class PosterController extends Controller
 			});
 		}
 
+		if ($request->query('data') !== null) {
+			$queryDate = $request->query('data');
+			$posters = $posters->whereHas('photos', function($photo) use ($queryDate) {
+				$photo->whereIn('date', $queryDate);
+			});
+		}
+
 		if ($request->query('tag') !== null) {
 			$queryTags = $request->query('tag');
 			$posters = $posters->whereHas('tags', function($tag) use ($queryTags) {

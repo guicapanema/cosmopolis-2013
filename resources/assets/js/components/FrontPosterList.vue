@@ -59,7 +59,7 @@
 					mostrarTags: true,
 					page: 1,
 					per_page: 21,
-					sortBy: 'name',
+					sortBy: 'text',
 					sortOrder: 'asc'
 				}
             }
@@ -110,6 +110,7 @@
 				this.params = {
 					busca: this.filters.search,
 					cidade: this.filters.cities,
+					data: this.filters.dates,
 					esconderVazios: true,
 					fotografo: this.filters.photographer,
 					genero: this.filters.gender,
