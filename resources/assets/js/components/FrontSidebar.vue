@@ -99,6 +99,7 @@
 						'active': hasCity(city['city'])
 						}">
 					<span class="is-capitalized">{{ city['city'] }}</span>
+					<span class="has-text-grey-light is-size-7">({{ city['total'] }})</span>
 				</li>
 			</ul>
 
@@ -144,6 +145,7 @@
 						'active': hasType(type['type'])
 						}">
 					<span class="is-capitalized">{{ type['type'] }}</span>
+					<span class="has-text-grey-light is-size-7">({{ type['total'] }})</span>
 				</li>
 			</ul>
 
@@ -317,25 +319,25 @@
         mounted() {
 			this.search = this.filters.search;
 
-            axios.get('/fotos', { params: { groupBy: 'city', sortBy: 'city' } })
+            axios.get('/cidades')
 				.then(response => {
-					this.cities = response.data.data;
+					this.cities = response.data;
 				}).catch(error => {
 					console.error(error);
 				});
 
-			axios.get('/fotos', { params: { groupBy: 'date', sortBy: 'date', per_page: 60 } })
+			axios.get('/datas')
 				.then(response => {
-					for(let date of response.data.data) {
+					for(let date of response.data) {
 						this.highlightedDates.dates.push(new Date(Date.parse(date['date'])));
 					}
 				}).catch(error => {
 					console.error(error);
 				});
 
-			axios.get('/cartazes', { params: { groupBy: 'type', sortBy: 'type' } })
+			axios.get('/tipos')
 				.then(response => {
-					this.types = response.data.data;
+					this.types = response.data;
 				}).catch(error => {
 					console.error(error);
 				});

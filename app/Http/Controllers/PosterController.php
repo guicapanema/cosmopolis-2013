@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Photo;
 use App\Poster;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class PosterController extends Controller
 {
@@ -15,7 +17,7 @@ class PosterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['list', 'filterByPhoto']]);
+        $this->middleware('auth', ['except' => ['list', 'listTypes', 'filterByPhoto']]);
     }
 
 	public function rules()
@@ -118,6 +120,14 @@ class PosterController extends Controller
 
 		return $posters->paginate($perPage);
 
+	}
+
+	public function listTypes(Request $request) {
+		$types = Poster::whereNotNull('type')
+					->select('type', DB::raw('count(*) as total'))
+					->groupBy('type')
+					->get();
+		return $types;
 	}
 
     /**

@@ -42,6 +42,10 @@ Route::post('/fotos', 'PhotoController@store')->name('photo_store');
 
 Route::get('/fotos', 'PhotoController@list')->name('photo_list');
 
+Route::get('/cidades', 'PhotoController@listCities')->name('city_list');
+
+Route::get('/datas', 'PhotoController@listDates')->name('date_list');
+
 Route::get('/fotos/{photo}', 'PhotoController@retrieve')->name('photo_retrieve');
 
 Route::get('/fotos/{photo}/arquivo', 'PhotoController@retrieveFile')->name('photo_retrieve_file');
@@ -49,6 +53,8 @@ Route::get('/fotos/{photo}/arquivo', 'PhotoController@retrieveFile')->name('phot
 Route::put('/fotos/{photo}', 'PhotoController@update')->name('photo_update');
 
 Route::delete('/fotos/{photo}', 'PhotoController@destroy')->name('photo_destroy');
+
+
 
 
 /**** POSTER ROUTES ****/
@@ -63,6 +69,8 @@ Route::get('/cartazes/{poster}/editar', 'PosterController@edit')->name('poster_e
 Route::post('/cartazes', 'PosterController@store')->name('poster_store');
 
 Route::get('/cartazes', 'PosterController@list')->name('poster_list');
+
+Route::get('/tipos', 'PosterController@listTypes')->name('type_list');
 
 Route::get('/cartazes/{poster}', 'PosterController@retrieve')->name('poster_retrieve');
 

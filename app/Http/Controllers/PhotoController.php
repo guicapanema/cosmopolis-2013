@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Photo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Image;
 use Storage;
 
@@ -16,7 +17,7 @@ class PhotoController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['list', 'listPhotographers', 'retrieve', 'retrieveFile']]);
+        $this->middleware('auth', ['except' => ['list', 'listCities', 'listDates', 'listPhotographers', 'retrieve', 'retrieveFile']]);
     }
 
 	public function rules($photoCount = null)
@@ -142,6 +143,24 @@ class PhotoController extends Controller
 
 		return $photos->paginate($perPage);
     }
+
+	public function listCities(Request $request) {
+		$cities = Photo::has('posters')
+					->whereNotNull('city')
+					->select('city', DB::raw('count(*) as total'))
+					->groupBy('city')
+					->get();
+		return $cities;
+	}
+
+	public function listDates(Request $request) {
+		$dates = Photo::has('posters')
+					->whereNotNull('date')
+					->select('date', DB::raw('count(*) as total'))
+					->groupBy('date')
+					->get();
+		return $dates;
+	}
 
 	/**
 	 * Return a listing of the resource.
