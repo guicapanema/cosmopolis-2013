@@ -154,3 +154,33 @@ div.poster-card > div.slider {
 .is-cursor-pointer {
 	cursor: pointer;
 }
+
+.my-datepicker {
+	border: none !important;
+	max-width: 200px;
+	font-size: 0.8rem;
+	padding-top: 0.8rem;
+}
+
+.my-datepicker header {
+	line-height: 20px !important;
+}
+
+.my-datepicker .cell {
+	height: 20px !important;
+	line-height: 20px !important;
+
+}
+
+.my-datepicker .cell:not(.blank):not(.disabled).day:hover {
+	border: none !important;
+}
+
+.my-datepicker .cell.selected {
+	background: transparent !important;
+}
+
+.my-datepicker .highlighted {
+	color: #E28931;
+	background-color: transparent !important
+}

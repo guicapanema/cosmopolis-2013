@@ -115,7 +115,7 @@
 					tipo: this.filters.types,
 					page: 1,
 					per_page: 21,
-					sortBy: 'name',
+					sortBy: 'date',
 					sortOrder: 'asc'
 				};
 				this.loadPhotos();

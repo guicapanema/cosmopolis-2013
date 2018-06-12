@@ -81,11 +81,13 @@
 
 			<p class="menu-label is-cursor-pointer"
 				@click="sideMenus['cities'] = !sideMenus['cities']">
-				<i :class="{
-					'fas': true,
-					'fa-caret-down': sideMenus['cities'],
-					'fa-caret-right': !sideMenus['cities']}">
-				</i>
+				<span class="icon is-small">
+					<i :class="{
+						'fas': true,
+						'fa-caret-down': sideMenus['cities'],
+						'fa-caret-right': !sideMenus['cities']}">
+					</i>
+				</span>
 				Cidade
 			</p>
 			<ul v-if="sideMenus['cities']" class="menu-list">
@@ -102,11 +104,13 @@
 
 			<p class="menu-label is-cursor-pointer"
 				@click="sideMenus['themes'] = !sideMenus['themes']">
-				<i :class="{
-					'fas': true,
-					'fa-caret-down': sideMenus['themes'],
-					'fa-caret-right': !sideMenus['themes']}">
-				</i>
+				<span class="icon is-small">
+					<i :class="{
+						'fas': true,
+						'fa-caret-down': sideMenus['themes'],
+						'fa-caret-right': !sideMenus['themes']}">
+					</i>
+				</span>
 				Tema
 			</p>
 			<ul v-if="sideMenus['themes']" class="menu-list">
@@ -122,11 +126,13 @@
 
 			<p class="menu-label is-cursor-pointer"
 				@click="sideMenus['types'] = !sideMenus['types']">
-				<i :class="{
-					'fas': true,
-					'fa-caret-down': sideMenus['types'],
-					'fa-caret-right': !sideMenus['types']}">
-				</i>
+				<span class="icon is-small">
+					<i :class="{
+						'fas': true,
+						'fa-caret-down': sideMenus['types'],
+						'fa-caret-right': !sideMenus['types']}">
+					</i>
+				</span>
 				Tipo
 			</p>
 			<ul v-if="sideMenus['types']" class="menu-list">
@@ -143,14 +149,26 @@
 
 			<p class="menu-label is-cursor-pointer"
 				@click="sideMenus['dates'] = !sideMenus['dates']">
-				<i :class="{
-					'fas': true,
-					'fa-caret-down': sideMenus['dates'],
-					'fa-caret-right': !sideMenus['dates']}">
-				</i>
+				<span class="icon is-small">
+					<i :class="{
+						'fas': true,
+						'fa-caret-down': sideMenus['dates'],
+						'fa-caret-right': !sideMenus['dates']}">
+					</i>
+				</span>
 				Data
 			</p>
-			<ul v-if="sideMenus['dates']" class="menu-list">
+			<datepicker v-if="sideMenus['dates']"
+				:inline="true"
+				:language="ptBR"
+				:openDate="openDate"
+				:disabledDates="disabledDates"
+				:highlighted="highlightedDates"
+				maximum-view="day"
+				calendar-class="my-datepicker"
+				@selected="onSetDate">
+			</datepicker>
+			<!-- <ul v-if="sideMenus['dates']" class="menu-list">
 				<li v-for="date in dates"
 					v-if="date['date']"
 					@click="onSetDate(date['date'])"
@@ -160,7 +178,7 @@
 						}">
 					{{ new Date(date['date']).toLocaleDateString() }}
 				</li>
-			</ul>
+			</ul> -->
 		</aside>
 		<div class="has-text-centered">
 			<a href="https://www.facebook.com/grafiasdejunho/" target="_blank" class="has-text-grey">
@@ -173,14 +191,34 @@
 </template>
 
 <script>
+
+	import Datepicker from 'vuejs-datepicker';
+	import {ptBR} from 'vuejs-datepicker/dist/locale';
+
 	export default {
+
+		components: {
+			Datepicker
+		},
 
 		props: ['filters', 'view'],
 
 		data() {
             return {
 				cities: [],
-				dates: [],
+
+				ptBR: ptBR,
+				openDate: new Date(2013, 5, 1),
+				disabledDates: {
+					to: new Date(2013, 5, 1),
+					from: new Date(2013, 6, 31)
+				},
+				highlightedDates: {
+					dates: [
+					]
+				},
+
+
 				search: '',
 				themes: [
 				{
@@ -288,7 +326,10 @@
 
 			axios.get('/fotos', { params: { groupBy: 'date', sortBy: 'date' } })
 				.then(response => {
-					this.dates = response.data.data;
+					console.debug(response.data.data);
+					for(let date of response.data.data) {
+						this.highlightedDates.dates.push(new Date(Date.parse(date['date'])));
+					}
 				}).catch(error => {
 					console.error(error);
 				});
@@ -358,22 +399,29 @@
 			},
 
 			onSetDate(date) {
+				let isoDate;
+				if (typeof date !== 'string') {
+					isoDate = date.toISOString();
+				} else {
+					isoDate = date;
+				}
+
 				let queryDates = this.$route.query['data'];
 				if(!queryDates) {
-					queryDates = date;
+					queryDates = isoDate;
 				} else if(typeof queryDates === 'string') {
-					if (queryDates === date) {
+					if (queryDates === isoDate) {
 						queryDates = null;
 					} else {
-						queryDates = [queryDates, date];
+						queryDates = [queryDates, isoDate];
 					}
 				} else {
 					queryDates = queryDates.slice();
-					let index = queryDates.indexOf(date);
+					let index = queryDates.indexOf(isoDate);
 					if(index >= 0) {
 						queryDates.splice(index, 1);
 					} else {
-						queryDates.push(date);
+						queryDates.push(isoDate);
 					}
 				}
 
