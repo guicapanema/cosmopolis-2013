@@ -245,6 +245,8 @@ class PhotoController extends Controller
 				$width = 500;
 			} else if ($request->query('tamanho') == 'grande') {
 				$width = 1000;
+			} else if ($request->query('tamanho') == 'gigante') {
+				$width = 1500;
 			}
 
 			$image->widen($width);

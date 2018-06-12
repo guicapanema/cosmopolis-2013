@@ -3,11 +3,24 @@
 		<div class="columns is-vcentered">
 			<div class="column is-8">
 				<figure class="image">
-					<img
-						v-if="this.photo && this.photo.path"
-						:src="'/fotos/' + this.photo.id + '/arquivo?tamanho=grande'">
-					</img>
+					<a :href="'/fotos/' + this.photo.id + '/arquivo?tamanho=gigante'" target="_blank">
+						<img
+							v-if="this.photo && this.photo.path"
+							:src="'/fotos/' + this.photo.id + '/arquivo?tamanho=grande'">
+						</img>
+					</a>
 				</figure>
+				<div class="has-margin-50">
+					<a v-if="this.photo.id > 1"
+						:href="'/fotos/' + (this.photo.id - 1) + '/editar'"
+						class="button is-primary is-outlined is-pulled-left">
+						< Anterior
+					</a>
+					<a :href="'/fotos/' + (this.photo.id + 1) + '/editar'"
+					class="button is-primary is-outlined is-pulled-right">
+						Próxima >
+					</a>
+				</div>
 			</div>
 			<div class="column is-4">
 				<div class="field">
@@ -43,6 +56,12 @@
 					<div class="control">
 						<input v-model="photo.license" type="text" class="input" name="license" required autofocus>
 					</div>
+				</div>
+
+				<div class="field">
+					<b-switch :value="photo.is_verified" @click.native="onPhotoVerify(photo)">
+						Verificada?
+		            </b-switch>
 				</div>
 
 				<div class="field">
@@ -132,6 +151,17 @@
 						this.$toast.open({ message: 'Erro ao salvar imagem', type: 'is-danger', position: 'is-bottom'});
 						throw error;
 					})
+			},
+
+			onPhotoVerify(photo) {
+				photo.is_verified = !photo.is_verified;
+				axios.put('/fotos/' + photo.id, photo)
+					.then(response => {
+						this.$toast.open({ message: 'Imagem atualizada!', type: 'is-success', position: 'is-bottom'});
+					}).catch(error => {
+						photo.is_verified = !photo.is_verified;
+						this.$toast.open({ message: 'Erro ao atualizar imagem', type: 'is-danger', position: 'is-bottom'});
+					});
 			},
 
 			onPosterAdd() {
