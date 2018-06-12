@@ -3,21 +3,19 @@
         <div class="columns is-multiline">
 			<div v-for="photo of photos" class="column is-one-third">
 				<figure class="image is-3by2 is-marginless is-cursor-pointer" @mouseover="photo.active = true" @mouseleave="photo.active = false">
-					<!-- <router-link :to="'/foto/' + photo.id"> -->
-						<img :src="'/fotos/' + photo.id + '/arquivo?tamanho=pequeno&recortar=true'" @click="$router.push('/foto/' + photo.id)"></img>
-						<slider v-if="photo.active && photo.posters.length" animation="fade" :speed="100" :control-btn="false" height="100%" width="100%">
-							<slider-item v-for="(poster, index) of photo.posters" :key="index">
-								<div class="slider-overlay"  @click="$router.push('/foto/' + photo.id)">
-									<p class="has-text-white is-size-5">{{ poster.text }}</p>
-									<div class="poster-info has-text-grey-light is-size-6">
-										<div>{{ photo.date }}</div>
-										<div>{{ photo.city }}</div>
-										<div>Foto: {{ photo.photographer }}</div>
-									</div>
+					<img :src="'/fotos/' + photo.id + '/arquivo?tamanho=pequeno&recortar=true'" @click="onPhotoSelect(photo)"></img>
+					<slider v-if="photo.active && photo.posters.length" animation="fade" :speed="100" :control-btn="false" height="100%" width="100%">
+						<slider-item v-for="(poster, index) of photo.posters" :key="index">
+							<div class="slider-overlay"  @click="onPhotoSelect(photo)">
+								<p class="has-text-white is-size-5">{{ poster.text }}</p>
+								<div class="poster-info has-text-grey-light is-size-6">
+									<div>{{ photo.date }}</div>
+									<div>{{ photo.city }}</div>
+									<div>Foto: {{ photo.photographer }}</div>
 								</div>
-							</slider-item>
-						</slider>
-					<!-- </router-link> -->
+							</div>
+						</slider-item>
+					</slider>
 				</figure>
 			</div>
 			<div v-if="(photos.length === 0) && !loadingPhotos" class="column">
@@ -99,6 +97,29 @@
 					});
 
 				this.cancel = cancel;
+			},
+
+			onPhotoSelect(photo) {
+				let index = this.photos.findIndex(innerPhoto => innerPhoto.id === photo.id);
+				let page = Math.ceil((index + 1) / this.params.per_page);
+
+				this.$router.push({
+					path: '/foto/' + photo.id,
+					query: {
+						busca: this.filters.search,
+						cidade: this.filters.cities,
+						data: this.filters.dates,
+						fotografo: this.filters.photographer,
+						genero: this.filters.gender,
+						esconderVazias: true,
+						tag: this.filters.tags,
+						tipo: this.filters.types,
+						page: page,
+						per_page: this.params.per_page,
+						sortBy: 'date',
+						sortOrder: 'asc'
+					}
+				});
 			},
 
 			resetComponent() {

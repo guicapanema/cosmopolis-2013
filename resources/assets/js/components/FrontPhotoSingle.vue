@@ -1,8 +1,15 @@
 <template>
     <div>
 		<button class="modal-close is-large" aria-label="close" @click="onPhotoClose()"></button>
+
 		<figure class="image single-photo">
 	        <img v-if="photo.id" :src="'/fotos/' + photo.id + '/arquivo?tamanho=grande'" width="100%"></img>
+			<a href="#" class="arrow-next" @click="onGoNext()">
+				<img src="/images/next.png"></img>
+			</a>
+			<a href="#" class="arrow-prev" @click="onGoPrevious()">
+				<img src="/images/next.png"></img>
+			</a>
 		</figure>
 		<div class="section single-photo-data has-text-grey-lighter">
 			<div class="container">
@@ -80,18 +87,20 @@
 		data() {
             return {
 				photo: {},
+				photos: [],
 				posters: [],
-				loadingPhoto: false
+				loadingPhoto: false,
+				loadingPhotos: false
             }
         },
 
         mounted() {
+			if(this.$route.query) {
+				this.params = this.$route.query;
+			}
             this.loadPhoto();
-
-			axios.get('/fotos/' + this.$route.params.foto + '/cartazes?showTags=true')
-				.then(response => {
-					this.posters = response.data;
-				});
+			this.loadPosters();
+			this.loadPhotos();
         },
 
 		methods: {
@@ -106,8 +115,80 @@
 						this.loadingPhoto = false;
 					});
 			},
+
+			loadPhotos(prepend) {
+				this.loadingPhotos = true;
+				axios.get('/fotos', { params: this.params })
+					.then(response => {
+						this.params.page = response.data.current_page;
+						this.params.total = response.data.total;
+						this.params.per_page = response.data.per_page;
+						this.params.last_page = response.data.last_page;
+						if(prepend) {
+							this.photos.unshift(...response.data.data);
+						} else {
+							this.photos.push(...response.data.data);
+						}
+						this.loadingPhotos = false;
+					}).catch(error => {
+						this.loadingPhotos = false;
+						console.error(error);
+					});
+			},
+
+			loadPosters() {
+				axios.get('/fotos/' + this.$route.params.foto + '/cartazes?showTags=true')
+					.then(response => {
+						this.posters = response.data;
+					}).catch(error => {
+						console.error(error);
+					});
+			},
+
+			onGoNext() {
+				let index = this.photos.findIndex(photo => photo.id === this.photo.id);
+				if (index >= 0 && index < (this.photos.length - 1)) {
+					let nextPhoto = this.photos[index + 1];
+
+					if ((index + 3) >= this.photos.length) {
+						if (this.params.page < this.params.last_page) {
+							this.params.page += 1;
+							this.loadPhotos();
+						}
+					}
+
+					this.$router.push({ path: '/foto/' + nextPhoto.id, query: this.params });
+				}
+
+			},
+
+			onGoPrevious() {
+				let index = this.photos.findIndex(photo => photo.id === this.photo.id);
+
+				if (index > 0) {
+					let previousPhoto = this.photos[index - 1];
+
+					if ((index - 2) <= 0) {
+						if (this.params.page > 1) {
+							this.params.page -= 1;
+							this.loadPhotos(true);
+						}
+					}
+
+					this.$router.push({ path: '/foto/' + previousPhoto.id, query: this.params });
+				}
+			},
+
 			onPhotoClose() {
-				this.$router.go(-1);
+				this.$router.push({ path: '/', query: this.params });
+			}
+		},
+
+		watch: {
+			'$route' (to, from) {
+				console.debug('router watch');
+				this.loadPhoto();
+				this.loadPosters();
 			}
 		}
     }

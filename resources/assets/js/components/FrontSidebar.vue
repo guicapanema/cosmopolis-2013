@@ -326,7 +326,6 @@
 
 			axios.get('/fotos', { params: { groupBy: 'date', sortBy: 'date', per_page: 60 } })
 				.then(response => {
-					console.debug(response.data.data);
 					for(let date of response.data.data) {
 						this.highlightedDates.dates.push(new Date(Date.parse(date['date'])));
 					}

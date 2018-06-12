@@ -185,3 +185,31 @@ div.poster-card > div.slider {
 	color: #E28931;
 	background-color: transparent !important
 }
+
+.arrow-prev {
+	position: absolute;
+	left: 0;
+	top: 50%;
+	z-index: 21;
+	display:none;
+
+	& img {
+		transform: rotate(180deg);
+	}
+}
+
+.arrow-next {
+	position: absolute;
+	right: 0;
+	top: 50%;
+	z-index: 21;
+	display:none;
+}
+
+.arrow-prev img, .arrow-next img {
+	width: 5vw;
+}
+
+.single-photo:hover .arrow-prev, .single-photo:hover .arrow-next {
+	display: block;
+}
