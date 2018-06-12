@@ -96,14 +96,22 @@ slider, div.slider {
 	background-color: rgb(77,77,77);
 }
 
-.photo-description {
-	border-left: 1px solid white;
-}
-
 
 hr.title-underline {
 	margin: 1rem 0;
 	width: 60%;
+}
+
+@media only screen and (min-width: 769px) {
+	.photo-description {
+		border-left: 1px solid white;
+		padding-left: 2rem;
+	}
+
+	hr.posters-underline {
+		margin: 1rem 0;
+		width: 35%;
+	}
 }
 
 hr.menu-separator {

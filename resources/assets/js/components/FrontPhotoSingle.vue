@@ -8,27 +8,28 @@
 			<div class="container">
 				<div class="columns">
 					<div class="column is-two-thirds">
-						<button class="button is-outlined is-inverted is-dark is-static">CARTAZES</button>
+						<h2 class="title is-marginless has-text-white is-uppercase">Cartazes</h2>
+						<hr class="title-underline posters-underline"></hr>
 						<div v-for="poster of posters" class="content has-margin-top-200">
-							<h2 class="title is-marginless has-text-white is-uppercase">{{ poster.text }}</h2>
+							<h3 class="title is-marginless has-text-white is-uppercase has-text-weight-normal">{{ poster.text }}</h3>
 							<div>
 								<span v-if="poster.pivot.gender">
-									<span class="has-text-grey">Gênero</span>
-									<router-link :to="'/?genero=' + poster.pivot.gender" class="has-text-grey-lighter has-text-weight-light">
+									<span class="has-text-black has-text-weight-light">Gênero</span>
+									<router-link :to="'/?genero=' + poster.pivot.gender" class="has-text-grey-lighter has-text-weight-light is-capitalized">
 										{{ poster.pivot.gender === 'male' ? 'masculino' : 'feminino' }}
 									</router-link>
 								</span>
 								<span v-if="poster.type">
-									<span class="has-text-grey">Tipo</span>
-									<router-link :to="'/?tipo=' + poster.type" class="has-text-grey-lighter has-text-weight-light">
+									<span class="has-text-black has-text-weight-light">Tipo</span>
+									<router-link :to="'/?tipo=' + poster.type" class="has-text-grey-lighter has-text-weight-light is-capitalized">
 										{{ poster.type }}
 									</router-link>
 								</span>
 							</div>
 							<div v-if="poster.tags.length">
-								<span class="has-text-grey">Tags</span>
+								<span class="has-text-black has-text-weight-light">Tags</span>
 								<span v-for="(tag, index) of poster.tags" class="has-text-grey-lighter has-text-weight-light">
-									<router-link :to="'/?tag=' + tag.text" class="has-text-grey-lighter has-text-weight-light">
+									<router-link :to="'/?tag=' + tag.text" class="has-text-grey-lighter has-text-weight-light is-capitalized">
 										{{ tag.text }}
 									</router-link><span v-if="index < (poster.tags.length - 1)">, </span>
 								</span>
@@ -53,7 +54,7 @@
 							</div>
 						</div>
 						<div v-if="photo.photographer" class="content">
-							<h2 class="title is-marginless has-text-white is-uppercase">Fotógrafo</h2>
+							<h2 class="title is-marginless has-text-white is-uppercase">Fotografia</h2>
 							<hr class="title-underline"></hr>
 							<div>
 								<router-link :to="'/?fotografo=' + photo.photographer" class="has-text-grey-lighter has-text-weight-light">
