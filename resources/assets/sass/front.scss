@@ -50,6 +50,22 @@
 // 	margin: auto;
 // }
 
+@media only screen and (min-width: 769px) {
+	.front-sidebar, .front-body {
+		max-height: 100vh;
+		overflow: auto;
+	}
+}
+
+.menu-list li {
+	font-weight: lighter;
+	font-size: 0.9rem;
+
+	&.active {
+		color: #E28931;
+	}
+}
+
 .logo {
 	width: 80%;
 	margin: 1em auto;

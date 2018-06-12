@@ -1,13 +1,13 @@
 <template>
 	<div class="front-container">
 		<div class="columns is-gapless">
-			<div class="column is-one-quarter">
+			<div class="column is-one-quarter front-sidebar">
 				<front-sidebar
 					:view="view"
 					:filters="filters">
 				</front-sidebar>
 			</div>
-			<div class="column">
+			<div class="column front-body">
 				<front-poster-list v-if="view === 'posters'" :filters="filters"></front-poster-list>
 				<front-photo-list v-else :filters="filters"></front-photo-list>
 			</div>

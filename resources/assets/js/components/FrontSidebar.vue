@@ -33,7 +33,7 @@
 			</p>
 			<p class="control">
 				<router-link
-					:to="{ path: '/cartazes', query: $route.query }" 
+					:to="{ path: '/cartazes', query: $route.query }"
 					:class="{
 					'button': true,
 					'is-light': view === 'posters'}">
@@ -79,51 +79,86 @@
 				</div>
 			</template>
 
-			<p class="menu-label">
+			<p class="menu-label is-cursor-pointer"
+				@click="sideMenus['cities'] = !sideMenus['cities']">
+				<i :class="{
+					'fas': true,
+					'fa-caret-down': sideMenus['cities'],
+					'fa-caret-right': !sideMenus['cities']}">
+				</i>
 				Cidade
 			</p>
-			<ul class="menu-list">
-				<li v-for="city in cities" v-if="city['city']">
-					<input type="checkbox"
-						:checked="hasCity(city['city'])"
-						@click="onSetCity(city['city'])">
-					{{ city['city'] }}
+			<ul v-if="sideMenus['cities']" class="menu-list">
+				<li v-for="city in cities"
+					v-if="city['city']"
+					@click="onSetCity(city['city'])"
+					:class="{
+						'is-cursor-pointer': true,
+						'active': hasCity(city['city'])
+						}">
+					<span class="is-capitalized">{{ city['city'] }}</span>
 				</li>
 			</ul>
 
-			<p class="menu-label">
+			<p class="menu-label is-cursor-pointer"
+				@click="sideMenus['themes'] = !sideMenus['themes']">
+				<i :class="{
+					'fas': true,
+					'fa-caret-down': sideMenus['themes'],
+					'fa-caret-right': !sideMenus['themes']}">
+				</i>
 				Tema
 			</p>
-			<ul class="menu-list">
-				<li v-for="theme in themes">
-					<input type="checkbox"
-						:checked="hasTag(theme.tags)"
-						@click="onSetTheme(theme.tags)">
+			<ul v-if="sideMenus['themes']" class="menu-list">
+				<li v-for="theme in themes"
+					@click="onSetTheme(theme.tags)"
+					:class="{
+						'is-cursor-pointer': true,
+						'active': hasTag(theme.tags)
+						}">
 					<span class="is-capitalized">{{ theme.name }}</span>
 				</li>
 			</ul>
 
-			<p class="menu-label">
+			<p class="menu-label is-cursor-pointer"
+				@click="sideMenus['types'] = !sideMenus['types']">
+				<i :class="{
+					'fas': true,
+					'fa-caret-down': sideMenus['types'],
+					'fa-caret-right': !sideMenus['types']}">
+				</i>
 				Tipo
 			</p>
-			<ul class="menu-list">
-				<li v-for="type in types" v-if="type['type']">
-					<input type="checkbox"
-						:checked="hasType(type['type'])"
-						@click="onSetType(type['type'])">
+			<ul v-if="sideMenus['types']" class="menu-list">
+				<li v-for="type in types"
+					v-if="type['type']"
+					@click="onSetType(type['type'])"
+					:class="{
+						'is-cursor-pointer': true,
+						'active': hasType(type['type'])
+						}">
 					<span class="is-capitalized">{{ type['type'] }}</span>
 				</li>
 			</ul>
 
-			<p class="menu-label">
+			<p class="menu-label is-cursor-pointer"
+				@click="sideMenus['dates'] = !sideMenus['dates']">
+				<i :class="{
+					'fas': true,
+					'fa-caret-down': sideMenus['dates'],
+					'fa-caret-right': !sideMenus['dates']}">
+				</i>
 				Data
 			</p>
-			<ul class="menu-list">
-				<li v-for="date in dates" v-if="date['date']">
-					<input type="checkbox"
-						:checked="hasDate(date['date'])"
-						@click="onSetDate(date['date'])">
-					<span>{{ new Date(date['date']).toLocaleDateString() }}</span>
+			<ul v-if="sideMenus['dates']" class="menu-list">
+				<li v-for="date in dates"
+					v-if="date['date']"
+					@click="onSetDate(date['date'])"
+					:class="{
+						'is-cursor-pointer': true,
+						'active': hasDate(date['date'])
+						}">
+					{{ new Date(date['date']).toLocaleDateString() }}
 				</li>
 			</ul>
 		</aside>
@@ -219,6 +254,13 @@
 					tags: ['dilma', 'alckmin', 'jabor', 'feliciano', 'renan', 'márcio lacerda', 'anastasia', 'aécio', 'malafaia', 'malcom x', 'haddad', 'neymar']
 				}],
 
+				sideMenus: {
+					'cities': true,
+					'themes': true,
+					'types': true,
+					'dates': true
+				},
+
 				types: []
             }
         },
@@ -286,7 +328,7 @@
 					this.onSetDate(filter);
 				} else if(key === 'tags') {
 					this.onSetTag(filter);
-				} else if(key === 'type') {
+				} else if(key === 'types') {
 					this.onSetType(filter);
 				}
 			},

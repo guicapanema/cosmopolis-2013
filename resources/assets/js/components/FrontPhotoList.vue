@@ -54,7 +54,7 @@
 					esconderVazias: true,
 					page: 1,
 					per_page: 21,
-					sortBy: 'name',
+					sortBy: 'date',
 					sortOrder: 'asc'
 				}
             }
