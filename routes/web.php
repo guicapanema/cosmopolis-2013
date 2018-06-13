@@ -11,7 +11,12 @@
 |
 */
 
-Route::redirect('/', '/principal', 301);
+
+Route::get('/', function() {
+	return view('construcao');
+})->name('construcao');
+
+// Route::redirect('/', '/principal', 301);
 
 Route::get('/principal/{vue_capture?}', 'HomeController@index')->where('vue_capture', '[\/\w\.-]*')->name('home');
 
@@ -98,7 +103,7 @@ Route::post('/tags', 'TagController@store')->name('tag_store');
 
 Route::get('/tags', 'TagController@list')->name('tag_list');
 
-Route::get('/tags/consolidar', 'TagController@consolidateTags')->name('tag_consolidate');
+// Route::get('/tags/consolidar', 'TagController@consolidateTags')->name('tag_consolidate');
 
 Route::get('/tags/contagem', 'TagController@count')->name('tag_count');
 

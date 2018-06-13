@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <div id="photo-single">
 		<button class="modal-close is-large" aria-label="close" @click="onPhotoClose()"></button>
 
 		<figure class="image single-photo">
-	        <img v-if="photo.id" :src="'/fotos/' + photo.id + '/arquivo?tamanho=grande'" width="100%"></img>
+	        <img v-if="photo.id" :src="'/fotos/' + photo.id + '/arquivo?tamanho=grande'" width="100%" @load="loadingPhoto = false"></img>
 			<a href="#" class="arrow-next" @click="onGoNext()">
 				<img src="/images/next.png"></img>
 			</a>
@@ -78,6 +78,12 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="overlay" v-if="loadingPhoto">
+			<span class="icon is-large has-text-white">
+				<i class="fas fa-3x fa-spinner fa-spin"></i>
+			</span>
+		</div>
     </div>
 </template>
 
@@ -110,7 +116,7 @@
 				axios.get('/fotos/' + this.$route.params.foto)
 					.then(response => {
 						this.photo = response.data
-						this.loadingPhoto = false;
+						// this.loadingPhoto = false;
 					}).catch(error => {
 						console.error(error);
 						this.loadingPhoto = false;
@@ -157,7 +163,8 @@
 							this.loadPhotos();
 						}
 					}
-
+					let photoSingle = document.getElementById('photo-single');
+					photoSingle.scrollTop = 0;
 					this.$router.push({ path: '/foto/' + nextPhoto.id, query: this.params });
 				}
 
@@ -175,7 +182,8 @@
 							this.loadPhotos(true);
 						}
 					}
-
+					let photoSingle = document.getElementById('photo-single');
+					photoSingle.scrollTop = 0;
 					this.$router.push({ path: '/foto/' + previousPhoto.id, query: this.params });
 				}
 			},

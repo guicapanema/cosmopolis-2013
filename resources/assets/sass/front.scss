@@ -167,6 +167,7 @@ div.poster-card > div.slider {
 }
 
 .my-datepicker .cell {
+	color: $grey-light;
 	font-weight: lighter;
 	height: 20px !important;
 	line-height: 20px !important;
@@ -179,10 +180,11 @@ div.poster-card > div.slider {
 
 .my-datepicker .cell.selected {
 	background: transparent !important;
+	// color: #E28931;
 }
 
 .my-datepicker .highlighted {
-	color: #E28931;
+	color: $black-ter;
 	background-color: transparent !important
 }
 
@@ -212,4 +214,21 @@ div.poster-card > div.slider {
 
 .single-photo:hover .arrow-prev, .single-photo:hover .arrow-next {
 	display: block;
+}
+
+.overlay {
+	position: absolute;
+	top:0;
+    left:0;
+    right:0;
+    bottom:0;
+	z-index: 25;
+	background-color: rgba(0,0,0,0.6);
+}
+
+.overlay span {
+	z-index: 26;
+	position: absolute;
+	top: 50%;
+	left: 50%;
 }
