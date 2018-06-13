@@ -150,6 +150,7 @@ class PhotoController extends Controller
 					->whereNotNull('city')
 					->select('city', DB::raw('count(*) as total'))
 					->groupBy('city')
+					->orderBy('city')
 					->get();
 		return $cities;
 	}
@@ -160,6 +161,7 @@ class PhotoController extends Controller
 					->whereNotNull('date')
 					->select('date', DB::raw('count(*) as total'))
 					->groupBy('date')
+					->orderBy('date')
 					->get();
 		return $dates;
 	}

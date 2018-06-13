@@ -126,6 +126,7 @@ class PosterController extends Controller
 		$types = Poster::remember(1440)->whereNotNull('type')
 					->select('type', DB::raw('count(*) as total'))
 					->groupBy('type')
+					->orderBy('type')
 					->get();
 		return $types;
 	}
