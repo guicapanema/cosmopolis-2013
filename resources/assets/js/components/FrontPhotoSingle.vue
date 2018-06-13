@@ -48,7 +48,7 @@
 							<h2 class="title is-marginless has-text-white is-uppercase">Data</h2>
 							<hr class="title-underline"></hr>
 							<router-link :to="'/?data=' + photo.date" class="has-text-grey-lighter has-text-weight-light">
-								{{ new Date(photo.date).toLocaleDateString() }}
+								{{ new Date(Date.parse(photo.date)).toLocaleDateString() }}
 							</router-link>
 						</div>
 						<div v-if="photo.city" class="content">
@@ -101,6 +101,7 @@
             this.loadPhoto();
 			this.loadPosters();
 			this.loadPhotos();
+			window.addEventListener('keyup', this.onKeyUp);
         },
 
 		methods: {
@@ -179,14 +180,22 @@
 				}
 			},
 
+			onKeyUp(event) {
+				if (event.keyCode === 37) {
+					this.onGoPrevious();
+				} else if (event.keyCode === 39) {
+					this.onGoNext();
+				}
+			},
+
 			onPhotoClose() {
+				window.removeEventListener('keyup', this.onKeyUp);
 				this.$router.push({ path: '/', query: this.params });
 			}
 		},
 
 		watch: {
 			'$route' (to, from) {
-				console.debug('router watch');
 				this.loadPhoto();
 				this.loadPosters();
 			}
