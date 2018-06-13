@@ -1,7 +1,7 @@
 @extends('layouts.front')
 
 @section('content')
-<div class="content has-text-grey has-margin-100 is-marginless-top">
+<div class="content has-text-grey has-text-weight-light has-margin-100 is-marginless-top">
 
 	<h1 class="is-uppercase has-text-grey">Colabore</h1>
 	<p><strong>Você pode ajudar esse projeto a crescer e se estruturar.</strong> Esta é a versão Beta, ainda assim ela não custa vinte centavos. O projeto tem gastos com programação e tratamento de dados que, embora sejam modestos, não estão cobertos.</p>

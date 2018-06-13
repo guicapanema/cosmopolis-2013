@@ -26,6 +26,32 @@ class TagController extends Controller
 		return $rules;
 	}
 
+	public function consolidateTags() {
+		$tags = Tag::all();
+
+
+		foreach ($tags as $tag) {
+
+			// Make all tags lowercase
+			$tag->update(['text' => strtolower($tag->text)]);
+
+			// Merge repeated tags
+			if ($tags->where('text', $tag->text)->count() > 1) {
+				$referenceTag = $tags->where('text', $tag->text)->first();
+				$repeatedTags = $tags->where('text', $tag->text)->slice(1);
+
+				foreach ($repeatedTags as $repeatedTag) {
+					$referenceTag->posters()->syncWithoutDetaching($repeatedTag->posters()->get());
+					$repeatedTag->posters()->detach();
+					$repeatedTag->delete();
+				}
+
+			}
+
+		}
+
+	}
+
     /**
      * Display a listing of the resource.
      *

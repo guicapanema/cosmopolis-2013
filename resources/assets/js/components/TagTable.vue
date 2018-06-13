@@ -29,12 +29,12 @@
 			:loading="loadingTags"
             :data="tags"
             :checked-rows.sync="checkedRows"
-			default-sort="name"
+			default-sort="text"
 			:default-sort-direction="'asc'"
 			:paginated="true"
             checkable>
 			<template slot-scope="props">
-                <b-table-column field="name" label="Texto" sortable>
+                <b-table-column field="text" label="Texto" sortable>
                     <a :href="'/tags/' + props.row.id + '/editar'">
 						{{ props.row.text }}
 					</a>

@@ -98,6 +98,8 @@ Route::post('/tags', 'TagController@store')->name('tag_store');
 
 Route::get('/tags', 'TagController@list')->name('tag_list');
 
+Route::get('/tags/consolidar', 'TagController@consolidateTags')->name('tag_consolidate');
+
 Route::get('/tags/contagem', 'TagController@count')->name('tag_count');
 
 Route::get('/tags/{tag}', 'TagController@retrieve')->name('tag_retrieve');
