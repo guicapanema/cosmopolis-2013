@@ -145,7 +145,8 @@ class PhotoController extends Controller
     }
 
 	public function listCities(Request $request) {
-		$cities = Photo::has('posters')
+		$cities = Photo::remember(1440)
+					->has('posters')
 					->whereNotNull('city')
 					->select('city', DB::raw('count(*) as total'))
 					->groupBy('city')
@@ -154,7 +155,8 @@ class PhotoController extends Controller
 	}
 
 	public function listDates(Request $request) {
-		$dates = Photo::has('posters')
+		$dates = Photo::remember(1440)
+					->has('posters')
 					->whereNotNull('date')
 					->select('date', DB::raw('count(*) as total'))
 					->groupBy('date')

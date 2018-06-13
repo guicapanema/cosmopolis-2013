@@ -122,6 +122,7 @@
 						'active': hasTag(theme.tags)
 						}">
 					<span class="is-capitalized">{{ theme.name }}</span>
+					<span class="has-text-grey-light is-size-7">({{ theme.total }})</span>
 				</li>
 			</ul>
 
@@ -225,73 +226,91 @@
 				themes: [
 				{
 					name: 'cidadania',
-					tags: ['cidadania', 'redes sociais', 'engajamento', 'convocatória']
+					tags: ['cidadania', 'redes sociais', 'engajamento', 'convocatória'],
+					total: 0
 				},
 				{
 					name: 'copa',
-					tags: ['copa', 'fifa', 'estádio', 'território']
+					tags: ['copa', 'fifa', 'estádio', 'território'],
+					total: 0
 				},
 				{
 					name: 'corrupção',
-					tags: ['corrupção', 'pec 37', 'políticos corruptos', 'punitivismo']
+					tags: ['corrupção', 'pec 37', 'políticos corruptos', 'punitivismo'],
+					total: 0
 				},
 				{
 					name: 'democracia',
-					tags: ['democracia', 'antipartido', 'antifacismo', 'liberdade cívica', 'reforma política', 'antipolítica', 'partidarismo', 'antisistema', 'eleição', 'ditadura', 'impeachment']
+					tags: ['democracia', 'antipartido', 'antifacismo', 'liberdade cívica', 'reforma política', 'antipolítica', 'partidarismo', 'antisistema', 'eleição', 'ditadura', 'impeachment'],
+					total: 0
 				},
 				{
 					name: 'direitos humanos',
-					tags: ['direitos humanos', 'feminismo', 'lgbtiq', 'cura gay', 'estado laico', 'aborto', 'desmilitarização', 'indígena', 'racismo', 'trabalho escravo']
+					tags: ['direitos humanos', 'feminismo', 'lgbtiq', 'cura gay', 'estado laico', 'aborto', 'desmilitarização', 'indígena', 'racismo', 'trabalho escravo'],
+					total: 0
 				},
 				{
 					name: 'educação',
-					tags: ['educacao']
+					tags: ['educacao'],
+					total: 0
 				},
 				{
 					name: 'mídia',
-					tags: ['mídia', 'globo', 'SBT', 'veja']
+					tags: ['mídia', 'globo', 'SBT', 'veja'],
+					total: 0
 				},
 				{
 					name: 'mobilidade',
-					tags: ['mobilidade', 'aumento da tarifa', 'tarifa zero', 'metrô']
+					tags: ['mobilidade', 'aumento da tarifa', 'tarifa zero', 'metrô'],
+					total: 0
 				},
 				{
 					name: 'nação',
-					tags: ['nação', 'patriotismo', 'antipatriotismo', 'hino nacional']
+					tags: ['nação', 'patriotismo', 'antipatriotismo', 'hino nacional'],
+					total: 0
 				},
 				{
 					name: 'saúde',
-					tags: ['saúde', 'hospitais', 'ato médico', 'sus']
+					tags: ['saúde', 'hospitais', 'ato médico', 'sus'],
+					total: 0
 				},
 				{
 					name: 'violência',
-					tags: ['violência', 'repressão policial', 'segurança pública', 'vinagre']
+					tags: ['violência', 'repressão policial', 'segurança pública', 'vinagre'],
+					total: 0
 				},
 				{
 					name: 'outras pautas',
-					tags: ['cultura', 'pop de rua', 'moradia', 'juventude', 'meio ambiente', 'inflação', 'reforma tributária', 'previdência', 'salário mínimo', 'crise econômica', 'vandalismo', 'terceirização', 'turquia', 'legalização']
+					tags: ['cultura', 'pop de rua', 'moradia', 'juventude', 'meio ambiente', 'inflação', 'reforma tributária', 'previdência', 'salário mínimo', 'crise econômica', 'vandalismo', 'terceirização', 'turquia', 'legalização'],
+					total: 0
 				}],
 
 				feelings: [{
 					name: 'otimismo',
-					tags: ['otimismo']
+					tags: ['otimismo'],
+					total: 0
 				}, {
 					name: 'indignação',
-					tags: ['indignação']
+					tags: ['indignação'],
+					total: 0
 				}, {
 					name: 'ódio',
-					tags: ['ódio']
+					tags: ['ódio'],
+					total: 0
 				}],
 
 				references: [{
 					name: 'música',
-					tags: ['música', 'legião urbana', 'cazuza', 'chico buarque', 'bob dylan', 'o rappa', 'racionais', 'engenheiros do hawaii']
+					tags: ['música', 'legião urbana', 'cazuza', 'chico buarque', 'bob dylan', 'o rappa', 'racionais', 'engenheiros do hawaii'],
+					total: 0
 				}, {
 					name: 'outras línguas',
-					tags: ['inglês', 'francês', 'espanhol']
+					tags: ['inglês', 'francês', 'espanhol'],
+					total: 0
 				}, {
 					name: 'personalidades',
-					tags: ['dilma', 'alckmin', 'jabor', 'feliciano', 'renan', 'márcio lacerda', 'anastasia', 'aécio', 'malafaia', 'malcom x', 'haddad', 'neymar']
+					tags: ['dilma', 'alckmin', 'jabor', 'feliciano', 'renan', 'márcio lacerda', 'anastasia', 'aécio', 'malafaia', 'malcom x', 'haddad', 'neymar'],
+					total: 0
 				}],
 
 				sideMenus: {
@@ -341,9 +360,21 @@
 				}).catch(error => {
 					console.error(error);
 				});
+
+			this.getThemeCounts();
         },
 
 		methods: {
+			getThemeCounts() {
+				for (let theme of this.themes) {
+					axios.get('/tags/contagem', { params: { tag: theme.tags } })
+						.then(response => {
+							theme.total = response.data;
+						}).catch(error => {
+							console.error(error);
+						});
+				}
+			},
 			hasCity(city) {
 				return this.filters.cities.indexOf(city) >= 0;
 			},

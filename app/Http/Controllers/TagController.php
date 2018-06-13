@@ -14,7 +14,7 @@ class TagController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['list']]);
+        $this->middleware('auth', ['except' => ['list', 'count']]);
     }
 
 	public function rules()
@@ -59,6 +59,26 @@ class TagController extends Controller
 		}
 
 		return $tags->get();
+
+	}
+
+	public function count(Request $request)
+	{
+
+		if($request->query('tag') !== null) {
+			$count = 0;
+
+			$queryTags = $request->query('tag');
+			$tags = Tag::remember(1440)->withCount('posters');
+			foreach ($queryTags as $queryTag) {
+				$tags->remember(1440)->orWhereRaw('unaccent(text) ILIKE unaccent(?)', $queryTag);
+			}
+			$tags = $tags->get();
+			foreach($tags as $tag) {
+				$count += $tag->posters_count;
+			}
+			return $count;
+		}
 
 	}
 

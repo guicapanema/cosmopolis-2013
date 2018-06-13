@@ -123,7 +123,7 @@ class PosterController extends Controller
 	}
 
 	public function listTypes(Request $request) {
-		$types = Poster::whereNotNull('type')
+		$types = Poster::remember(1440)->whereNotNull('type')
 					->select('type', DB::raw('count(*) as total'))
 					->groupBy('type')
 					->get();

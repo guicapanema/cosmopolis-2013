@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Watson\Rememberable\Rememberable;
 
 class Photo extends Model
 {
+	use Rememberable;
 	/**
      * The attributes that aren't mass assignable.
      *
