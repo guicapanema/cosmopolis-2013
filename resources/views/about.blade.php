@@ -1,7 +1,7 @@
 @extends('layouts.front')
 
 @section('content')
-<div class="content has-text-grey has-text-weight-light has-margin-100 is-marginless-top">
+<div class="content has-text-black has-text-weight-light has-margin-100 is-marginless-top">
 	<h1 class="is-uppercase has-text-grey">Sobre o Projeto</h1>
 	<p>Grafias de Junho é um projeto colaborativo em busca da reconstituição da memória sobre o maior ciclo de manifestações da história recente do país. Propõe uma chave de entendimento daquela jornada de protestos a partir das mensagens levadas às ruas em cartazes, faixas, bandeiras, pixações e outras grafias.</p>
 

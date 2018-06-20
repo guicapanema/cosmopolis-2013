@@ -98,7 +98,7 @@
 						'is-cursor-pointer': true,
 						'active': hasCity(city['city'])
 						}">
-					<span class="is-capitalized">{{ city['city'] }}</span>
+					<span class="is-capitalized has-text-black">{{ city['city'] }}</span>
 					<span class="has-text-grey-light is-size-7">({{ city['total'] }})</span>
 				</li>
 			</ul>
@@ -121,7 +121,7 @@
 						'is-cursor-pointer': true,
 						'active': hasTag(theme.tags)
 						}">
-					<span class="is-capitalized">{{ theme.name }}</span>
+					<span class="is-capitalized has-text-black">{{ theme.name }}</span>
 					<span class="has-text-grey-light is-size-7">({{ theme.total }})</span>
 				</li>
 			</ul>
@@ -145,7 +145,7 @@
 						'is-cursor-pointer': true,
 						'active': hasType(type['type'])
 						}">
-					<span class="is-capitalized">{{ type['type'] }}</span>
+					<span class="is-capitalized has-text-black">{{ type['type'] }}</span>
 					<span class="has-text-grey-light is-size-7">({{ type['total'] }})</span>
 				</li>
 			</ul>
