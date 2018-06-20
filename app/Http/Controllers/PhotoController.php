@@ -20,6 +20,18 @@ class PhotoController extends Controller
         $this->middleware('auth', ['except' => ['list', 'listCities', 'listDates', 'listPhotographers', 'retrieve', 'retrieveFile']]);
     }
 
+	public function migratePhotos() {
+		$photos = Photo::whereNull('data')->get();
+
+		foreach ($photos as $photo) {
+			if(Storage::disk('public')->exists('/' . $photo->path)) {
+				$data = Storage::disk('public')->get('/' . $photo->path);
+				$photo->update(['data' => $data]);
+			}
+		}
+	}
+
+
 	public function rules($photoCount = null)
 	{
 		$rules = [
@@ -59,7 +71,7 @@ class PhotoController extends Controller
      */
     public function list(Request $request)
     {
-		$photos =  Photo::withCount('posters');
+		$photos =  Photo::select('id', 'name', 'date', 'city', 'photographer', 'license', 'is_verified', 'deleted_at', 'created_at', 'updated_at')->withCount('posters');
 		$perPage = 20;
 
 		if ($request->query('per_page') !== null) {
@@ -78,13 +90,13 @@ class PhotoController extends Controller
 		if ($request->query('busca') !== null) {
 			$queryString = '%' . $request->query('busca') . '%';
 			$photos = $photos->where(function($query) use ($queryString) {
-				$query->where('name', 'ilike', $queryString)
-					->orWhere('city', 'ilike', $queryString)
-					->orWhere('photographer', 'ilike', $queryString)
+				$query->where('name', 'like', $queryString)
+					->orWhere('city', 'like', $queryString)
+					->orWhere('photographer', 'like', $queryString)
 					->orWhereHas('posters', function($poster) use ($queryString) {
-						$poster->with('tags')->whereRaw('unaccent(text) ILIKE unaccent(?)', $queryString)
+						$poster->with('tags')->whereRaw('text LIKE ?', $queryString)
 						->orWhereHas('tags', function($tag) use ($queryString) {
-							$tag->whereRaw('unaccent(text) ILIKE unaccent(?)', $queryString);
+							$tag->whereRaw('text LIKE ?', $queryString);
 						});
 					});
 			});
@@ -108,9 +120,9 @@ class PhotoController extends Controller
 			$queryTags = $request->query('tag');
 			$photos = $photos->whereHas('posters', function($poster) use ($queryTags) {
 				$poster->with('tags')->whereHas('tags', function($tag) use ($queryTags) {
-					$tag->whereRaw('unaccent(text) ILIKE unaccent(?)', $queryTags[0]);
+					$tag->whereRaw('text LIKE ?', $queryTags[0]);
 					foreach ($queryTags as $queryTag) {
-						$tag->orWhereRaw('unaccent(text) ILIKE unaccent(?)', $queryTag);
+						$tag->orWhereRaw('text LIKE ?', $queryTag);
 					}
 				});
 			});
@@ -253,9 +265,8 @@ class PhotoController extends Controller
      */
     public function retrieveFile(Request $request, Photo $photo)
     {
-		$file = Storage::disk('public')->get('/' . $photo->path);
 
-
+		$file = $photo->data;
 
 		$image = Image::cache(function($image) use($request, $file) {
 

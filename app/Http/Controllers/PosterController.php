@@ -71,8 +71,8 @@ class PosterController extends Controller
 			$queryString = '%' . $request->query('busca') . '%';
 
 			$posters = $posters->where(function($query) use ($queryString) {
-				$query->whereRaw('unaccent(text) ILIKE unaccent(?)', $queryString)
-					->orWhere('type', 'ilike', $queryString);
+				$query->whereRaw('text LIKE ?', $queryString)
+					->orWhere('type', 'like', $queryString);
 			});
 		}
 
@@ -93,9 +93,9 @@ class PosterController extends Controller
 		if ($request->query('tag') !== null) {
 			$queryTags = $request->query('tag');
 			$posters = $posters->whereHas('tags', function($tag) use ($queryTags) {
-				$tag->whereRaw('unaccent(text) ILIKE unaccent(?)', $queryTags[0]);
+				$tag->whereRaw('text LIKE ?', $queryTags[0]);
 				foreach ($queryTags as $queryTag) {
-					$tag->orWhereRaw('unaccent(text) ILIKE unaccent(?)', $queryTag);
+					$tag->orWhereRaw('text LIKE ?', $queryTag);
 				}
 			});
 		}

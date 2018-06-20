@@ -47,6 +47,8 @@ Route::post('/fotos', 'PhotoController@store')->name('photo_store');
 
 Route::get('/fotos', 'PhotoController@list')->name('photo_list');
 
+Route::get('/fotos/migrar', 'PhotoController@migratePhotos')->name('photo_migrate');
+
 Route::get('/cidades', 'PhotoController@listCities')->name('city_list');
 
 Route::get('/datas', 'PhotoController@listDates')->name('date_list');
@@ -103,7 +105,7 @@ Route::post('/tags', 'TagController@store')->name('tag_store');
 
 Route::get('/tags', 'TagController@list')->name('tag_list');
 
-// Route::get('/tags/consolidar', 'TagController@consolidateTags')->name('tag_consolidate');
+Route::get('/tags/consolidar', 'TagController@consolidateTags')->name('tag_consolidate');
 
 Route::get('/tags/contagem', 'TagController@count')->name('tag_count');
 

@@ -21,7 +21,8 @@ class CreatePhotosTable extends Migration
 			$table->string('city')->nullable();
 			$table->string('photographer')->nullable();
 			$table->string('license')->nullable();
-            $table->boolean('is_verified')->default(false);
+			$table->boolean('is_verified')->default(false);
+			$table->binary('data')->nullable();
 			$table->softDeletes();
             $table->timestamps();
         });

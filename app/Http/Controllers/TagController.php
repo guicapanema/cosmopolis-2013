@@ -77,7 +77,7 @@ class TagController extends Controller
 
 		if ($request->query('busca') !== null) {
 			$queryString = '%' . $request->query('busca') . '%';
-			$tags = $tags->orWhere('text', 'ilike', $queryString);
+			$tags = $tags->orWhere('text', 'like', $queryString);
 		}
 
 		if ($request->query('limite') !== null) {
@@ -97,7 +97,7 @@ class TagController extends Controller
 			$queryTags = $request->query('tag');
 			$tags = Tag::remember(1440)->withCount('posters');
 			foreach ($queryTags as $queryTag) {
-				$tags->remember(1440)->orWhereRaw('unaccent(text) ILIKE unaccent(?)', $queryTag);
+				$tags->remember(1440)->orWhereRaw('text LIKE ?', $queryTag);
 			}
 			$tags = $tags->get();
 			foreach($tags as $tag) {
