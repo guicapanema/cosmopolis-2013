@@ -24,13 +24,20 @@
 				</div>
 			</div>
 
-			<div v-if="(posters.length === 0) && !loadingPosters" class="column">
+			<!-- <div v-if="(posters.length === 0) && !loadingPosters" class="column">
 				<div class="content has-text-centered has-margin-top-200">
 					Não há cartazes que atendam aos filtros selecionados
 				</div>
-			</div>
+			</div> -->
 		</div>
-		<infinite-loading v-if="this.posters.length < params.total" @infinite="loadPosters"></infinite-loading>
+		<infinite-loading ref="infiniteLoading" @infinite="loadPosters" spinner="circles">
+			<span slot="no-more">
+				Fim dos resultados
+			</span>
+			<span slot="no-results">
+				Não há cartazes que atendam aos filtros selecionados
+			</span>
+		</infinite-loading>
     </div>
 </template>
 
@@ -60,7 +67,8 @@
 					page: 1,
 					per_page: 21,
 					sortBy: 'text',
-					sortOrder: 'asc'
+					sortOrder: 'asc',
+					total: 0
 				}
             }
         },
@@ -93,7 +101,13 @@
 							this.posters.push(poster);
 						}
 
-						if ($state) $state.loaded();
+						if ($state) {
+							if(response.data.data.length === 0) {
+								$state.complete();
+							} else {
+								$state.loaded();
+							}
+						}
 						this.loadingPosters = false;
 						this.params.page++;
 					}).catch(error => {
@@ -106,6 +120,7 @@
 			},
 
 			resetComponent() {
+				this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
 				this.posters = [];
 				this.params = {
 					busca: this.filters.search,
@@ -121,7 +136,8 @@
 					page: 1,
 					per_page: 21,
 					sortBy: 'text',
-					sortOrder: 'asc'
+					sortOrder: 'asc',
+					total: 0
 				};
 				this.loadPosters();
 			}

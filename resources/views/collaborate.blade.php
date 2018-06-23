@@ -11,7 +11,7 @@
 	<p>Estamos com financiamento coletivo aberto. Sua doação será muito importante!</p>
 
 	<p class="has-text-centered">
-		<a href="www.catarse.me/grafiasdejunho" class="button is-large" target="_blank">Doe agora!</a>
+		<a href="https://www.catarse.me/grafiasdejunho" class="button is-large" target="_blank">Doe agora!</a>
 	</p>
 
 	<p><strong>Não encontrou sua cidade nas fotografias?</strong> Conhece algum fotógrafo que não está no acervo? Sua colaboração com o projeto é mais que bem vinda, só mandar um email pra <a href="mailto:grafiasdejunho@gmail.com">grafiasdejunho@gmail.com</a></p>

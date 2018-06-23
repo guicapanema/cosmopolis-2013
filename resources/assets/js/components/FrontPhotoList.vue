@@ -18,13 +18,19 @@
 					</slider>
 				</figure>
 			</div>
-			<div v-if="(photos.length === 0) && !loadingPhotos" class="column">
+			<!-- <div v-if="(photos.length === 0) && !loadingPhotos" class="column">
 				<div class="content has-text-centered has-margin-top-200">
-					Não há fotos que atendam aos filtros selecionados
 				</div>
-			</div>
+			</div> -->
 		</div>
-		<infinite-loading @infinite="loadPhotos"></infinite-loading>
+		<infinite-loading ref="infiniteLoading" @infinite="loadPhotos" spinner="circles">
+			<span slot="no-more">
+				Fim dos resultados
+			</span>
+			<span slot="no-results">
+				Não há fotos que atendam aos filtros selecionados
+			</span>
+		</infinite-loading>
     </div>
 </template>
 
@@ -89,7 +95,7 @@
 						}
 
 						if ($state) {
-							if(this.photos.length === this.params.total) {
+							if(response.data.data.length === 0) {
 								$state.complete();
 							} else {
 								$state.loaded();
@@ -132,6 +138,7 @@
 			},
 
 			resetComponent() {
+				this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
 				this.photos = [];
 				this.params = {
 					busca: this.filters.search,
