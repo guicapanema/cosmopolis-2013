@@ -99,7 +99,7 @@
 						'active': hasCity(city['city'])
 						}">
 					<span class="is-capitalized has-text-black">{{ city['city'] }}</span>
-					<span class="has-text-grey-light is-size-7">({{ city['total'] }})</span>
+					<span class="has-text-grey is-size-7">({{ city['total'] }})</span>
 				</li>
 			</ul>
 
@@ -122,7 +122,7 @@
 						'active': hasTag(theme.tags)
 						}">
 					<span class="is-capitalized has-text-black">{{ theme.name }}</span>
-					<span class="has-text-grey-light is-size-7">({{ theme.total }})</span>
+					<span class="has-text-grey is-size-7">({{ theme.total }})</span>
 				</li>
 			</ul>
 
@@ -146,7 +146,7 @@
 						'active': hasType(type['type'])
 						}">
 					<span class="is-capitalized has-text-black">{{ type['type'] }}</span>
-					<span class="has-text-grey-light is-size-7">({{ type['total'] }})</span>
+					<span class="has-text-grey is-size-7">({{ type['total'] }})</span>
 				</li>
 			</ul>
 
@@ -224,11 +224,11 @@
 
 				search: '',
 				themes: [
-				{
-					name: 'cidadania',
-					tags: ['cidadania', 'redes sociais', 'engajamento', 'convocatória'],
-					total: 0
-				},
+				// {
+				// 	name: 'cidadania',
+				// 	tags: ['cidadania', 'redes sociais', 'engajamento', 'convocatória'],
+				// 	total: 0
+				// },
 				{
 					name: 'copa',
 					tags: ['copa', 'fifa', 'estádio', 'território'],
@@ -265,7 +265,7 @@
 					total: 0
 				},
 				{
-					name: 'nação',
+					name: 'patriotismo',
 					tags: ['nação', 'patriotismo', 'antipatriotismo', 'hino nacional'],
 					total: 0
 				},
@@ -340,7 +340,11 @@
 
             axios.get('/cidades')
 				.then(response => {
-					this.cities = response.data;
+					for (let city of response.data) {
+						if (city.total >= 10) {
+							this.cities.push(city);
+						}
+					}
 				}).catch(error => {
 					console.error(error);
 				});

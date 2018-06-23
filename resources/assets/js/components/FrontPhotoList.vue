@@ -24,7 +24,7 @@
 				</div>
 			</div>
 		</div>
-		<infinite-loading v-if="this.photos.length < params.total" @infinite="loadPhotos"></infinite-loading>
+		<infinite-loading @infinite="loadPhotos"></infinite-loading>
     </div>
 </template>
 
@@ -53,7 +53,8 @@
 					page: 1,
 					per_page: 21,
 					sortBy: 'date',
-					sortOrder: 'asc'
+					sortOrder: 'asc',
+					total: 0
 				}
             }
         },
@@ -87,7 +88,14 @@
 							this.photos.push(photo);
 						}
 
-						if ($state) $state.loaded();
+						if ($state) {
+							if(this.photos.length === this.params.total) {
+								$state.complete();
+							} else {
+								$state.loaded();
+							}
+						}
+
 						this.loadingPhotos = false;
 						this.params.page++;
 					}).catch(error => {
@@ -117,7 +125,8 @@
 						page: page,
 						per_page: this.params.per_page,
 						sortBy: 'date',
-						sortOrder: 'asc'
+						sortOrder: 'asc',
+						total: 0
 					}
 				});
 			},

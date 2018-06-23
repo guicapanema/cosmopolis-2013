@@ -66,13 +66,13 @@ class PhotoController extends Controller
 			$perPage = $request->query('per_page');
 		}
 
+		if ($request->query('esconderVazias') !== null) {
+			$photos = $photos->has('posters');
+		}
+
 		// Complex searches require more info
 		if (($request->query('busca') !== null) || ($request->query('tipo') !== null) || ($request->query('tag') !== null) || ($request->query('mostrarCartazes') !== null)) {
 			$photos = $photos->with('posters');
-		}
-
-		if ($request->query('esconderVazias') !== null) {
-			$photos = $photos->has('posters');
 		}
 
 		if ($request->query('busca') !== null) {
