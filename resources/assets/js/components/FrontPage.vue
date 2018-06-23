@@ -4,12 +4,13 @@
 			<div class="column is-one-quarter front-sidebar">
 				<front-sidebar
 					:view="view"
-					:filters="filters">
+					:filters="filters"
+					:total="total">
 				</front-sidebar>
 			</div>
 			<div class="column front-body">
-				<front-poster-list v-if="view === 'posters'" :filters="filters"></front-poster-list>
-				<front-photo-list v-else :filters="filters"></front-photo-list>
+				<front-poster-list v-if="view === 'posters'" :filters="filters" @total="total = $event"></front-poster-list>
+				<front-photo-list v-else :filters="filters" @total="total = $event"></front-photo-list>
 			</div>
 		</div>
 		<front-photo-single
@@ -32,6 +33,7 @@
 					types: []
 				},
 				photo_id: null,
+				total: 0,
 				view: 'photos'
             }
         },

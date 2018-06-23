@@ -86,6 +86,7 @@
 					}).then(response => {
 						this.params.page = response.data.current_page;
 						this.params.total = response.data.total;
+						this.$emit('total', this.params.total);
 						this.params.per_page = response.data.per_page;
 
 						for (let photo of response.data.data) {

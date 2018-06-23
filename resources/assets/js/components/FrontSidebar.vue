@@ -49,35 +49,36 @@
 			</p> -->
 		</div>
 		<aside class="menu has-margin-100 is-hidden-mobile">
-			<template v-if="hasFilters">
-				<p class="menu-label">
-					Filtros ativos
-				</p>
-				<div class="tags">
-					<template
-						v-for="(filter, key) in filters"
-						v-if="filter && (filter.length > 0)">
-						<span
-							v-if="key === 'search'"
-							class="tag">
-							{{ filter }}
-							<a class="delete is-small" @click="onRemoveFilter(filter, key)"></a>
+			<p class="menu-label">
+				Filtros ativos
+				<span class="has-text-weight-light is-lowercase" style="letter-spacing: 0;">
+					({{ total }} <span v-if="view === 'photos'">imagens</span><span v-else>cartazes</span>)
+				</span>
+			</p>
+			<div class="tags">
+				<template
+					v-for="(filter, key) in filters"
+					v-if="filter && (filter.length > 0)">
+					<span
+						v-if="key === 'search'"
+						class="tag">
+						{{ filter }}
+						<a class="delete is-small" @click="onRemoveFilter(filter, key)"></a>
+					</span>
+					<span
+						v-else
+						v-for="element in filter"
+						class="tag">
+						<span v-if="key === 'dates'">
+							{{ new Date(element).toLocaleDateString() }}
 						</span>
-						<span
-							v-else
-							v-for="element in filter"
-							class="tag">
-							<span v-if="key === 'dates'">
-								{{ new Date(element).toLocaleDateString() }}
-							</span>
-							<span v-else>
-								{{ element }}
-							</span>
-							<a class="delete is-small" @click="onRemoveFilter(element, key)"></a>
+						<span v-else>
+							{{ element }}
 						</span>
-					</template>
-				</div>
-			</template>
+						<a class="delete is-small" @click="onRemoveFilter(element, key)"></a>
+					</span>
+				</template>
+			</div>
 
 			<p class="menu-label is-cursor-pointer"
 				@click="sideMenus['cities'] = !sideMenus['cities']">
@@ -204,7 +205,7 @@
 			Datepicker
 		},
 
-		props: ['filters', 'view'],
+		props: ['filters', 'total', 'view'],
 
 		data() {
             return {
