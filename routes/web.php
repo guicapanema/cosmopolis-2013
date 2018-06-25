@@ -11,12 +11,12 @@
 |
 */
 
+// 
+// Route::get('/', function() {
+// 	return view('construcao');
+// })->name('construcao');
 
-Route::get('/', function() {
-	return view('construcao');
-})->name('construcao');
-
-// Route::redirect('/', '/principal', 301);
+Route::redirect('/', '/principal', 301);
 
 Route::get('/principal/{vue_capture?}', 'HomeController@index')->where('vue_capture', '[\/\w\.-]*')->name('home');
 

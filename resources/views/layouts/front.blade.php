@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
 	<meta name="description" content="Um chamado pela memória coletiva acerca das passeatas de 2013.">
-	<meta name="keywords" content="2013,manifestações,grafias,cartazes">
+	<meta name="keywords" content="junho 2013,manifestações,protestos,fotografia,cartazes,política,jornadas de junho,brasil">
 	<meta name="author" content="Grafias de Junho">
 
 	<!-- <link rel="shortcut icon" type="image/x-icon" href="./img/favicon.ico"> -->
@@ -52,7 +52,7 @@
 	</script>
 
     <!-- Fonts -->
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	{{-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous"> --}}
 
     <!-- Styles -->
     <link href="{{ asset('css/front.css') }}" rel="stylesheet">

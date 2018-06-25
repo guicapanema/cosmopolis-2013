@@ -17,11 +17,29 @@
 			v-if="photo_id"
 			class="single-photo-overlay">
 		</front-photo-single>
+
+		<div v-if="showModal" class="modal is-active">
+			<div class="modal-background"></div>
+			<div class="modal-content">
+				<div class="box">
+					<div class="content">
+						<div class="apoie-header">
+							<h5>Apoie esse projeto</h5>
+							<a class="delete" @click="showModal = false"></a>
+						</div>
+						<p>Você pode ajudar na construção dessa memória coletiva. Seu apoio vai contribuir para melhorias no sistema e catalogação de milhares de cartazes.</p>
+						<a href="https://www.catarse.me/grafiasdejunho" class="button is-rounded is-success" target="_blank">APOIAR</a>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 
 <script>
 	export default {
+
+		props: ['visited'],
 
 		data() {
             return {
@@ -33,12 +51,20 @@
 					types: []
 				},
 				photo_id: null,
+				showModal: false,
 				total: 0,
 				view: 'photos'
             }
         },
 
         mounted() {
+			let hasVisited = this.$cookies.isKey('visited');
+
+			if(!hasVisited) {
+				this.$cookies.set('visited', 'true', '1m');
+				this.showModal = true;
+			}
+
 			this.parsePath();
         },
 

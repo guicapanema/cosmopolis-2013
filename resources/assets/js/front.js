@@ -9,7 +9,9 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 import VueRouter from 'vue-router';
+import VueCookies from 'vue-cookies';
 
+Vue.use(VueCookies);
 Vue.use(VueRouter);
 
 /**

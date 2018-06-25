@@ -232,3 +232,13 @@ div.poster-card > div.slider {
 	top: 50%;
 	left: 50%;
 }
+
+.apoie-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.modal-content {
+	max-width: 300px;
+}
