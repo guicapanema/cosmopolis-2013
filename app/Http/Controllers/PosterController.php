@@ -112,6 +112,7 @@ class PosterController extends Controller
 		if ($request->query('sortBy') !== null) {
 			$sortOrder = $request->query('sortOrder') ? $request->query('sortOrder') : 'asc';
 			$posters = $posters->orderBy($request->query('sortBy'), $sortOrder);
+			$photos = $photos->orderBy('id', $sortOrder);
 		}
 
 		if ($request->query('groupBy') !== null) {

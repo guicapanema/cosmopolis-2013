@@ -66,7 +66,7 @@
         },
 
         mounted() {
-			this.resetComponent();
+			// this.resetComponent();
         },
 
 		methods: {
