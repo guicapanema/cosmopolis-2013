@@ -21,6 +21,7 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
+        "dayjs": "^1.6.10",
         "moment": "^2.22.1",
         "vue-agile": "^0.3.7",
         "vue-cookies": "^1.5.6",

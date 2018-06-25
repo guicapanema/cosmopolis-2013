@@ -47,8 +47,8 @@
 						<div v-if="photo.date" class="content">
 							<h2 class="title is-marginless has-text-white is-uppercase">Data</h2>
 							<hr class="title-underline"></hr>
-							<router-link :to="'/?data=' + photo.date" class="has-text-grey-lighter has-text-weight-light">
-								{{ new Date(Date.parse(photo.date)).toLocaleDateString() }}
+							<router-link v-if="photo.date" :to="'/?data=' + photo.date.toISOString()" class="has-text-grey-lighter has-text-weight-light">
+								{{ photo.date.format('DD/MM/YYYY') }}
 							</router-link>
 						</div>
 						<div v-if="photo.city" class="content">
@@ -88,6 +88,10 @@
 </template>
 
 <script>
+	import dayjs from 'dayjs';
+	import 'dayjs/locale/pt-br';
+	dayjs.locale('pt-br');
+
 	export default {
 
 		data() {
@@ -116,6 +120,7 @@
 				axios.get('/fotos/' + this.$route.params.foto)
 					.then(response => {
 						this.photo = response.data
+						this.photo.date = this.photo.date ? dayjs(this.photo.date) : null;
 						// this.loadingPhoto = false;
 					}).catch(error => {
 						console.error(error);

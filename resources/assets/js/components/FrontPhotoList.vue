@@ -9,9 +9,9 @@
 							<div class="slider-overlay"  @click="onPhotoSelect(photo)">
 								<p class="has-text-white is-size-5">{{ poster.text }}</p>
 								<div class="poster-info has-text-grey-light is-size-6">
-									<div>{{ photo.date }}</div>
-									<div>{{ photo.city }}</div>
-									<div>Foto: {{ photo.photographer }}</div>
+									<div v-if="photo.date">{{ photo.date.format('DD/MM/YYYY') }}</div>
+									<div v-if="photo.city">{{ photo.city }}</div>
+									<div v-if="photo.photographer">Foto: {{ photo.photographer }}</div>
 								</div>
 							</div>
 						</slider-item>
@@ -36,7 +36,10 @@
 
 <script>
 	import InfiniteLoading from 'vue-infinite-loading';
-	import { Slider, SliderItem } from 'vue-easy-slider'
+	import { Slider, SliderItem } from 'vue-easy-slider';
+	import dayjs from 'dayjs';
+	import 'dayjs/locale/pt-br';
+	dayjs.locale('pt-br');
 
 	export default {
 
@@ -104,7 +107,7 @@
 						this.params.per_page = response.data.per_page;
 
 						for (let photo of response.data.data) {
-							photo.date = photo.date ? new Date(photo.date).toLocaleDateString() : '';
+							photo.date = photo.date ? dayjs(photo.date) : null;
 							photo.active = false;
 							this.photos.push(photo);
 						}
