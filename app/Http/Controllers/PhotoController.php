@@ -80,7 +80,7 @@ class PhotoController extends Controller
 			$photos = $photos->where(function($query) use ($queryString) {
 				$query->where('name', 'ilike', $queryString)
 					->orWhere('city', 'ilike', $queryString)
-					->orWhere('photographer', 'ilike', $queryString)
+					->orWhereRaw('unaccent(photographer) ILIKE unaccent(?)', $queryString)
 					->orWhereHas('posters', function($poster) use ($queryString) {
 						$poster->with('tags')->whereRaw('unaccent(text) ILIKE unaccent(?)', $queryString)
 						->orWhereHas('tags', function($tag) use ($queryString) {
@@ -128,7 +128,7 @@ class PhotoController extends Controller
 
 		if ($request->query('fotografo') !== null) {
 			$queryPhotographer = $request->query('fotografo');
-			$photos = $photos->whereRaw('unaccent(photographer) ILIKE unaccent(?)', $queryPhotographer);
+			$photos = $photos->where('photographer', $queryPhotographer);
 		}
 
 

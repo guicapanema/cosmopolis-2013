@@ -60,7 +60,7 @@
 					v-for="(filter, key) in filters"
 					v-if="filter && (filter.length > 0)">
 					<span
-						v-if="key === 'search'"
+						v-if="key === 'search' || key === 'photographer'"
 						class="tag">
 						{{ filter }}
 						<a class="delete is-small" @click="onRemoveFilter(filter, key)"></a>
@@ -408,6 +408,8 @@
 					this.onSetTag(filter);
 				} else if(key === 'types') {
 					this.onSetType(filter);
+				} else if(key === 'photographer') {
+					this.onSetPhotographer(filter);
 				}
 			},
 
@@ -464,6 +466,13 @@
 
 				this.$router.push({ path: this.$route.path, query: {...this.$route.query, data: queryDates} });
 
+			},
+
+			onSetPhotographer(photographer) {
+				let queryPhotographer = this.$route.query['fotografo'];
+				if (photographer === queryPhotographer) queryPhotographer = null;
+				else queryPhotographer = photographer;
+				this.$router.push({ path: this.$route.path, query: {...this.$route.query, fotografo: queryPhotographer} });
 			},
 
 			onSetSearch(search) {
