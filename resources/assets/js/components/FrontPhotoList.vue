@@ -68,22 +68,14 @@
             }
         },
 
+		computed: {
+			sortBy() {
+				return this.filters.search || this.filters.cities.length || this.filters.dates.length || this.filters.photographer || this.filters.gender || this.filters.tags.length || this.filters.types.length ? 'date' : null;
+			}
+		},
+
         mounted() {
-			this.params = {
-				busca: this.filters.search,
-				cidade: this.filters.cities,
-				data: this.filters.dates,
-				fotografo: this.filters.photographer,
-				genero: this.filters.gender,
-				mostrarCartazes: true,
-				esconderVazias: true,
-				tag: this.filters.tags,
-				tipo: this.filters.types,
-				page: 1,
-				per_page: 21,
-				sortBy: 'date',
-				sortOrder: 'asc'
-			};
+			this.resetComponent();
         },
 
 		methods: {
@@ -148,14 +140,14 @@
 						tipo: this.filters.types,
 						page: page,
 						per_page: this.params.per_page,
-						sortBy: 'date',
-						sortOrder: 'asc',
+						sortBy: this.params.sortBy,
+						sortOrder: this.params.sortOrder,
 						total: 0
 					}
 				});
 			},
 
-			resetComponent() {
+			resetComponent(loadPhotos) {
 				this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
 				this.photos = [];
 				this.params = {
@@ -170,17 +162,20 @@
 					tipo: this.filters.types,
 					page: 1,
 					per_page: 21,
-					sortBy: 'date',
+					sortBy: this.sortBy,
 					sortOrder: 'asc'
 				};
-				this.loadPhotos();
+
+				if(loadPhotos) {
+					this.loadPhotos();
+				}
 			}
 		},
 
 		watch: {
 			'filters': {
 				handler: function (val, oldVal) {
-					this.resetComponent();
+					this.resetComponent(true);
 				},
 				deep: true
 			}

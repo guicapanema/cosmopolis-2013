@@ -128,7 +128,7 @@ class PhotoController extends Controller
 
 		if ($request->query('fotografo') !== null) {
 			$queryPhotographer = $request->query('fotografo');
-			$photos = $photos->where('photographer', '=' , $queryPhotographer);
+			$photos = $photos->whereRaw('unaccent(photographer) ILIKE unaccent(?)', $queryPhotographer);
 		}
 
 
@@ -136,6 +136,8 @@ class PhotoController extends Controller
 			$sortOrder = $request->query('sortOrder') ? $request->query('sortOrder') : 'asc';
 			$photos = $photos->orderBy($request->query('sortBy'), $sortOrder);
 			$photos = $photos->orderBy('id', $sortOrder);
+		} else {
+			$photos = $photos->inRandomOrder();
 		}
 
 		if ($request->query('groupBy') !== null) {
