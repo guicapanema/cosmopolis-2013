@@ -11,7 +11,7 @@ require('./bootstrap');
 window.moment = require('moment');
 window.Vue = require('vue');
 import Buefy from 'buefy';
-import 'buefy/lib/buefy.css';
+import 'buefy/dist/buefy.css';
 
 Vue.use(Buefy, {defaultIconPack: 'fas'});
 
