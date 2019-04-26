@@ -27,7 +27,7 @@ Vue.component('tag-table', require('./components/TagTable.vue'));
 Vue.component('poster-edit', require('./components/PosterEdit.vue'));
 Vue.component('photo-edit', require('./components/PhotoEdit.vue'));
 Vue.component('photo-poster-card', require('./components/PhotoPosterCard.vue'));
-// Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('theme-index', require('./components/ThemeIndex.vue'));
 
 const app = new Vue({
     el: '#app'

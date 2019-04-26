@@ -46,3 +46,9 @@ Breadcrumbs::register('tag_edit', function ($breadcrumbs, $tag) {
 	$breadcrumbs->parent('tag_index');
     $breadcrumbs->push('Editar tag', route('tag_edit', $tag->id));
 });
+
+// Painel > Gerenciar temas
+Breadcrumbs::register('temas.index', function ($breadcrumbs) {
+	$breadcrumbs->parent('admin');
+    $breadcrumbs->push('Gerenciar temas', route('temas.index'));
+});

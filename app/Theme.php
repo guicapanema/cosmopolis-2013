@@ -5,9 +5,10 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Watson\Rememberable\Rememberable;
 
-class Tag extends Model
+class Theme extends Model
 {
 	use Rememberable;
+
 	/**
      * The attributes that aren't mass assignable.
      *
@@ -15,11 +16,7 @@ class Tag extends Model
      */
     protected $guarded = [];
 
-	public function posters() {
-		return $this->belongsToMany(Poster::class);
-	}
-
-	public function themes() {
-		return $this->belongsToMany(Theme::class);
+	public function tags() {
+		return $this->belongsToMany(Tag::class);
 	}
 }

@@ -92,6 +92,9 @@
 					<ul class="menu-list">
 						<li><a href="{{ route('tag_index') }}" class="{{ Request::is('tags/indice') ? "is-active" : "" }}">Listar tags</a></li>
 					</ul>
+					<ul class="menu-list">
+						<li><a href="{{ route('temas.index') }}" class="{{ Request::is('temas') ? "is-active" : "" }}">Gerenciar temas</a></li>
+					</ul>
 				</aside>
 			</div>
 		@endguest

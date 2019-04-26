@@ -114,6 +114,10 @@ Route::put('/tags/{tag}', 'TagController@update')->name('tag_update');
 
 Route::delete('/tags/{tag}', 'TagController@destroy')->name('tag_destroy');
 
-/**** TAG ROUTES ****/
+/**** PHOTOGRAPHER ROUTES ****/
 
 Route::get('/fotografos', 'PhotoController@listPhotographers')->name('photographer_list');
+
+/**** THEME ROUTES ****/
+
+Route::resource('temas', 'ThemeController');

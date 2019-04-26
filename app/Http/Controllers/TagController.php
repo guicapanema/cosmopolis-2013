@@ -130,8 +130,6 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
-		$this->validate(request(), $this->rules());
-
 		$tag = $tag->update(request(['text']));
 
 		return $this->index();

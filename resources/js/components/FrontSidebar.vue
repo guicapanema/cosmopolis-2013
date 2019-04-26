@@ -222,97 +222,8 @@
 					]
 				},
 
-
 				search: '',
-				themes: [
-				// {
-				// 	name: 'cidadania',
-				// 	tags: ['cidadania', 'redes sociais', 'engajamento', 'convocatória'],
-				// 	total: 0
-				// },
-				{
-					name: 'copa',
-					tags: ['copa', 'fifa', 'estádio', 'território'],
-					total: 0
-				},
-				{
-					name: 'corrupção',
-					tags: ['corrupção', 'pec 37', 'políticos corruptos', 'punitivismo'],
-					total: 0
-				},
-				{
-					name: 'democracia',
-					tags: ['democracia', 'antipartido', 'antifacismo', 'liberdade cívica', 'reforma política', 'antipolítica', 'partidarismo', 'antisistema', 'eleição', 'ditadura', 'impeachment'],
-					total: 0
-				},
-				{
-					name: 'direitos humanos',
-					tags: ['direitos humanos', 'feminismo', 'lgbtiq', 'cura gay', 'estado laico', 'aborto', 'desmilitarização', 'indígena', 'racismo', 'trabalho escravo'],
-					total: 0
-				},
-				{
-					name: 'educação',
-					tags: ['educacao'],
-					total: 0
-				},
-				{
-					name: 'mídia',
-					tags: ['mídia', 'globo', 'SBT', 'veja'],
-					total: 0
-				},
-				{
-					name: 'mobilidade',
-					tags: ['mobilidade', 'aumento da tarifa', 'tarifa zero', 'metrô'],
-					total: 0
-				},
-				{
-					name: 'patriotismo',
-					tags: ['nação', 'patriotismo', 'antipatriotismo', 'hino nacional'],
-					total: 0
-				},
-				{
-					name: 'saúde',
-					tags: ['saúde', 'hospitais', 'ato médico', 'sus'],
-					total: 0
-				},
-				{
-					name: 'violência',
-					tags: ['violência', 'repressão policial', 'segurança pública', 'vinagre'],
-					total: 0
-				},
-				{
-					name: 'outras pautas',
-					tags: ['cultura', 'pop de rua', 'moradia', 'juventude', 'meio ambiente', 'inflação', 'reforma tributária', 'previdência', 'salário mínimo', 'crise econômica', 'vandalismo', 'terceirização', 'turquia', 'legalização'],
-					total: 0
-				}],
-
-				feelings: [{
-					name: 'otimismo',
-					tags: ['otimismo'],
-					total: 0
-				}, {
-					name: 'indignação',
-					tags: ['indignação'],
-					total: 0
-				}, {
-					name: 'ódio',
-					tags: ['ódio'],
-					total: 0
-				}],
-
-				references: [{
-					name: 'música',
-					tags: ['música', 'legião urbana', 'cazuza', 'chico buarque', 'bob dylan', 'o rappa', 'racionais', 'engenheiros do hawaii'],
-					total: 0
-				}, {
-					name: 'outras línguas',
-					tags: ['inglês', 'francês', 'espanhol'],
-					total: 0
-				}, {
-					name: 'personalidades',
-					tags: ['dilma', 'alckmin', 'jabor', 'feliciano', 'renan', 'márcio lacerda', 'anastasia', 'aécio', 'malafaia', 'malcom x', 'haddad', 'neymar'],
-					total: 0
-				}],
+				themes: [],
 
 				sideMenus: {
 					'cities': true,
@@ -366,38 +277,55 @@
 					console.error(error);
 				});
 
-			this.getThemeCounts();
+			axios.get('/temas')
+				.then(response => {
+					this.themes = response.data;
+					this.getThemeCounts();
+				}).catch(error => {
+					console.error(error);
+				});
+
         },
 
 		methods: {
-			getThemeCounts() {
+			getThemeCounts()
+			{
 				for (let theme of this.themes) {
-					axios.get('/tags/contagem', { params: { tag: theme.tags } })
+					axios.get('/tags/contagem', { params: { tag: theme.tags.map(tag => tag.text) } })
 						.then(response => {
-							theme.total = response.data;
+							Vue.set(theme, 'total', response.data);
 						}).catch(error => {
 							console.error(error);
 						});
 				}
 			},
-			hasCity(city) {
+
+			hasCity(city)
+			{
 				return this.filters.cities.indexOf(city) >= 0;
 			},
-			hasDate(date) {
+
+			hasDate(date)
+			{
 				return this.filters.dates.indexOf(date) >= 0;
 			},
-			hasTag(tag) {
+
+			hasTag(tag)
+			{
 				if(typeof tag === 'string') {
 					return this.filters.tags.indexOf(tag) >= 0;
 				} else {
 					return tag.every((innerTag) => this.filters.tags.includes(innerTag));
 				}
 			},
-			hasType(type) {
+
+			hasType(type)
+			{
 				return this.filters.types.indexOf(type) >= 0;
 			},
 
-			onRemoveFilter(filter, key) {
+			onRemoveFilter(filter, key)
+			{
 				if(key === 'search') {
 					this.onSetSearch(null);
 				} else if(key === 'cities') {
@@ -413,7 +341,8 @@
 				}
 			},
 
-			onSetCity(city) {
+			onSetCity(city)
+			{
 				let queryCities = this.$route.query['cidade'];
 				if(!queryCities) {
 					queryCities = city;
@@ -437,7 +366,8 @@
 
 			},
 
-			onSetDate(date) {
+			onSetDate(date)
+			{
 				let isoDate;
 				if (typeof date !== 'string') {
 					isoDate = date.toISOString();
@@ -468,21 +398,24 @@
 
 			},
 
-			onSetPhotographer(photographer) {
+			onSetPhotographer(photographer)
+			{
 				let queryPhotographer = this.$route.query['fotografo'];
 				if (photographer === queryPhotographer) queryPhotographer = null;
 				else queryPhotographer = photographer;
 				this.$router.push({ path: this.$route.path, query: {...this.$route.query, fotografo: queryPhotographer} });
 			},
 
-			onSetSearch(search) {
+			onSetSearch(search)
+			{
 				let querySearch = this.$route.query['busca'];
 				querySearch = search;
 				this.search = search;
 				this.$router.push({ path: this.$route.path, query: {...this.$route.query, busca: querySearch} });
 			},
 
-			onSetTag(tag) {
+			onSetTag(tag)
+			{
 				let queryTags = this.$route.query['tag'];
 				if(!queryTags) {
 					queryTags = tag;
@@ -505,7 +438,9 @@
 				this.$router.push({ path: this.$route.path, query: {...this.$route.query, tag: queryTags} });
 			},
 
-			onSetTheme(tags) {
+			onSetTheme(tags)
+			{
+				tags = tags.map(tag => tag.text);
 				let queryTags = this.$route.query['tag'];
 				if(!queryTags) {
 					queryTags = tags;
@@ -533,7 +468,8 @@
 				this.$router.push({ path: this.$route.path, query: {...this.$route.query, tag: queryTags} });
 			},
 
-			onSetType(type) {
+			onSetType(type)
+			{
 				let queryTypes = this.$route.query['tipo'];
 				if(!queryTypes) {
 					queryTypes = type;
@@ -554,7 +490,6 @@
 				}
 
 				this.$router.push({ path: this.$route.path, query: {...this.$route.query, tipo: queryTypes} });
-
 			},
 		}
     }
