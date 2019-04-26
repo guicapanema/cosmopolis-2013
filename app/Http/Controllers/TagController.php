@@ -26,30 +26,17 @@ class TagController extends Controller
 		return $rules;
 	}
 
-	public function consolidateTags() {
-		$tags = Tag::all();
+	public function merge(Request $request) {
 
+		$new_tag = Tag::create(['text' => request('new_tag')]);
 
-		foreach ($tags as $tag) {
+		$merged_tags = Tag::find(request('tag_ids'));
 
-			// Make all tags lowercase
-			$tag->update(['text' => strtolower($tag->text)]);
-
-			// Merge repeated tags
-			if ($tags->where('text', $tag->text)->count() > 1) {
-				$referenceTag = $tags->where('text', $tag->text)->first();
-				$repeatedTags = $tags->where('text', $tag->text)->slice(1);
-
-				foreach ($repeatedTags as $repeatedTag) {
-					$referenceTag->posters()->syncWithoutDetaching($repeatedTag->posters()->get());
-					$repeatedTag->posters()->detach();
-					$repeatedTag->delete();
-				}
-
-			}
-
+		foreach ($merged_tags as $merged_tag) {
+			$new_tag->posters()->attach($merged_tag->posters()->get()->pluck('id'));
 		}
 
+		return $new_tag;
 	}
 
     /**

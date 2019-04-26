@@ -95,6 +95,7 @@ Route::delete('/fotos/{photo}/cartazes/{poster}', 'PosterController@detachFromPh
 
 Route::get('/tags/indice', 'TagController@index')->name('tag_index');
 
+
 Route::get('/tags/{tag}/editar', 'TagController@edit')->name('tag_edit');
 
 // API routes
@@ -103,7 +104,7 @@ Route::post('/tags', 'TagController@store')->name('tag_store');
 
 Route::get('/tags', 'TagController@list')->name('tag_list');
 
-// Route::get('/tags/consolidar', 'TagController@consolidateTags')->name('tag_consolidate');
+Route::post('/tags/fundir', 'TagController@merge')->name('tag_merge');
 
 Route::get('/tags/contagem', 'TagController@count')->name('tag_count');
 

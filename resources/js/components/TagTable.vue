@@ -16,7 +16,13 @@
 				<b-field expanded>
 				</b-field>
 				<p class="control">
-					<button class="button field is-danger" @click="onDeletePosters()"
+					<button class="button field" @click="onMergeTags()"
+					:disabled="checkedRows.length < 2">
+					<b-icon icon="layer-group"></b-icon>
+						<span>Fundir</span>
+					</button>
+
+					<button class="button field is-danger" @click="onDeleteTags()"
 					:disabled="!checkedRows.length">
 					<b-icon icon="trash-alt"></b-icon>
 						<span>Apagar</span>
@@ -66,7 +72,8 @@
 		},
 
 		methods: {
-			deleteTags() {
+			deleteTags()
+			{
 				let requests = [];
 				for (let row of this.checkedRows) {
 					requests.push(axios.delete('/tags/' + row.id));
@@ -81,7 +88,9 @@
 					throw error;
 				})
 			},
-			loadTags() {
+
+			loadTags()
+			{
 				this.loadingTags = true;
 				axios.get('/tags', { params: { busca: this.searchText }})
 					.then(response => {
@@ -92,14 +101,45 @@
 						this.loadingTags = false;
 					});
 			},
-			onDeletePosters() {
+
+			mergeTags(new_tag)
+			{
+				let post_data = {
+					tag_ids: this.checkedRows.map(row => row.id),
+					new_tag: new_tag,
+				};
+
+				axios.post('/tags/fundir', post_data)
+					.then(response => {
+						this.deleteTags();
+					}).catch(error => {
+						this.$toast.open({ message: 'Erro ao fundir tags', type: 'is-danger', position: 'is-bottom'});
+						this.loadingTags = false;
+					});
+			},
+
+			onDeleteTags()
+			{
                 this.$dialog.confirm({
-                    title: 'Apagar fotos',
+                    title: 'Apagar tags',
                     message: 'Você tem certeza que deseja <b>apagar</b> essas tags?',
                     confirmText: 'Apagar tags',
                     type: 'is-danger',
                     hasIcon: true,
                     onConfirm: () => this.deleteTags()
+                })
+            },
+
+			onMergeTags()
+			{
+                this.$dialog.prompt({
+                    message: 'Qual o nome da nova tag?',
+					inputAttrs: {
+                        placeholder: 'tarifa zero',
+                        maxlength: 191,
+                    },
+                    confirmText: 'Fundir tags',
+                    onConfirm: (new_tag) => this.mergeTags(new_tag),
                 })
             }
 		}
