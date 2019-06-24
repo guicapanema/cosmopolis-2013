@@ -257,15 +257,15 @@ class PhotoController extends Controller
     public function retrieveFile(Request $request, Photo $photo)
     {
 		if (Storage::disk('public')->exists('/' . $photo->path)) {
-			$file = Storage::disk('public')->get('/' . $photo->path);
+			$file_path = Storage::disk('public')->path('/' . $photo->path);
 		}
 		else {
 			return;
 		}
 
-		$image = Image::cache(function($image) use($request, $file) {
+		$image = Image::cache(function($image) use($request, $file_path) {
 
-			$image->make($file);
+			$image->make($file_path)->orientate();
 			$width = 0;
 
 			if ($request->query('tamanho') == 'pequeno') {
