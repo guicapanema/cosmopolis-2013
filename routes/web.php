@@ -41,6 +41,8 @@ Route::get('/fotos/criar', 'PhotoController@create')->name('photo_create');
 
 Route::get('/fotos/{photo}/editar', 'PhotoController@edit')->name('photo_edit');
 
+Route::get('/fotos/exportar', 'PhotoController@export')->name('photo_export');
+
 // API routes
 
 Route::post('/fotos', 'PhotoController@store')->name('photo_store');

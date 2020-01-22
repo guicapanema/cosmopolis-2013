@@ -27,9 +27,14 @@
 		</div>
 	</div>
 	@if (Request::query('mostrarInconsistencias') === null)
+
 		<div class="has-text-centered">
 			<a class="button is-primary" href="?mostrarInconsistencias=1">
 				Mostrar Inconsistências
+			</a>
+
+			<a class="button is-primary is-outlined" href="{{ route('photo_export') }}">
+				Exportar Fotos
 			</a>
 		</div>
 

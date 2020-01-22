@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Photo;
+use App\Exports\PhotosExport;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Image;
@@ -342,5 +344,16 @@ class PhotoController extends Controller
 		$photo->posters()->detach();
         $photo->delete();
 		return $photo;
+    }
+
+    /**
+     * Export all photos
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function export(Request $request)
+    {
+        return Excel::download(new PhotosExport, 'photos.csv');
     }
 }
