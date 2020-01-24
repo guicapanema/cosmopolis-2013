@@ -28,6 +28,7 @@ class PhotosExport implements FromCollection, WithHeadings, WithMapping
             $tags = $poster->tags->values();
 
             $rows[] = [
+                $poster->id,
                 $poster->text,
                 $photo->city,
                 $photo->date ? $photo->date->toDateString() : null,
@@ -48,6 +49,7 @@ class PhotosExport implements FromCollection, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
+            'ID cartaz'
             'Texto',
             'Cidade',
             'Data',

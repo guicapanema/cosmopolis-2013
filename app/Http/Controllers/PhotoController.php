@@ -354,6 +354,6 @@ class PhotoController extends Controller
      */
     public function export(Request $request)
     {
-        return Excel::download(new PhotosExport, 'photos.csv');
+        return Excel::download(new PhotosExport, 'photos.xlsx');
     }
 }
