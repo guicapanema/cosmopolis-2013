@@ -49,7 +49,7 @@ class PhotosExport implements FromCollection, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-            'ID cartaz'
+            'ID cartaz',
             'Texto',
             'Cidade',
             'Data',
