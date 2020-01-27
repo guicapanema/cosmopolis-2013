@@ -34,7 +34,7 @@
 			</a>
 
 			<a class="button is-primary is-outlined" href="{{ route('photo_export') }}">
-				Exportar Fotos
+				Exportar Cartazes
 			</a>
 		</div>
 
