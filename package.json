@@ -22,7 +22,7 @@
     },
     "dependencies": {
         "dayjs": "^1.8.12",
-        "moment": "^2.24.0",
+        "moment": "^2.29.2",
         "vue-agile": "^0.3.7",
         "vue-cookies": "^1.5.13",
         "vue-easy-slider": "^3.2.0",
